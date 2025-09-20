@@ -1,0 +1,462 @@
+<style>
+    .step-dot {
+        height: 10px;
+        width: 10px;
+        border-radius: 50%;
+        background: #cbd5e1;
+        display: inline-block;
+    }
+    .step-dot.active {
+        background: var(--rs-primary);
+    }
+    .step-line {
+        height: 2px;
+        background: #e2e8f0;
+        flex: 1;
+    }
+    .form-step {
+        display: none;
+    }
+    .form-step.active {
+        display: block;
+    }
+</style>
+
+<header class="hero py-5">
+    <div class="container">
+        <h1 class="h3 fw-bold mb-1">Create your RightSeat account</h1>
+        <p class="text-secondary mb-0">
+            Set up your organization or sign up as an independent CFI in a few
+            steps.
+        </p>
+    </div>
+</header>
+
+<main class="container py-4">
+    <div class="row g-4">
+        <!-- Sidebar: Progress -->
+        <aside class="col-lg-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="step-dot me-2 active" id="dot-1"></span>
+                        <strong>1. Choose subscription</strong>
+                    </div>
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="step-dot me-2" id="dot-2"></span>
+                        <strong>2. Details</strong>
+                    </div>
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="step-dot me-2" id="dot-3"></span>
+                        <strong>3. Security</strong>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <span class="step-dot me-2" id="dot-4"></span>
+                        <strong>4. Review & submit</strong>
+                    </div>
+
+                    <hr class="my-4" />
+                    <div class="small text-secondary">
+                        <i class="bi bi-lock me-2"></i>We use secure encryption
+                        and role-based access to protect your data.
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Content: Wizard -->
+        <section class="col-lg-8">
+            <form id="signupForm" class="card shadow-sm">
+                <div class="card-body">
+                    <!-- Step 1: Subscription -->
+                    <div class="form-step active" data-step="1">
+                        <h2 class="h5 fw-bold mb-3">
+                            Choose your subscription
+                        </h2>
+                        <div class="row g-3">
+                            <% subscriptions.filter(sub =>
+                            !sub.requiresSales).forEach(sub => { %>
+                            <div class="col-md-12">
+                                <label
+                                    class="form-check border rounded p-3 h-100"
+                                >
+                                    <input
+                                        class="form-check-input me-2"
+                                        type="radio"
+                                        name="role"
+                                        value="<%= sub.key %>"
+                                        <% if (sub.key === 'trial') { %> checked <% } %>
+                                    />
+                                    <span class="fw-semibold d-block">
+                                        <%= sub.label %> (<%= sub.price ?
+                                        `$${sub.price}/month` : 'FREE' %>)
+                                    </span>
+                                    <span
+                                        class="text-secondary small d-block mt-1"
+                                        ><%= sub.summary %></span
+                                    >
+                                </label>
+                            </div>
+                            <% }) %>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2 mt-4">
+                            <button type="button" class="btn btn-rs" data-next>
+                                Continue
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Details -->
+                    <div class="form-step" data-step="2">
+                        <h2 class="h5 fw-bold mb-3">Account details</h2>
+
+                        <!-- Org details (visible for school role) -->
+                        <div id="orgFields">
+                            <div class="row g-3">
+                                <div class="col-md-8">
+                                    <label class="form-label"
+                                        >Organization name</label
+                                    >
+                                    <input
+                                        class="form-control"
+                                        name="orgName"
+                                        placeholder="e.g., Skyline Flight Center"
+                                    />
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Plan</label>
+                                    <select class="form-select" name="plan">
+                                        <option>Trial</option>
+                                        <option>Flight School</option>
+                                        <option>Enterprise</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row g-3 mt-0">
+                                <div class="col-md-6">
+                                    <label class="form-label"
+                                        >School phone</label
+                                    >
+                                    <input
+                                        class="form-control"
+                                        name="orgPhone"
+                                        placeholder="(555) 123-4567"
+                                    />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Country</label>
+                                    <select class="form-select" name="country">
+                                        <option>United States</option>
+                                        <option>Canada</option>
+                                        <option>Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <hr />
+                        </div>
+
+                        <!-- Personal -->
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">First name</label>
+                                <input
+                                    class="form-control"
+                                    name="firstName"
+                                    required
+                                />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Last name</label>
+                                <input
+                                    class="form-control"
+                                    name="lastName"
+                                    required
+                                />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Work email</label>
+                                <input
+                                    type="email"
+                                    class="form-control"
+                                    name="email"
+                                    required
+                                />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Password</label>
+                                <input
+                                    type="password"
+                                    class="form-control"
+                                    name="password"
+                                    minlength="8"
+                                    placeholder="At least 8 characters"
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between gap-2 mt-4">
+                            <button
+                                type="button"
+                                class="btn btn-outline-secondary"
+                                data-prev
+                            >
+                                Back
+                            </button>
+                            <button type="button" class="btn btn-rs" data-next>
+                                Continue
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Security -->
+                    <div class="form-step" data-step="3">
+                        <h2 class="h5 fw-bold mb-3">Security & options</h2>
+
+                        <div class="row g-3 align-items-center">
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input"
+                                        id="sso"
+                                        type="checkbox"
+                                        name="enableSSO"
+                                    />
+                                    <label class="form-check-label" for="sso"
+                                        >Enable Single Sign-On (SSO)</label
+                                    >
+                                </div>
+                                <div class="small text-secondary mt-1">
+                                    Connect Azure AD / Okta for enterprise
+                                    sign-in.
+                                </div>
+                            </div>
+                            <div
+                                class="col-md-6"
+                                id="idpWrap"
+                                style="display: none"
+                            >
+                                <label class="form-label"
+                                    >Identity provider</label
+                                >
+                                <select class="form-select" name="idp">
+                                    <option>Azure Active Directory</option>
+                                    <option>Okta</option>
+                                    <option>Google Workspace</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <hr />
+                        <div class="form-check mb-2">
+                            <input
+                                class="form-check-input"
+                                id="tos"
+                                type="checkbox"
+                                required
+                            />
+                            <label class="form-check-label" for="tos"
+                                >I agree to the
+                                <a href="#" class="link-primary">Terms</a>
+                                and
+                                <a href="#" class="link-primary"
+                                    >Privacy Policy</a
+                                >.</label
+                            >
+                        </div>
+                        <div class="form-check">
+                            <input
+                                class="form-check-input"
+                                id="news"
+                                type="checkbox"
+                                name="newsletter"
+                            />
+                            <label class="form-check-label" for="news"
+                                >Send me onboarding tips and updates</label
+                            >
+                        </div>
+
+                        <div class="d-flex justify-content-between gap-2 mt-4">
+                            <button
+                                type="button"
+                                class="btn btn-outline-secondary"
+                                data-prev
+                            >
+                                Back
+                            </button>
+                            <button type="button" class="btn btn-rs" data-next>
+                                Continue
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Review -->
+                    <div class="form-step" data-step="4">
+                        <h2 class="h5 fw-bold mb-3">Review & submit</h2>
+
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="border rounded p-3 h-100">
+                                    <div class="fw-semibold mb-2">Account</div>
+                                    <div class="small">
+                                        <span class="text-secondary"
+                                            >Role:</span
+                                        >
+                                        <span id="revRole">—</span>
+                                    </div>
+                                    <div class="small">
+                                        <span class="text-secondary"
+                                            >Name:</span
+                                        >
+                                        <span id="revName">—</span>
+                                    </div>
+                                    <div class="small">
+                                        <span class="text-secondary"
+                                            >Email:</span
+                                        >
+                                        <span id="revEmail">—</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6" id="revOrgCard">
+                                <div class="border rounded p-3 h-100">
+                                    <div class="fw-semibold mb-2">
+                                        Organization
+                                    </div>
+                                    <div class="small">
+                                        <span class="text-secondary"
+                                            >Name:</span
+                                        >
+                                        <span id="revOrg">—</span>
+                                    </div>
+                                    <div class="small">
+                                        <span class="text-secondary"
+                                            >Plan:</span
+                                        >
+                                        <span id="revPlan">—</span>
+                                    </div>
+                                    <div class="small">
+                                        <span class="text-secondary"
+                                            >Country:</span
+                                        >
+                                        <span id="revCountry">—</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="alert alert-info d-flex align-items-center gap-2 mt-3"
+                        >
+                            <i class="bi bi-info-circle"></i>
+                            <div class="small">
+                                You can change plan, enable SSO, and invite CFIs
+                                after signup.
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between gap-2 mt-4">
+                            <button
+                                type="button"
+                                class="btn btn-outline-secondary"
+                                data-prev
+                            >
+                                Back
+                            </button>
+                            <button type="submit" class="btn btn-rs">
+                                Create account
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        const steps = [...document.querySelectorAll('.form-step')];
+        let current = 0;
+
+        function showStep(i) {
+            steps.forEach((s, idx) => s.classList.toggle('active', idx === i));
+            ['dot-1', 'dot-2', 'dot-3', 'dot-4'].forEach((id, idx) => {
+                const el = document.getElementById(id);
+                el.classList.toggle('active', idx <= i);
+            });
+        }
+        document.querySelectorAll('[data-next]').forEach((btn) =>
+            btn.addEventListener('click', () => {
+                if (current < steps.length - 1) {
+                    current++;
+                    showStep(current);
+                    refreshReview();
+                }
+            })
+        );
+        document.querySelectorAll('[data-prev]').forEach((btn) =>
+            btn.addEventListener('click', () => {
+                if (current > 0) {
+                    current--;
+                    showStep(current);
+                    refreshReview();
+                }
+            })
+        );
+
+        // Role toggling
+        const roleInputs = document.querySelectorAll('input[name="role"]');
+        const orgFields = document.getElementById('orgFields');
+        const revOrgCard = document.getElementById('revOrgCard');
+
+        function toggleRole() {
+            const role =
+                document.querySelector('input[name="role"]:checked')?.value ||
+                'school';
+            const isSchool = role === 'school';
+            orgFields.style.display = isSchool ? '' : 'none';
+            revOrgCard.style.display = isSchool ? '' : 'none';
+        }
+        roleInputs.forEach((r) => r.addEventListener('change', toggleRole));
+        toggleRole();
+
+        // SSO provider show/hide
+        const sso = document.getElementById('sso');
+        const idpWrap = document.getElementById('idpWrap');
+        sso.addEventListener(
+            'change',
+            () => (idpWrap.style.display = sso.checked ? '' : 'none')
+        );
+
+        // Review population
+        function val(name) {
+            return document.querySelector(`[name="${name}"]`)?.value || '—';
+        }
+        function refreshReview() {
+            const role =
+                document.querySelector('input[name="role"]:checked')?.value ||
+                'school';
+            document.getElementById('revRole').textContent =
+                role === 'school' ? 'Flight School Admin' : 'Independent CFI';
+            document.getElementById('revName').textContent = `${val(
+                'firstName'
+            )} ${val('lastName')}`.trim();
+            document.getElementById('revEmail').textContent = val('email');
+            document.getElementById('revOrg').textContent = val('orgName');
+            document.getElementById('revPlan').textContent = val('plan');
+            document.getElementById('revCountry').textContent = val('country');
+        }
+        refreshReview();
+
+        // Submit (demo only)
+        document
+            .getElementById('signupForm')
+            .addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('Account created! (demo)');
+            });
+    </script>
+</main>

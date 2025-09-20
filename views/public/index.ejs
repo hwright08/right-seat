@@ -14,11 +14,11 @@
                     Upload or build syllabuses, log lessons, and track student progress with clean, checkride-ready reports—without spreadsheets.
                 </p>
                 <div class="d-flex flex-wrap gap-2 mt-4">
-                    <a href="#signup" class="btn btn-rs btn-lg">
+                    <a href="/sign-up" class="btn btn-rs btn-lg">
                         <i class="bi bi-building-add me-2"></i>
                         Sign up your Flight School
                     </a>
-                    <a href="#signup" class="btn btn-outline-secondary btn-lg">
+                    <a href="/sign-up" class="btn btn-outline-secondary btn-lg">
                         <i class="bi bi-person-workspace me-2"></i>
                         Sign up as Independent CFI
                     </a>
@@ -182,51 +182,34 @@
             <p class="text-secondary">Pick a plan that fits your operation.</p>
         </div>
         <div class="row g-4">
-            <div class="col-md-4">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">Solo CFI</h5>
-                        <div class="display-6 fw-bold">$9<span class="fs-6 fw-normal">/mo</span></div>
-                        <ul class="list-unstyled mt-3 mb-4 text-secondary">
-                            <li><i class="bi bi-check2 text-success me-2"></i>1 instructor</li>
-                            <li><i class="bi bi-check2 text-success me-2"></i>Up to 10 students</li>
-                            <li><i class="bi bi-check2 text-success me-2"></i>Lesson logging</li>
-                            <li><i class="bi bi-check2 text-success me-2"></i>Printable progress</li>
-                        </ul>
-                        <a href="#signup" class="btn btn-rs mt-auto w-100">Sign Up</a>
+            <% subscriptions.forEach(sub => { %>
+                <div class="col-md-3">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title"><%= sub.label %></h5>
+                            <div class="display-6 fw-bold">
+                                <% if (sub.price === 0) { %>
+                                    FREE
+                                <% } else if (!sub.price) { %>
+                                    Custom
+                                <% } else { %>
+                                    $<%= sub.price %><span class="fs-6 fw-normal">/month</span>
+                                <% } %>
+                            </div>
+                            <ul class="list-unstyled mt-3 mb-4 text-secondary">
+                                <% sub.features.forEach(feature => { %>
+                                    <li><i class="bi bi-check2 text-success me-2"></i><%= feature %></li>
+                                <% }) %>
+                            </ul>
+                            <% if (!sub.requiresSales) { %>
+                                <a href="/sign-up" class="btn btn-rs mt-auto w-100">Sign Up</a>
+                            <% } else { %>
+                                <a href="#" class="btn btn-outline-secondary mt-auto w-100">Talk to sales</a>
+                            <% } %>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card h-100 shadow-sm border-2 border-rs-primary">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">Flight School</h5>
-                        <div class="display-6 fw-bold">$49<span class="fs-6 fw-normal">/mo</span></div>
-                        <ul class="list-unstyled mt-3 mb-4 text-secondary">
-                            <li><i class="bi bi-check2 text-success me-2"></i>Up to 10 CFIs</li>
-                            <li><i class="bi bi-check2 text-success me-2"></i>Unlimited students</li>
-                            <li><i class="bi bi-check2 text-success me-2"></i>Syllabus versioning</li>
-                            <li><i class="bi bi-check2 text-success me-2"></i>Pass/Fail analytics</li>
-                        </ul>
-                        <a href="#signup" class="btn btn-rs mt-auto w-100">Sign Up</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">Enterprise</h5>
-                        <div class="display-6 fw-bold">Custom</div>
-                        <ul class="list-unstyled mt-3 mb-4 text-secondary">
-                            <li><i class="bi bi-check2 text-success me-2"></i>Audit exports</li>
-                            <li><i class="bi bi-check2 text-success me-2"></i>Priority support</li>
-                            <li><i class="bi bi-check2 text-success me-2"></i>Onboarding help</li>
-                        </ul>
-                        <a href="#" class="btn btn-outline-secondary mt-auto w-100">Talk to sales</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+            <% }) %>
     </div>
 </section>
 
@@ -284,49 +267,6 @@
                         </ul>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Signup -->
-<section id="signup" class="py-5">
-    <div class="container">
-        <div class="row g-4 align-items-center">
-            <div class="col-lg-6">
-                <h3 class="fw-bold">Get started free</h3>
-                <p class="text-secondary">14 day free trial. No credit card required.</p>
-            </div>
-            <div class="col-lg-6">
-                <form class="card shadow-sm">
-                    <div class="card-body row g-3">
-                        <div class="col-md-6">
-                            <label class="form-label">Organization / CFI Name</label>
-                            <input class="form-control">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Work Email</label>
-                            <input type="email" class="form-control" >
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Role</label>
-                            <select class="form-select">
-                                <option>Flight School Admin</option>
-                                <option>Independent CFI</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Phone (optional)</label>
-                            <input class="form-control">
-                        </div>
-                        <div class="col-12 d-grid d-sm-flex gap-2">
-                            <button class="btn btn-rs mt-auto w-100" type="submit">Create account</button>
-                        </div>
-                        <div class="small text-secondary">
-                            By continuing you agree to our <a href="#" class="link-rs">Terms</a> and <a href="#" class="link-rs">Privacy Policy</a>.
-                        </div>
-                    </div>
-                </form>
             </div>
         </div>
     </div>

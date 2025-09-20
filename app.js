@@ -16,30 +16,24 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(expressLayouts);
 
 // Register Routes
+const publicRoutes = require('./routes/public');
+app.use('/', publicRoutes);
 
-// Public Routes
-app.get('/', (req, res) => {
-  res.render('index', {
-    layout: '_layouts/public',
-    pageTitle: 'RightSeat',
-  });
-});
+// app.get('/dashboard', (req, res) => {
+//   res.render('cfi/dashboard', {});
+// });
 
-app.get('/dashboard', (req, res) => {
-  res.render('cfi/dashboard', {});
-});
+// app.get('/dashboard/student', (req, res) => {
+//   res.render('student-dashboard', {});
+// });
 
-app.get('/dashboard/student', (req, res) => {
-  res.render('student-dashboard', {});
-});
+// app.get('/admin', (req, res) => {
+//   res.render('local-admin', {});
+// });
 
-app.get('/admin', (req, res) => {
-  res.render('local-admin', {});
-});
-
-app.get('/global-admin', (req, res) => {
-  res.render('global-admin', {});
-});
+// app.get('/global-admin', (req, res) => {
+//   res.render('global-admin', {});
+// });
 
 
 app.listen(3000);

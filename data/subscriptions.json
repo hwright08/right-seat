@@ -1,0 +1,52 @@
+[
+  {
+    "key": "trial",
+    "label": "Free Trial",
+    "summary": "Try RightSeat as a CFI for 14 days.",
+    "price": 0,
+    "requiresSales": false,
+    "features": [
+      "14 day free trial",
+      "No credit card required",
+      "Solo CFI plan"
+    ]
+  },
+  {
+    "key": "single",
+    "label": "CFI",
+    "summary": "Manage your syllabuses, add students, and track their progress.",
+    "price": 9,
+    "requiresSales": false,
+    "features": [
+      "1 instructor",
+      "Up to 10 students",
+      "Lesson Logging",
+      "Printable progress"
+    ]
+  },
+  {
+    "key": "school",
+    "label": "Flight School",
+    "summary": "Manage multiple CFI's and Students",
+    "price": 49,
+    "requiresSales": false,
+    "features": [
+      "Up to 10 CFI's",
+      "Unlimited students",
+      "Syllabus versioning",
+      "Pass/Fail analytics"
+    ]
+  },
+  {
+    "key": "enterprise",
+    "label": "Enterprise",
+    "summary": "Manage multiple schools and their employees and students",
+    "price": null,
+    "requiresSales": true,
+    "features": [
+      "Audit exports",
+      "Priority support",
+      "Onboarding help"
+    ]
+  }
+]
