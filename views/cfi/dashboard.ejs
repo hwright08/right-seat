@@ -1,0 +1,472 @@
+
+
+  <div class="container-fluid">
+    <div class="row">
+
+      <!-- Sidebar (always visible on lg+, collapsible on smaller) -->
+      <aside class="col-lg-2 border-end bg-white sidebar d-none d-lg-block">
+        <div class="p-3">
+          <div class="text-uppercase text-secondary small mb-2">Navigation</div>
+          <ul class="nav nav-pills flex-column gap-1">
+            <li class="nav-item"><a class="nav-link active" href="#"><i
+                  class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-people me-2"></i>Students</a></li>
+            <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-journal-check me-2"></i>Lesson Log</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-journal-text me-2"></i>Syllabuses</a></li>
+            <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-graph-up-arrow me-2"></i>Reports</a></li>
+          </ul>
+          <hr>
+          <div class="text-uppercase text-secondary small mb-2">Quick actions</div>
+          <div class="d-grid gap-2">
+            <button class="btn btn-rs" data-bs-toggle="modal" data-bs-target="#logLessonModal"><i
+                class="bi bi-plus-lg me-2"></i>Log Lesson</button>
+            <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#shareModal"><i
+                class="bi bi-share me-2"></i>Share Syllabus</button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main -->
+      <main class="col-lg-10 p-3 p-lg-4">
+        <!-- Stats -->
+        <div class="row g-3">
+          <div class="col-6 col-xl-3">
+            <div class="card hero-shadow h-100">
+              <div class="card-body">
+                <div class="text-secondary small">Active Students</div>
+                <div class="fs-2 fw-bold">8</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-xl-3">
+            <div class="card hero-shadow h-100">
+              <div class="card-body">
+                <div class="text-secondary small">Upcoming Lessons (7d)</div>
+                <div class="fs-2 fw-bold">5</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-xl-3">
+            <div class="card hero-shadow h-100">
+              <div class="card-body">
+                <div class="text-secondary small">Avg Progress</div>
+                <div class="d-flex align-items-center gap-2">
+                  <div class="fs-2 fw-bold text-success">65%</div>
+                </div>
+                <div class="progress small mt-2">
+                  <div class="progress-bar bg-success" style="width:65%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-xl-3">
+            <div class="card hero-shadow h-100">
+              <div class="card-body">
+                <div class="text-secondary small">First-Time Pass Rate</div>
+                <div class="fs-2 fw-bold">82%</div>
+                <span class="badge bg-success-subtle text-success border mt-1">CFI Gold Seal Eligible</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Content row -->
+        <div class="row g-4 mt-1">
+          <!-- Upcoming lessons -->
+          <div class="col-xl-6">
+            <div class="card shadow-sm h-100">
+              <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                <strong>Upcoming Lessons</strong>
+                <div>
+                  <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-calendar-week me-2"></i>Week</button>
+                  <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-calendar3 me-2"></i>Month</button>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table align-middle">
+                    <thead class="small text-secondary">
+                      <tr>
+                        <th>Date</th>
+                        <th>Student</th>
+                        <th>Lesson</th>
+                        <th>Rating</th>
+                        <th>Status</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Sep 20, 10:00</td>
+                        <td>Emily Davis</td>
+                        <td>IFR — Holds</td>
+                        <td>Instrument</td>
+                        <td><span class="badge bg-warning-subtle text-warning border">Briefing</span></td>
+                        <td class="text-end"><button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
+                            data-bs-target="#logLessonModal">Log</button></td>
+                      </tr>
+                      <tr>
+                        <td>Sep 21, 08:30</td>
+                        <td>John Smith</td>
+                        <td>XC Planning</td>
+                        <td>Private</td>
+                        <td><span class="badge bg-success-subtle text-success border">Scheduled</span></td>
+                        <td class="text-end"><button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
+                            data-bs-target="#logLessonModal">Log</button></td>
+                      </tr>
+                      <tr>
+                        <td>Sep 22, 14:00</td>
+                        <td>Michael Brown</td>
+                        <td>Pattern Work</td>
+                        <td>Private</td>
+                        <td><span class="badge bg-secondary-subtle text-secondary border">TBD</span></td>
+                        <td class="text-end"><button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
+                            data-bs-target="#logLessonModal">Log</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="card-footer bg-white text-end small">
+                <a href="#" class="link-primary">View calendar <i class="bi bi-arrow-right-short"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Student roster -->
+          <div class="col-xl-6">
+            <div class="card shadow-sm h-100">
+              <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                <strong>Students</strong>
+                <div class="input-group input-group-sm" style="max-width: 260px;">
+                  <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                  <input class="form-control" placeholder="Search students…">
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table align-middle">
+                    <thead class="small text-secondary">
+                      <tr>
+                        <th>Student</th>
+                        <th>Rating</th>
+                        <th>Progress</th>
+                        <th>Last Lesson</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Emily Davis</td>
+                        <td>Instrument</td>
+                        <td style="width:180px;">
+                          <div class="progress small">
+                            <div class="progress-bar bg-success" style="width:40%"></div>
+                          </div>
+                          <div class="small text-secondary mt-1">8 / 20</div>
+                        </td>
+                        <td>Sep 14</td>
+                        <td class="text-end">
+                          <div class="btn-group btn-group-sm">
+                            <button class="btn btn-outline-secondary" data-bs-toggle="offcanvas"
+                              data-bs-target="#progressPanel">View</button>
+                            <button class="btn btn-outline-secondary" data-bs-toggle="modal"
+                              data-bs-target="#shareModal">Share</button>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>John Smith</td>
+                        <td>Private</td>
+                        <td>
+                          <div class="progress small">
+                            <div class="progress-bar bg-success" style="width:80%"></div>
+                          </div>
+                          <div class="small text-secondary mt-1">16 / 20</div>
+                        </td>
+                        <td>Sep 12</td>
+                        <td class="text-end">
+                          <div class="btn-group btn-group-sm">
+                            <button class="btn btn-outline-secondary" data-bs-toggle="offcanvas"
+                              data-bs-target="#progressPanel">View</button>
+                            <button class="btn btn-outline-secondary" data-bs-toggle="modal"
+                              data-bs-target="#shareModal">Share</button>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Michael Brown</td>
+                        <td>Private</td>
+                        <td>
+                          <div class="progress small">
+                            <div class="progress-bar bg-warning" style="width:25%"></div>
+                          </div>
+                          <div class="small text-secondary mt-1">5 / 20</div>
+                        </td>
+                        <td>Sep 10</td>
+                        <td class="text-end">
+                          <div class="btn-group btn-group-sm">
+                            <button class="btn btn-outline-secondary" data-bs-toggle="offcanvas"
+                              data-bs-target="#progressPanel">View</button>
+                            <button class="btn btn-outline-secondary" data-bs-toggle="modal"
+                              data-bs-target="#shareModal">Share</button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="card-footer bg-white text-end small">
+                <a href="#" class="link-primary">Manage students <i class="bi bi-arrow-right-short"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lesson logging card -->
+        <div class="card shadow-sm mt-4">
+          <div class="card-header bg-white"><strong>Quick Log</strong></div>
+          <form class="card-body row g-3">
+            <div class="col-md-3">
+              <label class="form-label">Student</label>
+              <select class="form-select">
+                <option>Emily Davis</option>
+                <option>John Smith</option>
+                <option>Michael Brown</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Lesson</label>
+              <select class="form-select">
+                <option>IFR — Holds</option>
+                <option>XC Planning</option>
+                <option>Pattern Work</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <label class="form-label">Date</label>
+              <input type="date" class="form-control">
+            </div>
+            <div class="col-md-2">
+              <label class="form-label">Status</label>
+              <select class="form-select">
+                <option>Completed</option>
+                <option>Partial</option>
+                <option>Needs Review</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Notes & Endorsements</label>
+              <textarea class="form-control" rows="2"
+                placeholder="Remarks, endorsements, tasks for next lesson…"></textarea>
+            </div>
+            <div class="col-12 d-flex justify-content-end gap-2">
+              <button type="reset" class="btn btn-outline-secondary">Clear</button>
+              <button type="button" class="btn btn-rs" id="saveQuickLog">Save</button>
+            </div>
+          </form>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Offcanvas: Filters -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="filters">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title">Filters</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div class="mb-3">
+        <label class="form-label">Rating</label>
+        <select class="form-select">
+          <option value="">All</option>
+          <option>Private</option>
+          <option>Instrument</option>
+          <option>Commercial</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Progress</label>
+        <select class="form-select">
+          <option value="">Any</option>
+          <option>
+            < 25%</option>
+          <option>25–75%</option>
+          <option>>= 75%</option>
+        </select>
+      </div>
+      <div class="d-grid">
+        <button class="btn btn-rs" data-bs-dismiss="offcanvas">Apply</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Offcanvas: Progress Panel -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="progressPanel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title">Student Progress — Emily Davis</h5>
+      <button class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div class="mb-3">
+        <div class="text-secondary small">Completion</div>
+        <div class="progress">
+          <div class="progress-bar bg-success" style="width:40%">40%</div>
+        </div>
+      </div>
+      <ul class="list-group small">
+        <li class="list-group-item d-flex justify-content-between">
+          <span>IFR — Basics</span><span class="badge bg-success">Done</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span>IFR — Holds</span><span class="badge bg-warning text-dark">In progress</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span>Approaches — ILS</span><span class="badge bg-secondary">Next</span>
+        </li>
+      </ul>
+      <div class="mt-3 d-grid">
+        <button class="btn btn-outline-secondary">Print Progress</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Log Lesson -->
+  <div class="modal fade" id="logLessonModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <form class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Record Lesson Completion</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label class="form-label">Student</label>
+              <select class="form-select">
+                <option>Emily Davis</option>
+                <option>John Smith</option>
+                <option>Michael Brown</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Lesson</label>
+              <select class="form-select">
+                <option>IFR — Holds</option>
+                <option>XC Planning</option>
+                <option>Pattern Work</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Date</label>
+              <input type="date" class="form-control">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Status</label>
+              <select class="form-select">
+                <option>Completed</option>
+                <option>Partial</option>
+                <option>Needs Review</option>
+              </select>
+            </div>
+            <div class="col-md-8">
+              <label class="form-label">Endorsements</label>
+              <input class="form-control" placeholder="e.g., 61.87(b) Solo endorsement" />
+            </div>
+            <div class="col-12">
+              <label class="form-label">Notes</label>
+              <textarea class="form-control" rows="3" placeholder="Lesson remarks"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline-secondary" data-bs-dismiss="modal" type="button">Cancel</button>
+          <button class="btn btn-rs" type="button" id="saveLesson">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Share Syllabus -->
+  <div class="modal fade" id="shareModal" tabindex="-1">
+    <div class="modal-dialog">
+      <form class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Share Student Syllabus</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Student</label>
+            <select class="form-select">
+              <option>Emily Davis</option>
+              <option>John Smith</option>
+              <option>Michael Brown</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Share with CFI</label>
+            <select class="form-select">
+              <option>Chris Taylor</option>
+              <option>Avery Lee</option>
+              <option>Jordan Kim</option>
+            </select>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" id="canEdit" type="checkbox">
+            <label class="form-check-label" for="canEdit">Allow edit access</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline-secondary" data-bs-dismiss="modal" type="button">Close</button>
+          <button class="btn btn-rs" type="button" id="shareNow">Share</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toasts -->
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index:1080">
+    <div id="toast" class="toast align-items-center text-bg-success border-0" role="alert">
+      <div class="d-flex">
+        <div class="toast-body">
+          Saved successfully.
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> -->
+  <script>
+    const toastEl = document.getElementById('toast');
+    const toast = new bootstrap.Toast(toastEl, { delay: 2200 });
+
+    document.getElementById('saveQuickLog')?.addEventListener('click', () => toast.show());
+    document.getElementById('saveLesson')?.addEventListener('click', () => {
+      toastEl.querySelector('.toast-body').textContent = 'Lesson logged.';
+      toast.show();
+      const modal = bootstrap.Modal.getInstance(document.getElementById('logLessonModal'));
+      modal?.hide();
+    });
+    document.getElementById('shareNow')?.addEventListener('click', () => {
+      toastEl.classList.remove('text-bg-success');
+      toastEl.classList.add('text-bg-primary');
+      toastEl.querySelector('.toast-body').textContent = 'Syllabus shared.';
+      toast.show();
+      const modal = bootstrap.Modal.getInstance(document.getElementById('shareModal'));
+      modal?.hide();
+      setTimeout(() => {
+        toastEl.classList.remove('text-bg-primary');
+        toastEl.classList.add('text-bg-success');
+      }, 2600);
+    });
+  </script>
+</body>
+
+</html>

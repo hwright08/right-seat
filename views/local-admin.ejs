@@ -1,0 +1,360 @@
+<div class="container-fluid p-3 p-lg-4">
+    <!-- Stats -->
+    <div class="row g-3">
+        <div class="col-6 col-xl-3">
+            <div class="card hero-shadow h-100">
+                <div class="card-body">
+                    <div class="text-secondary small">CFIs</div>
+                    <div class="fs-2 fw-bold">9</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-xl-3">
+            <div class="card hero-shadow h-100">
+                <div class="card-body">
+                    <div class="text-secondary small">Active Students</div>
+                    <div class="fs-2 fw-bold">132</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-xl-3">
+            <div class="card hero-shadow h-100">
+                <div class="card-body">
+                    <div class="text-secondary small">Avg. Student Progress</div>
+                    <div class="fs-2 fw-bold text-success">61%</div>
+                    <div class="progress small mt-2">
+                        <div class="progress-bar bg-success" style="width:61%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-xl-3">
+            <div class="card hero-shadow h-100">
+                <div class="card-body">
+                    <div class="text-secondary small">First-Time Pass</div>
+                    <div class="fs-2 fw-bold">79%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mt-1">
+        <!-- Manage CFIs -->
+        <div class="col-xl-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                    <strong>CFIs</strong>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-sm btn-outline-secondary text-nowrap" data-bs-toggle="modal"
+                            data-bs-target="#addCFIModal">
+                            <i class="bi bi-person-plus me-2"></i>
+                            Add CFI
+                        </button>
+                        <div class="input-group input-group-sm" style="max-width:240px">
+                            <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                            <input class="form-control" placeholder="Search CFIs…">
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table align-middle">
+                        <thead class="small text-secondary">
+                            <tr>
+                                <th>Name</th>
+                                <th>Students</th>
+                                <th>Pass Rate</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Haley Wright</td>
+                                <td>18</td>
+                                <td>82%</td>
+                                <td class="text-end">
+                                    <div class="btn-group btn-group-sm">
+                                        <button class="btn btn-outline-secondary">Edit</button>
+                                        <button class="btn btn-outline-secondary">Deactivate</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Chris Taylor</td>
+                                <td>14</td>
+                                <td>76%</td>
+                                <td class="text-end">
+                                    <div class="btn-group btn-group-sm">
+                                        <button class="btn btn-outline-secondary">Edit</button>
+                                        <button class="btn btn-outline-secondary">Deactivate</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Avery Lee</td>
+                                <td>9</td>
+                                <td>71%</td>
+                                <td class="text-end">
+                                    <div class="btn-group btn-group-sm">
+                                        <button class="btn btn-outline-secondary" data-bs-toggle="modal"
+                                            data-bs-target="#transferModal">
+                                            Transfer Students
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Students -->
+        <div class="col-xl-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                    <strong>Students</strong>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-sm btn-outline-secondary text-nowrap" data-bs-toggle="modal"
+                            data-bs-target="#enrollModal">
+                            <i class="bi bi-person-add me-2 "></i>
+                            Enroll Student
+                        </button>
+                        <div class="input-group input-group-sm" style="max-width:240px">
+                            <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                            <input class="form-control" placeholder="Search students…">
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table align-middle">
+                        <thead class="small text-secondary">
+                            <tr>
+                                <th>Student</th>
+                                <th>Rating</th>
+                                <th>CFI</th>
+                                <th>Progress</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Emily Davis</td>
+                                <td>Instrument</td>
+                                <td>H. Wright</td>
+                                <td style="width:180px">
+                                    <div class="progress small">
+                                        <div class="progress-bar bg-success" style="width:40%"></div>
+                                    </div>
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group btn-group-sm">
+                                        <button class="btn btn-outline-secondary">View</button>
+                                        <button class="btn btn-outline-secondary">Edit</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>John Smith</td>
+                                <td>Private</td>
+                                <td>H. Wright</td>
+                                <td>
+                                    <div class="progress small">
+                                        <div class="progress-bar bg-success" style="width:80%"></div>
+                                    </div>
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group btn-group-sm">
+                                        <button class="btn btn-outline-secondary">View</button>
+                                        <button class="btn btn-outline-secondary">Edit</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Syllabus -->
+    <div class="card shadow-sm mt-4">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+            <strong>Syllabuses</strong>
+            <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#uploadModal">
+                    <i class="bi bi-upload me-2"></i>
+                    Upload Excel
+                </button>
+                <button class="btn btn-sm btn-outline-secondary">
+                    <i class="bi bi-file-earmark-text me-2"></i>
+                    New Template
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table align-middle">
+                <thead class="small text-secondary">
+                    <tr>
+                        <th>Name</th>
+                        <th>Version</th>
+                        <th>Lessons</th>
+                        <th>Updated</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Private Pilot (Part 61)</td>
+                        <td>1.3</td>
+                        <td>20</td>
+                        <td>Sep 10</td>
+                        <td class="text-end">
+                            <button class="btn btn-sm btn-outline-secondary">Edit</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Instrument Rating</td>
+                        <td>2.0</td>
+                        <td>18</td>
+                        <td>Sep 5</td>
+                        <td class="text-end">
+                            <button class="btn btn-sm btn-outline-secondary">Edit</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modals -->
+<div class="modal fade" id="addCFIModal" tabindex="-1">
+    <div class="modal-dialog">
+        <form class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add CFI</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">First Name</label>
+                    <input class="form-control">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Last Name</label>
+                    <input class="form-control">
+                </div>
+                <div class="col-md-12">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-secondary" data-bs-dismiss="modal" type="button">
+                    Cancel
+                </button>
+                <button class="btn btn-rs" type="button">Add</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="transferModal" tabindex="-1">
+    <div class="modal-dialog">
+        <form class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Transfer Students</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">From CFI</label>
+                    <select class="form-select">
+                        <option>Avery Lee</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">To CFI</label>
+                    <select class="form-select">
+                        <option>Haley Wright</option>
+                        <option>Chris Taylor</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Students</label>
+                    <select class="form-select" multiple>
+                        <option>Emily Davis</option>
+                        <option>John Smith</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-secondary" data-bs-dismiss="modal" type="button">
+                    Close
+                </button>
+                <button class="btn btn-rs" type="button">Transfer</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="enrollModal" tabindex="-1">
+    <div class="modal-dialog">
+        <form class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Enroll Student</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Name</label>
+                    <input class="form-control">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Assign CFI</label>
+                    <select class="form-select">
+                        <option>Haley Wright</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Syllabus</label>
+                    <select class="form-select">
+                        <option>Private Pilot (61)</option>
+                        <option>Instrument</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-secondary" data-bs-dismiss="modal" type="button">
+                    Cancel
+                </button>
+                <button class="btn btn-rs" type="button">Enroll</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="uploadModal" tabindex="-1">
+    <div class="modal-dialog">
+        <form class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Upload Syllabus (Excel)</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3"><input type="file" class="form-control"></div>
+                <div class="small text-secondary">Accepted: .xlsx. You’ll map columns on the next step.</div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-secondary" data-bs-dismiss="modal" type="button">
+                    Close
+                </button>
+                <button class="btn btn-rs" type="button">Upload</button>
+            </div>
+        </form>
+    </div>
+</div>

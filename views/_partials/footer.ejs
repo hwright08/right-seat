@@ -1,0 +1,15 @@
+<!-- Footer -->
+<footer class="bg-white border-top py-4 mt-auto">
+  <div class="container d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3">
+    <div class="small text-secondary">© <span id="year"></span> RightSeat</div>
+    <ul class="nav small">
+      <li class="nav-item"><a class="nav-link text-secondary" href="#">Privacy</a></li>
+      <li class="nav-item"><a class="nav-link text-secondary" href="#">Terms</a></li>
+      <li class="nav-item"><a class="nav-link text-secondary" href="#">Contact</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>

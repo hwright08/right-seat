@@ -1,0 +1,48 @@
+@import './colors';
+
+$primary: $blue-900;
+$secondary: #1E3A8A;
+
+:root {
+  --rs-primary: #0284C7;
+  /* sky blue */
+  --rs-primary-100: #E0F2FE;
+  --rs-secondary: #1E3A8A;
+  /* navy */
+  --rs-slate: #334155;
+  --rs-emerald: #059669;
+  --rs-amber: #F59E0B;
+  --rs-danger: #DC2626;
+}
+
+.bg-rs-primary {
+  background-color: var(--rs-primary) !important;
+}
+
+.text-rs-primary {
+  color: var(--rs-primary) !important;
+}
+
+.btn-rs {
+  background-color: var(--rs-primary);
+  border-color: var(--rs-primary);
+}
+
+.btn-rs:hover {
+  background-color: #0272ab;
+  border-color: #0272ab;
+}
+
+.link-rs {
+  color: var(--rs-primary);
+}
+
+.hero {
+  background: linear-gradient(180deg, var(--rs-primary-100), #fff);
+}
+
+.rs-badge {
+  background: var(--rs-primary-100);
+  color: var(--rs-secondary);
+  border: 1px solid rgba(30, 58, 138, .12);
+}
