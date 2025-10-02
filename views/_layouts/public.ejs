@@ -57,14 +57,16 @@
       color: var(--rs-secondary);
       border: 1px solid rgba(30, 58, 138, .12);
     }
+
+    .is-invalid { border-color: #dc3545 !important; }
   </style>
 </head>
 
-<body class="bg-light">
+<body class="bg-light d-flex flex-column min-vh-100">
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
     <div class="container">
-      <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="#">
+      <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="/">
         <span class="badge rounded-circle bg-rs-primary">RS</span>
         <span class="text-rs-primary">RightSeat</span>
       </a>
@@ -73,19 +75,22 @@
       </button>
       <div id="nav" class="collapse navbar-collapse">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
-          <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
-          <li class="nav-item"><a class="nav-link" href="#how">How it works</a></li>
-          <li class="nav-item"><a class="nav-link" href="#pricing">Pricing</a></li>
-          <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
-          <li class="nav-item ms-lg-3"><a class="btn btn-outline-secondary" href="#">Log in</a></li>
-          <li class="nav-item ms-2"><a class="btn btn-rs" href="#signup">Start free trial</a></li>
+          <li class="nav-item"><a class="nav-link" href="/#features">Features</a></li>
+          <li class="nav-item"><a class="nav-link" href="/#how">How it works</a></li>
+          <li class="nav-item"><a class="nav-link" href="/#pricing">Pricing</a></li>
+          <li class="nav-item"><a class="nav-link" href="/#faq">FAQ</a></li>
+          <li class="nav-item ms-lg-3"><a class="btn btn-outline-secondary" href="/login">Log in</a></li>
+          <li class="nav-item ms-2"><a class="btn btn-rs" href="/sign-up">Start free trial</a></li>
         </ul>
       </div>
     </div>
   </nav>
 
-
-  <%- body %>
+  <main class="flex-grow-1">
+    <div class="container-fluid p-3 p-lg-4">
+      <%- body %>
+    </div>
+  </main>
 
     <!-- Footer -->
     <%- include('../_partials/footer.ejs') %>

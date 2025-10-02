@@ -1,7 +1,7 @@
 {
   "name": "right-seat",
   "version": "1.0.0",
-  "description": "",
+  "description": "An application for flight schools and CFI's can manage syllabuses and track student progress.",
   "license": "ISC",
   "author": "Haley Wright",
   "type": "commonjs",
@@ -11,14 +11,17 @@
     "dev": "nodemon app.js",
     "start": "node app.js",
     "build:css": "sass ./scss/custom.scss ./public/css/custom.css",
-    "watch:css": "sass --watch ./scss/custom.scss ./public/css/custom.css"
+    "watch:css": "sass --watch ./scss/custom.scss ./public/css/custom.css",
+    "init-db": "node ./utils/db-init"
   },
   "dependencies": {
-    "bootstrap": "^5.3.3",
+    "bcrypt": "^6.0.0",
+    "dotenv": "^17.2.2",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "express-ejs-layouts": "^2.5.1",
-    "uuid": "^13.0.0"
+    "mysql2": "^3.15.0",
+    "sequelize": "^6.37.7"
   },
   "devDependencies": {
     "nodemon": "^3.1.10",

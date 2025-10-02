@@ -197,14 +197,14 @@
                                 <% } %>
                             </div>
                             <ul class="list-unstyled mt-3 mb-4 text-secondary">
-                                <% sub.features.forEach(feature => { %>
+                                <% sub.features.forEach(({feature}) => { %>
                                     <li><i class="bi bi-check2 text-success me-2"></i><%= feature %></li>
                                 <% }) %>
                             </ul>
-                            <% if (!sub.requiresSales) { %>
+                            <% if (!sub.requires_sales) { %>
                                 <a href="/sign-up" class="btn btn-rs mt-auto w-100">Sign Up</a>
                             <% } else { %>
-                                <a href="#" class="btn btn-outline-secondary mt-auto w-100">Talk to sales</a>
+                                <a href="/contact" class="btn btn-outline-secondary mt-auto w-100">Contact Sales</a>
                             <% } %>
                         </div>
                     </div>

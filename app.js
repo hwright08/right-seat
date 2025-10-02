@@ -1,8 +1,13 @@
+// Load environment variables
+require('dotenv').config({ quiet: true });
+
 const express = require('express');
 const path = require('path');
 const expressLayouts = require('express-ejs-layouts');
 
 const app = express();
+
+const associations = require('./models/associations');
 
 // Initialize app settings
 
@@ -14,9 +19,14 @@ app.set("layout extractScripts", true);
 // Mount Middleware
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(expressLayouts);
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// Setup sequelize associations
+associations();
 
 // Register Routes
-const publicRoutes = require('./routes/public');
+const publicRoutes = require('./routes/public.route');
 app.use('/', publicRoutes);
 
 // app.get('/dashboard', (req, res) => {
