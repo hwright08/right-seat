@@ -33,10 +33,10 @@
                                 <div class="col-md-12">
                                     <label class="form-check border rounded p-3 h-100">
                                         <input class="form-check-input me-2" type="radio" name="subscription"
-                                            value="<%= sub.subscription_id  %>" <% if (sub.subscription_key==='trial' )
+                                            value="<%= sub.id  %>" <% if (sub.key==='trial' )
                                             { %> checked <% } %> />
                                             <span class="fw-semibold d-block">
-                                                <%= sub.label %> (<%= sub.price ? `$${sub.price}/month` : 'FREE' %>)
+                                                <%= sub.label %> (<%= sub.price != '0' ? `$${sub.price}/month` : 'FREE' %>)
                                             </span>
                                             <span class="text-secondary small d-block mt-1">
                                                 <%= sub.summary %>

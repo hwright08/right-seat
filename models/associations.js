@@ -1,18 +1,24 @@
 const models = require('./index');
 
 module.exports = () => {
+  // User / Privilege Relationship
+  models.privilege.hasMany(models.user);
   models.user.belongsTo(models.privilege);
+
+  // User / Entity Relationship
+  models.entity.hasMany(models.user);
   models.user.belongsTo(models.entity);
 
+  // Subscription / Feature Relationship
   models.subscription.hasMany(models.subscriptionFeature, {
     as: 'features',
-    foreignKey: 'subscriptionId',
     onDelete: 'CASCADE',
   });
-  models.subscriptionFeature.belongsTo(models.subscription, {
-    as: 'subscription',
-    foreignKey: 'subscriptionId',
-  });
+  models.subscriptionFeature.belongsTo(models.subscription);
 
-  models.entity.belongsTo(models.subscription, { foreignKey: 'subscriptionId' });
+  // Entity / Subscription Relationship
+  models.subscription.hasMany(models.entity);
+  models.entity.belongsTo(models.subscription);
+
+  //
 }
