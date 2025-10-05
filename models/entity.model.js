@@ -16,6 +16,10 @@ const Entity = db.define('entity', {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  inactiveDate: {
+    type: DataTypes.DATE,
+    allowNull: true,
+  },
 });
 
 module.exports = Entity;

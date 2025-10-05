@@ -2,7 +2,7 @@
 require('dotenv').config({ quiet: true });
 
 const db = require('./db');
-const { hashPassword } = require('./passUtil');
+const { hashPassword } = require('./authUtil');
 
 const models = require('../models');
 const associations =  require('../models/associations');

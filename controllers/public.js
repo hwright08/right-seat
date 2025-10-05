@@ -2,7 +2,7 @@ const { validationResult } = require('express-validator');
 
 const tx = require('../utils/tx');
 const models = require('../models');
-const { hashPassword, verifyPassword } = require('../utils/passUtil');
+const { hashPassword, verifyPassword, generateAccessJWT } = require('../utils/authUtil');
 
 const LAYOUT = '_layouts/public';
 
@@ -52,26 +52,6 @@ exports.getSignUpPage = async (req, res) => {
     console.error(err);
     res.status(500).send('Error loading subscriptions: ' + err);
   }
-}
-
-
-exports.getLoginPage = (req, res) => {
-  res.render('public/login', {
-    layout: LAYOUT,
-    pageTitle: 'Login',
-    path: '/login',
-    errors: res.locals.errors ?? [],
-  });
-}
-
-
-exports.getContactPage = (req, res) => {
-  res.render('public/contact', {
-    layout: LAYOUT,
-    pageTitle: 'Contact Us',
-    path: '/contact',
-    errors: res.locals.errors ?? [],
-  });
 }
 
 
@@ -127,6 +107,68 @@ exports.postSignUp = async (req, res) => {
 }
 
 
+exports.getLoginPage = (req, res) => {
+  res.render('public/login', {
+    layout: LAYOUT,
+    pageTitle: 'Login',
+    path: '/login',
+    errors: res.locals.errors ?? [],
+  });
+}
+
+
+exports.postLogin = async (req, res) => {
+  // Handle validation errors
+  const { errors } = validationResult(req);
+  if (!errors || errors.length) {
+    res.locals.errors = errors;
+    return await this.getLoginPage(req, res);
+  }
+
+  // Login
+  try {
+    const users = await models.user.findAll({
+      where: {
+        email: req.body.email
+      }
+    });
+
+    if (users.length) {
+      const user = users[0];
+      const passwordMatched = await verifyPassword(user.passwrd, req.body.password);
+      if (passwordMatched) {
+        const options = {
+          maxAge: 60 * 60 * 1000, // 1 hour
+          httpOnly: true,
+          secure: false,
+          sameSite: 'lax',
+          path: '/'
+        };
+        const token = generateAccessJWT(user.id);
+        res.cookie('SessionId', token, options);
+        return res.redirect('/dashboard');
+      }
+    }
+
+    res.locals.errors = [{ msg: 'Invalid email or password' }];
+    return this.getLoginPage(req, res);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error logging in: ' + err);
+  }
+}
+
+exports.getContactPage = (req, res) => {
+  res.render('public/contact', {
+    layout: LAYOUT,
+    pageTitle: 'Contact Us',
+    path: '/contact',
+    errors: res.locals.errors ?? [],
+  });
+}
+
+
 exports.postContactMessage = async (req, res) => {
   // Handle validation errors
   const { errors } = validationResult(req);
@@ -144,37 +186,4 @@ exports.postContactMessage = async (req, res) => {
   }
 
   res.redirect('/');
-}
-
-
-exports.postLogin = async (req, res) => {
-  // Handle validation errors
-  const { errors } = validationResult(req);
-  if (!errors || errors.length) {
-    res.locals.errors = errors;
-    return await this.getLoginPage(req, res);
-  }
-
-  // Login
-  try {
-    const users = await models.user.findAll({ where: {
-      email: req.body.email
-    }});
-
-    if (users.length) {
-      const user = users[0];
-      const passwordMatched = await verifyPassword(user.passwrd, req.body.password);
-      if (passwordMatched) {
-        // TODO: redirect to dashboard
-        return res.redirect('/');
-      }
-    }
-
-    res.locals.errors = [{ msg: 'Invalid email or password' }];
-    return this.getLoginPage(req, res);
-
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Error logging in: ' + err);
-  }
 }

@@ -24,6 +24,10 @@ const User = db.define('user', {
     type: DataTypes.TEXT,
     allowNull: false,
   },
+  inactiveDate: {
+    type: DataTypes.DATE,
+    allowNull: true,
+  }
 });
 
 module.exports = User;

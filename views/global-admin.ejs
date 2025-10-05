@@ -3,8 +3,10 @@
     <div class="col-6 col-xl-4">
         <div class="card hero-shadow h-100">
             <div class="card-body">
-                <div class="text-secondary small">Organizations</div>
-                <div class="fs-2 fw-bold">42</div>
+                <div class="text-secondary small">Entities</div>
+                <div class="fs-2 fw-bold">
+                    <%= entities.length %>
+                </div>
             </div>
         </div>
     </div>
@@ -12,7 +14,9 @@
         <div class="card hero-shadow h-100">
             <div class="card-body">
                 <div class="text-secondary small">CFIs</div>
-                <div class="fs-2 fw-bold">318</div>
+                <div class="fs-2 fw-bold">
+                    <%= cfiCount ?? 0 %>
+                </div>
             </div>
         </div>
     </div>
@@ -20,21 +24,26 @@
         <div class="card hero-shadow h-100">
             <div class="card-body">
                 <div class="text-secondary small">Active Students</div>
-                <div class="fs-2 fw-bold">2,104</div>
+                <div class="fs-2 fw-bold">
+                    <%= studentCount ?? 0 %>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Organizations -->
+<!-- Entities -->
 <div class="card shadow-sm h-100 mt-4">
     <div class="card-header bg-white d-flex justify-content-between align-items-center">
-        <strong>Organizations</strong>
+        <strong>Entities</strong>
         <div class="d-flex gap-2">
-            <div class="input-group input-group-sm" style="max-width:300px">
+            <form class="input-group input-group-sm" style="max-width:300px" method="GET" action="/dashboard">
                 <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
-                <input class="form-control" placeholder="Search orgs…">
-            </div>
+                <input class="form-control" id="search" name="search" placeholder="Search orgs…">
+                <button class="btn btn-sm btn-outline-secondary text-nowrap" type="submit">
+                    Search
+                </button>
+            </form>
             <button class="btn btn-sm btn-outline-secondary text-nowrap" data-bs-toggle="modal"
                 data-bs-target="#newOrgModal">
                 <i class="bi bi-plus"></i>
@@ -55,75 +64,78 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Mountain West Aviation</td>
-                        <td>14</td>
-                        <td>210</td>
-                        <td><span class="badge bg-purple-200 text-purple-500 border">Enterprise</span></td>
-                        <td class="text-end"><a class="btn btn-sm btn-outline-secondary" href="#">Manage</a></td>
-                    </tr>
-                    <tr>
-                        <td>Skyline Flight Center</td>
-                        <td>9</td>
-                        <td>132</td>
-                        <td><span class="badge bg-warning-subtle text-orange-500 border">Trial</span></td>
-                        <td class="text-end"><a class="btn btn-sm btn-outline-secondary" href="#">Manage</a></td>
-                    </tr>
-                    <tr>
-                        <td>Metro Air Academy</td>
-                        <td>23</td>
-                        <td>540</td>
-                        <td><span class="badge bg-success-subtle text-success border">Flight School</span></td>
-                        <td class="text-end"><a class="btn btn-sm btn-outline-secondary" href="#">Manage</a></td>
-                    </tr>
-                    <tr>
-                        <td>Oliver Wright</td>
-                        <td>1</td>
-                        <td>8</td>
-                        <td><span class="badge bg-blue-200 text-blue-900 border">Single</span></td>
-                        <td class="text-end"><a class="btn btn-sm btn-outline-secondary" href="#">Manage</a></td>
-                    </tr>
+                    <% entities?.forEach(entity=> { %>
+                        <tr>
+                            <td>
+                                <%= entity.name %>
+                            </td>
+                            <td>
+                                <%= entity.cfiCount ?? 0 %>
+                            </td>
+                            <td>
+                                <%= entity.studentCount ?? 0 %>
+                            </td>
+                            <td>
+                                <span
+                                    class="badge border <%= entity.subscription?.key == 'enterprise' ? 'bg-purple-200 text-purple-500' : entity.subscription?.key == 'school' ? 'bg-success-subtle text-success' : entity.subscription?.key == 'single' ? 'bg-blue-200 text-blue-900' : 'bg-warning-subtle text-orange-500' %>">
+                                    <%= entity.subscription?.label %>
+                                </span>
+                            </td>
+                            <td class="text-end">
+                                <a class="btn btn-sm btn-outline-secondary" href="#">Manage</a>
+                            </td>
+                        </tr>
+                        <% }) %>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 
-<!-- Modal: New Organization -->
+<!-- Modal: New Entity-->
 <div class="modal fade" id="newOrgModal" tabindex="-1">
     <div class="modal-dialog">
-        <form class="modal-content">
+        <form class="modal-content" method="POST" action="/dashboard/new-entity">
             <div class="modal-header">
-                <h5 class="modal-title">Create Organization</h5>
+                <h5 class="modal-title">Create Entity</h5>
                 <button class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <div class="mb-3">
-                    <label class="form-label">Org Name</label>
-                    <input class="form-control" placeholder="e.g., Valley Aero Training">
+                    <label class="form-label" for="name">Entity Name</label>
+                    <input class="form-control" placeholder="e.g., Valley Aero Training" id="name" name="name">
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Plan</label>
-                    <select class="form-select">
-                        <option>Trial</option>
-                        <option>Single</option>
-                        <option>Flight School</option>
-                        <option>Enterprise</option>
+                    <label class="form-label" for="subscriptionId">Subscription</label>
+                    <select class="form-select" id="subscriptionId" name="subscriptionId">
+                        <% subscriptions?.forEach(sub => { %>
+                            <option value="<%= sub.id %>">
+                                <%= sub.label %>
+                            </option>
+                        <% }) %>
                     </select>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" id="enableSSO" type="checkbox">
-                    <label class="form-check-label" for="enableSSO">Enable SSO</label>
                 </div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-outline-secondary" data-bs-dismiss="modal" type="button">
                     Cancel
                 </button>
-                <button class="btn btn-rs" type="button">
+                <button class="btn btn-rs" type="submit">
                     Create
                 </button>
             </div>
         </form>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchValue = urlParams.get('search');
+
+        if (searchValue) {
+            const searchField = document.getElementById('search');
+            searchField.value = searchValue;
+        }
+    })
+</script>
