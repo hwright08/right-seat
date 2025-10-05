@@ -20,5 +20,13 @@ module.exports = () => {
   models.subscription.hasMany(models.entity);
   models.entity.belongsTo(models.subscription);
 
-  //
+  // Student to CFI Relationship
+  models.user.hasMany(models.user, {
+    as: 'students',
+    foreignKey: 'cfiId',
+  });
+  models.user.belongsTo(models.user, {
+    as: 'cfi',
+    foreignKey: 'cfiId',
+  });
 }

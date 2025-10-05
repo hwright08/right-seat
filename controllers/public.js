@@ -71,9 +71,7 @@ exports.postSignUp = async (req, res) => {
     await tx(async t => {
       // Get the admin privilege
       const { id: privilegeId } = (await models.privilege.findAll({
-        where: {
-          name: 'admin',
-        },
+        where: { name: 'admin' },
         transaction: t,
       }))[0];
 
@@ -99,11 +97,10 @@ exports.postSignUp = async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).send('Error signing up: ' + err);
+    return res.status(500).send('Error signing up: ' + err);
   }
 
-  // TODO: redirect to dashboard
-  res.redirect('/');
+  res.redirect('/dashboard');
 }
 
 

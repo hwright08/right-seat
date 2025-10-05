@@ -1,3 +1,4 @@
+<h1><%= entity.name %> (<%= entity.subscription.label %>)</h1>
 <div class="container-fluid p-3 p-lg-4">
     <!-- Stats -->
     <div class="row g-3">
@@ -5,7 +6,9 @@
             <div class="card hero-shadow h-100">
                 <div class="card-body">
                     <div class="text-secondary small">CFIs</div>
-                    <div class="fs-2 fw-bold">9</div>
+                    <div class="fs-2 fw-bold">
+                        <%= cfis.filter(s => !s.invalidDate).length %>
+                    </div>
                 </div>
             </div>
         </div>
@@ -13,7 +16,9 @@
             <div class="card hero-shadow h-100">
                 <div class="card-body">
                     <div class="text-secondary small">Active Students</div>
-                    <div class="fs-2 fw-bold">132</div>
+                    <div class="fs-2 fw-bold">
+                        <%= students.filter(s => !s.invalidDate).length %>
+                    </div>
                 </div>
             </div>
         </div>
@@ -21,7 +26,7 @@
             <div class="card hero-shadow h-100">
                 <div class="card-body">
                     <div class="text-secondary small">Avg. Student Progress</div>
-                    <div class="fs-2 fw-bold text-success">61%</div>
+                    <div class="fs-2 fw-bold text-success">TODO: 61%</div>
                     <div class="progress small mt-2">
                         <div class="progress-bar bg-success" style="width:61%"></div>
                     </div>
@@ -32,7 +37,7 @@
             <div class="card hero-shadow h-100">
                 <div class="card-body">
                     <div class="text-secondary small">First-Time Pass</div>
-                    <div class="fs-2 fw-bold">79%</div>
+                    <div class="fs-2 fw-bold">TODO: 79%</div>
                 </div>
             </div>
         </div>
@@ -67,41 +72,19 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Haley Wright</td>
-                                <td>18</td>
-                                <td>82%</td>
-                                <td class="text-end">
-                                    <div class="btn-group btn-group-sm">
-                                        <button class="btn btn-outline-secondary">Edit</button>
-                                        <button class="btn btn-outline-secondary">Deactivate</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Chris Taylor</td>
-                                <td>14</td>
-                                <td>76%</td>
-                                <td class="text-end">
-                                    <div class="btn-group btn-group-sm">
-                                        <button class="btn btn-outline-secondary">Edit</button>
-                                        <button class="btn btn-outline-secondary">Deactivate</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Avery Lee</td>
-                                <td>9</td>
-                                <td>71%</td>
-                                <td class="text-end">
-                                    <div class="btn-group btn-group-sm">
-                                        <button class="btn btn-outline-secondary" data-bs-toggle="modal"
-                                            data-bs-target="#transferModal">
-                                            Transfer Students
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
+                            <% cfis.forEach(cfi => { %>
+                                <tr>
+                                    <td><%= cfi.firstName %> <%= cfi.lastName %></td>
+                                    <td><%= students.filter(s => s.cfiId === cfi.id).length %></td>
+                                    <td>TODO</td>
+                                    <td class="text-end">
+                                        <div class="btn-group btn-group-sm">
+                                            <button class="btn btn-outline-secondary">Edit</button>
+                                            <button class="btn btn-outline-secondary">Deactivate</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }) %>
                         </tbody>
                     </table>
                 </div>
