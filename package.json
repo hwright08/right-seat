@@ -10,9 +10,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon app.js",
     "start": "node app.js",
-    "build:css": "sass ./scss/custom.scss ./public/css/custom.css",
-    "watch:css": "sass --watch ./scss/custom.scss ./public/css/custom.css",
-    "init-db": "node ./utils/db-init"
+    "init-db": "node ./utils/db-init",
+    "generate-docs": "jsdoc -c jsdocs.config.json ."
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
@@ -23,11 +22,13 @@
     "express-ejs-layouts": "^2.5.1",
     "express-validator": "^7.2.1",
     "jsonwebtoken": "^9.0.2",
-    "morgan": "^1.10.1",
     "mysql2": "^3.15.0",
     "sequelize": "^6.37.7"
   },
   "devDependencies": {
+    "docdash": "^2.0.2",
+    "jsdoc": "^4.0.4",
+    "morgan": "^1.10.1",
     "nodemon": "^3.1.10",
     "sass": "^1.92.1"
   }

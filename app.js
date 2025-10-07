@@ -7,7 +7,8 @@ const expressLayouts = require('express-ejs-layouts');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 
-const { auth } = require('./controllers/auth');
+const { auth } = require('./middleware/auth');
+const { validate } = require('./middleware/validate');
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use(expressLayouts);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan('dev'))
+app.use(validate);
 
 // Setup sequelize associations
 associations();
@@ -35,19 +37,6 @@ const publicRoutes = require('./routes/public.route');
 const dashboardRoutes = require('./routes/dashboard.route');
 
 app.use('/', publicRoutes);
-app.use('/dashboard', auth, dashboardRoutes)
-
-// app.get('/dashboard', (req, res) => {
-//   res.render('cfi/dashboard', {});
-// });
-
-// app.get('/dashboard/student', (req, res) => {
-//   res.render('student-dashboard', {});
-// });
-
-// app.get('/admin', (req, res) => {
-//   res.render('local-admin', {});
-// });
-
+app.use('/dashboard', auth, dashboardRoutes);
 
 app.listen(3000);

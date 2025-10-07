@@ -1,0 +1,16 @@
+{
+  "plugins": [],
+  "source": {
+    "exclude": ["node_modules", ".vscode"],
+    "includePattern": ".+\\.js(doc|x)?$"
+  },
+  "tags": {
+    "allowUnknownTags": true
+  },
+  "opts": {
+    "recurse": true,
+    "encoding": "utf8",
+    "destination": "./out",
+    "template": "node_modules/docdash"
+  }
+}

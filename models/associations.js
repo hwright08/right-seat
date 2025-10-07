@@ -2,31 +2,38 @@ const models = require('./index');
 
 module.exports = () => {
   // User / Privilege Relationship
-  models.privilege.hasMany(models.user);
-  models.user.belongsTo(models.privilege);
+  models.privilege.hasMany(models.user, { allowNull: false });
+  models.user.belongsTo(models.privilege, { allowNull: false });
 
   // User / Entity Relationship
-  models.entity.hasMany(models.user);
-  models.user.belongsTo(models.entity);
+  models.entity.hasMany(models.user, { allowNull: false });
+  models.user.belongsTo(models.entity, { allowNull: false });
 
   // Subscription / Feature Relationship
   models.subscription.hasMany(models.subscriptionFeature, {
     as: 'features',
     onDelete: 'CASCADE',
+    allowNull: false
   });
-  models.subscriptionFeature.belongsTo(models.subscription);
+  models.subscriptionFeature.belongsTo(models.subscription, { allowNull: false });
 
   // Entity / Subscription Relationship
-  models.subscription.hasMany(models.entity);
-  models.entity.belongsTo(models.subscription);
+  models.subscription.hasMany(models.entity, { allowNull: false });
+  models.entity.belongsTo(models.subscription, { allowNull: false });
 
-  // Student to CFI Relationship
+  // Student / CFI Relationship
   models.user.hasMany(models.user, {
     as: 'students',
     foreignKey: 'cfiId',
+    allowNull: false
   });
   models.user.belongsTo(models.user, {
     as: 'cfi',
     foreignKey: 'cfiId',
+    allowNull: false
   });
+
+  // User / Rating Relationship
+  models.rating.belongsToMany(models.user, { through: 'UserRating' });
+  models.user.belongsToMany(models.rating, { through: 'UserRating' });
 }

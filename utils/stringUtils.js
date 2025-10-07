@@ -1,3 +1,5 @@
+/** @module utils/string */
+
 /**
  * Capitalize the first letter of a string
  * @param {string} str - A string that we want to capitalize the first letter for

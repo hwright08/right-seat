@@ -1,21 +1,29 @@
+/** @module controllers/public */
+
 const { validationResult } = require('express-validator');
 
 const tx = require('../utils/tx');
 const models = require('../models');
 const { hashPassword, verifyPassword, generateAccessJWT } = require('../utils/authUtil');
+const subscriptionController = require('./subscription');
+const entityController = require('./entity');
+const userController = require('./user');
 
 const LAYOUT = '_layouts/public';
 
+// ----------------------------------
+// RENDER VIEWS
+// ----------------------------------
+
+/** Render the Index Page */
 exports.getIndexPage = async (req, res) => {
   try {
-    const subscriptions = await models.subscription.findAll({
-      include: [{
-        model: models.subscriptionFeature,
-        as: 'features',
-        attributes: ['id', 'feature'],
-      }],
+    // Get the available subscriptions
+    const subscriptions = await subscriptionController.getSubscriptions({
+      includeFeatures: true,
     });
 
+    // Render the view
     res.render('public/index', {
       layout: LAYOUT,
       pageTitle: 'Flight Training Management',
@@ -30,23 +38,19 @@ exports.getIndexPage = async (req, res) => {
   }
 }
 
-
+/** Render the Sign up page */
 exports.getSignUpPage = async (req, res) => {
   try {
-    const subscriptions = await models.subscription.findAll({
-      include: [{
-        model: models.subscriptionFeature,
-        as: 'features',
-        attributes: ['id', 'feature']
-      }],
-    });
+    // Get the available subscriptions
+    const subscriptions = await subscriptionController.getSubscriptions();
 
+    // render the view
     res.render('public/sign-up', {
       layout: LAYOUT,
       pageTitle: 'Sign Up',
       path: '/sign-up',
       subscriptions: subscriptions.filter(sub => sub.key != 'enterprise'),
-      errors: res.locals.errors ?? [],
+      errors: res.locals.errors,
     });
   } catch (err) {
     console.error(err);
@@ -54,56 +58,7 @@ exports.getSignUpPage = async (req, res) => {
   }
 }
 
-
-exports.postSignUp = async (req, res) => {
-  // Handle validation errors
-  const { errors } = validationResult(req);
-  if (!errors || errors.length) {
-    res.locals.errors = errors;
-    return await this.getSignUpPage(req, res);
-  }
-
-  // Grab data from the body
-  const { orgName, orgPhone, subscription, firstName, lastName, email, password } = req.body;
-
-  // Create the entity and associated user
-  try {
-    await tx(async t => {
-      // Get the admin privilege
-      const { id: privilegeId } = (await models.privilege.findAll({
-        where: { name: 'admin' },
-        transaction: t,
-      }))[0];
-
-      // Create the entity and users
-      await models.entity.create(
-        {
-          name: !!orgName ? orgName : `${firstName} ${lastName}`,
-          phone: orgPhone,
-          subscriptionId: parseInt(subscription),
-          users: [{
-            firstName,
-            lastName,
-            email,
-            passwrd: await hashPassword(password),
-            privilegeId,
-          }]
-        },
-        {
-          transaction: t,
-          include: [{ model: models.user }],
-        },
-      );
-    });
-  } catch (err) {
-    console.error(err);
-    return res.status(500).send('Error signing up: ' + err);
-  }
-
-  res.redirect('/dashboard');
-}
-
-
+/** Render the Login Page */
 exports.getLoginPage = (req, res) => {
   res.render('public/login', {
     layout: LAYOUT,
@@ -113,49 +68,7 @@ exports.getLoginPage = (req, res) => {
   });
 }
 
-
-exports.postLogin = async (req, res) => {
-  // Handle validation errors
-  const { errors } = validationResult(req);
-  if (!errors || errors.length) {
-    res.locals.errors = errors;
-    return await this.getLoginPage(req, res);
-  }
-
-  // Login
-  try {
-    const users = await models.user.findAll({
-      where: {
-        email: req.body.email
-      }
-    });
-
-    if (users.length) {
-      const user = users[0];
-      const passwordMatched = await verifyPassword(user.passwrd, req.body.password);
-      if (passwordMatched) {
-        const options = {
-          maxAge: 60 * 60 * 1000, // 1 hour
-          httpOnly: true,
-          secure: false,
-          sameSite: 'lax',
-          path: '/'
-        };
-        const token = generateAccessJWT(user.id);
-        res.cookie('SessionId', token, options);
-        return res.redirect('/dashboard');
-      }
-    }
-
-    res.locals.errors = [{ msg: 'Invalid email or password' }];
-    return this.getLoginPage(req, res);
-
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Error logging in: ' + err);
-  }
-}
-
+/** Render the Contact Page */
 exports.getContactPage = (req, res) => {
   res.render('public/contact', {
     layout: LAYOUT,
@@ -166,11 +79,81 @@ exports.getContactPage = (req, res) => {
 }
 
 
+// ----------------------------------
+// CREATE/UPDATES
+// ----------------------------------
+
+/** Sign up a user */
+exports.postSignUp = async (req, res) => {
+  // Handle validation errors
+  if (res.locals.errors.length) {
+    return await this.getSignUpPage(req, res);
+  }
+
+  try {
+    // Create the entity and associated user
+    await entityController.createNewEntity({ ...req.body, privilegeId });
+
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send('Error signing up: ' + err);
+  }
+
+  // Redirect to the working application
+  res.redirect('/dashboard');
+}
+
+/** Login a user */
+exports.postLogin = async (req, res) => {
+  // Handle validation errors
+  if (res.locals.errors.length) {
+    return await this.getLoginPage(req, res);
+  }
+
+  try {
+    // Find a user with the provided email
+    const user = await userController.getUser({ email: req.body.email });
+
+    // If no user, send an error message back
+    if (!user) {
+      res.locals.errors = [{ msg: 'Invalid email or password' }];
+      return this.getLoginPage(req, res);
+    }
+
+    // Check that the password matches
+    const passwordMatched = await verifyPassword(user.passwrd, req.body.password);
+    console.log(passwordMatched);
+
+    // If password doesn't match, return an error
+    if (!passwordMatched) {
+      res.locals.errors = [{ msg: 'Invalid email or password' }];
+      return this.getLoginPage(req, res);
+    }
+
+    // Create a cookie for the logged in session
+    const options = {
+      maxAge: process.env.TOKEN_EXPIRE_TIME,
+      httpOnly: true,
+      secure: false,
+      sameSite: 'lax',
+      path: '/'
+    };
+    const token = generateAccessJWT(user.id);
+    res.cookie('SessionId', token, options);
+
+    // Navigate to the user's dashboard
+    return res.redirect('/dashboard');
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error logging in: ' + err);
+  }
+}
+
+/** Save a "Contact Us" message */
 exports.postContactMessage = async (req, res) => {
   // Handle validation errors
-  const { errors } = validationResult(req);
-  if (!errors || errors.length) {
-    res.locals.errors = errors;
+  if (res.locals.errors.length) {
     return await this.getContactPage(req, res);
   }
 

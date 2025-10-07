@@ -50,15 +50,17 @@
                 <div class="card-header bg-white d-flex justify-content-between align-items-center">
                     <strong>CFIs</strong>
                     <div class="d-flex gap-2">
-                        <button class="btn btn-sm btn-outline-secondary text-nowrap" data-bs-toggle="modal"
-                            data-bs-target="#addCFIModal">
+                        <form class="input-group input-group-sm" style="max-width:240px" method="GET" action="/dashboard/<%= entityId %>">
+                            <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                            <input class="form-control" name="cfi" placeholder="Search CFIs…" id="cfiSearch">
+                            <button class="btn btn-sm btn-outline-secondary text-nowrap" type="submit">
+                                Search
+                            </button>
+                        </form>
+                        <button class="btn btn-sm btn-outline-secondary text-nowrap" data-bs-toggle="modal" data-bs-target="#addCFIModal">
                             <i class="bi bi-person-plus me-2"></i>
                             Add CFI
                         </button>
-                        <div class="input-group input-group-sm" style="max-width:240px">
-                            <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
-                            <input class="form-control" placeholder="Search CFIs…">
-                        </div>
                     </div>
                 </div>
                 <div class="card-body">
@@ -79,8 +81,7 @@
                                     <td>TODO</td>
                                     <td class="text-end">
                                         <div class="btn-group btn-group-sm">
-                                            <button class="btn btn-outline-secondary">Edit</button>
-                                            <button class="btn btn-outline-secondary">Deactivate</button>
+                                            <a href="/dashboard/<%= entityId %>/cfi/<%= cfi.id %>" class="btn btn-outline-secondary">Manage</a>
                                         </div>
                                     </td>
                                 </tr>
@@ -104,7 +105,7 @@
                         </button>
                         <div class="input-group input-group-sm" style="max-width:240px">
                             <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
-                            <input class="form-control" placeholder="Search students…">
+                            <input class="form-control" placeholder="Search students…" id="studentSearch" name="student">
                         </div>
                     </div>
                 </div>
@@ -213,30 +214,35 @@
 <!-- Modals -->
 <div class="modal fade" id="addCFIModal" tabindex="-1">
     <div class="modal-dialog">
-        <form class="modal-content">
+        <form class="modal-content" method="POST" action="/dashboard/<%= entityId %>/cfi">
             <div class="modal-header">
                 <h5 class="modal-title">Add CFI</h5>
                 <button class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body row g-3">
                 <div class="col-md-6">
-                    <label class="form-label">First Name</label>
-                    <input class="form-control">
+                    <label class="form-label" for="firstName">First Name</label>
+                    <input class="form-control" id="firstName" name="firstName">
                 </div>
                 <div class="col-md-6">
-                    <label class="form-label">Last Name</label>
-                    <input class="form-control">
+                    <label class="form-label" for="lastName">Last Name</label>
+                    <input class="form-control" id="lastName" name="lastName">
                 </div>
                 <div class="col-md-12">
-                    <label class="form-label">Email</label>
-                    <input type="email" class="form-control">
+                    <label class="form-label" for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email">
                 </div>
+                <div class="form-check col-md-12 ms-2">
+                    <label class="form-check-label" for="hasGoldSeal">Gold Seal eligible</label>
+                    <input class="form-check-input" id="hasGoldSeal" type="checkbox">
+                </div>
+                <input type="hidden" value="3" name="privilegeId" />
             </div>
             <div class="modal-footer">
                 <button class="btn btn-outline-secondary" data-bs-dismiss="modal" type="button">
                     Cancel
                 </button>
-                <button class="btn btn-rs" type="button">Add</button>
+                <button class="btn btn-rs" type="submit">Add</button>
             </div>
         </form>
     </div>
@@ -341,3 +347,21 @@
         </form>
     </div>
 </div>
+
+<script>
+       document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const cfiSearch = urlParams.get('cfi');
+            const studentSearch = urlParams.get('student');
+
+            if (cfiSearch) {
+                const cfiInput = document.getElementById('cfiSearch');
+                cfiInput.value = cfiSearch;
+            }
+
+            if (studentSearch) {
+                const studentInput = document.getElementById('studentSearch');
+                studentInput.value = studentSearch;
+            }
+        })
+</script>

@@ -27,6 +27,11 @@ const User = db.define('user', {
   inactiveDate: {
     type: DataTypes.DATE,
     allowNull: true,
+  },
+  hasGoldSeal: {
+    type: DataTypes.BOOLEAN,
+    default: false,
+    allowNull: false,
   }
 });
 

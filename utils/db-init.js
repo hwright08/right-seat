@@ -7,6 +7,8 @@ const { hashPassword } = require('./authUtil');
 const models = require('../models');
 const associations =  require('../models/associations');
 
+console.log(models);
+
 async function main() {
   console.log('Establishing associations...');
   // Establish the model relationships/associations
@@ -15,6 +17,17 @@ async function main() {
   try {
     console.log('Force sync the database...');
     await db.sync({ force: true });
+
+    // Initialize Ratings
+    console.log('Initialize Ratings...');
+    await models.rating.bulkCreate([
+      { label: 'Private' },
+      { label: 'Commercial' },
+      { label: 'Instrument' },
+      { label: 'CFI' },
+      { label: 'CFII' },
+      { label: 'ATP' },
+    ]);
 
     // Initialize privileges
     console.log('Initialize Privileges...');
