@@ -32,6 +32,9 @@ const Subscription = db.define('subscription', {
   price: {
     type: DataTypes.DECIMAL,
     allowNull: true,
+    validate: {
+      isFloat: true,
+    }
   },
   requireSales: {
     type: DataTypes.BOOLEAN,

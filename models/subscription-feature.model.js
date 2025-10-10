@@ -11,6 +11,9 @@ const SubscriptionFeature = db.define('subscriptionFeature', {
   feature: {
     type: DataTypes.STRING,
     allowNull: false,
+    validate: {
+      len: [1]
+    }
   },
 });
 

@@ -11,6 +11,9 @@ const Privilege = db.define('privilege', {
   name: {
     type: DataTypes.STRING,
     allowNull: false,
+    validate: {
+      len: [1]
+    }
   },
 });
 

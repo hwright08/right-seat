@@ -11,6 +11,9 @@ const Entity = db.define('entity', {
   name: {
     type: DataTypes.STRING,
     allowNull: false,
+    validate: {
+      len: [1]
+    }
   },
   phone: {
     type: DataTypes.STRING,
@@ -19,6 +22,9 @@ const Entity = db.define('entity', {
   inactiveDate: {
     type: DataTypes.DATE,
     allowNull: true,
+    validate: {
+      isDate: true
+    }
   },
 });
 

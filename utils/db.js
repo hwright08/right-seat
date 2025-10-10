@@ -20,11 +20,13 @@ db.addHook('beforeValidate', (instance) => {
   const attributes = instance.constructor.rawAttributes;
 
   for (const [fieldName, fieldDefinition] of Object.entries(attributes)) {
-  const value = instance.getDataValue(fieldName);
+    const value = instance.getDataValue(fieldName);
     const type = fieldDefinition.type.key;
 
     if (['STRING', 'TEXT'].includes(type) && typeof value === 'string') {
-      instance.setDataValue(fieldName, value.trim());
+      const trimmedVal = value?.trim();
+      if (trimmedVal === '') trimmedVal = null;
+      instance.setDataValue(fieldName, trimmedVal);
     }
   }
 });

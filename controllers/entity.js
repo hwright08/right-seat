@@ -1,6 +1,5 @@
 /** @module controllers/entity */
 
-const { validationResult } = require('express-validator');
 const { literal, Op } = require('sequelize');
 
 const models = require('../models');

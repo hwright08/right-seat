@@ -11,6 +11,9 @@ const Rating = db.define('rating', {
   label: {
     type: DataTypes.STRING,
     allowNull: false,
+    validate: {
+      len: [1]
+    }
   },
 });
 

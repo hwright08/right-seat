@@ -13,20 +13,14 @@ const User = db.define('user', {
     type: DataTypes.STRING,
     allowNull: false,
     validate: {
-      len: {
-        args: [1],
-        msg: 'First Name must at least be 1 character',
-      }
+      len: [1],
     }
   },
   lastName: {
     type: DataTypes.STRING,
     allowNull: false,
     validate: {
-      len: {
-        args: [1],
-        msg: 'Last Name must at least be 1 character',
-      }
+      len: [1],
     }
   },
   fullName: {
