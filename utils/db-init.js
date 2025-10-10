@@ -2,12 +2,8 @@
 require('dotenv').config({ quiet: true });
 
 const db = require('./db');
-const { hashPassword } = require('./authUtil');
-
 const models = require('../models');
 const associations =  require('../models/associations');
-
-console.log(models);
 
 async function main() {
   console.log('Establishing associations...');
@@ -105,21 +101,6 @@ async function main() {
         phone: null,
         subscriptionId: 4
       },
-      {
-        name: 'Test Flight School',
-        phone: null,
-        subscriptionId: 3
-      },
-      {
-        name: 'Test CFI',
-        phone: null,
-        subscriptionId: 2
-      },
-      {
-        name: 'Free Trial',
-        phone: null,
-        subscriptionId: 1
-      },
     ]);
 
     // Create test users and the global admin account
@@ -127,58 +108,13 @@ async function main() {
     await models.user.bulkCreate([
       // Global Admins
       {
-        firstName: 'admin',
-        lastName: 'admin',
+        firstName: 'Global',
+        lastName: 'Admin',
         email: 'admin@example.com',
-        passwrd: await hashPassword('globalAdmin'),
         privilegeId: 1,
         entityId: 1
       },
-      // Local Admins
-      {
-        firstName: 'Test',
-        lastName: 'Flight School',
-        email: 'admin.flightschool@example.com',
-        passwrd: await hashPassword('localAdmin'),
-        privilegeId: 2,
-        entityId: 2
-      },
-      // CFIs
-      {
-        firstName: 'Test',
-        lastName: 'CFI1',
-        email: 'cfi1@example.com',
-        passwrd: await hashPassword('testcfi1'),
-        privilegeId: 3,
-        entityId: 2
-      },
-      {
-        firstName: 'Test',
-        lastName: 'CFI1',
-        email: 'cfi1@example.com',
-        passwrd: await hashPassword('testcfi1'),
-        privilegeId: 2,
-        entityId: 3
-      },
-      {
-        firstName: 'Test1',
-        lastName: 'Student',
-        email: 'student1@example.com',
-        passwrd: await hashPassword('student1'),
-        privilegeId: 4,
-        entityId: 2,
-        cfiId: 3
-      },
-      {
-        firstName: 'Test2',
-        lastName: 'Student',
-        email: 'student2@example.com',
-        passwrd: await hashPassword('student2'),
-        privilegeId: 4,
-        entityId: 3,
-        cfiId: 4
-      },
-    ]);
+    ], { individualHooks: true, validate: true });
 
     console.log('DB Initialized!!!');
   } catch (err) {

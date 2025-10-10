@@ -1,7 +1,6 @@
 /** @module controllers/user */
 
 const models = require('../models');
-const { hashPassword } = require('../utils/authUtil');
 const { getDashboardPage } = require('./entity');
 
 // ----------------------------------
@@ -33,7 +32,6 @@ exports.createUser = async (req, res) => {
   const data = {
     ...req.body,
     ...req.params,
-    passwrd: await hashPassword(req.body.firstName + req.body.lastName)
   };
 
   const user = await models.user.create(data);

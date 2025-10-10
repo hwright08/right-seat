@@ -50,7 +50,7 @@ router.post('/sign-up',
     body('firstName').trim().notEmpty().withMessage('First Name is required').isString(),
     body('lastName').trim().notEmpty().withMessage('Last Name is required').isString(),
     body('email').trim().isEmail(),
-    body('password').trim().isLength({ min: 8 }).withMessage('Password must be at least 8 characters'),
+    body('password').trim().customSanitizer(emptyStringToNull).optional({ nullable: true }).isLength({ min: 8 }).isString().withMessage('Password must be at least 8 characters'),
   ],
   publicController.postSignUp
 );

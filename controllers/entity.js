@@ -4,7 +4,6 @@ const { validationResult } = require('express-validator');
 const { literal, Op } = require('sequelize');
 
 const models = require('../models');
-const { hashPassword } = require('../utils/authUtil');
 
 // ----------------------------------
 // LOGIC
@@ -40,7 +39,6 @@ exports.createNewEntity = async (data) => {
         firstName,
         lastName,
         email,
-        passwrd: await hashPassword(password),
         privilegeId: 2,
       }],
     }, {

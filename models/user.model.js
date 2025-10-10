@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const db = require('../utils/db');
+const { hashPassword } = require('../utils/authUtil');
 
 const User = db.define('user', {
   id: {
@@ -11,27 +12,79 @@ const User = db.define('user', {
   firstName: {
     type: DataTypes.STRING,
     allowNull: false,
+    validate: {
+      len: {
+        args: [1],
+        msg: 'First Name must at least be 1 character',
+      }
+    }
   },
   lastName: {
     type: DataTypes.STRING,
     allowNull: false,
+    validate: {
+      len: {
+        args: [1],
+        msg: 'Last Name must at least be 1 character',
+      }
+    }
+  },
+  fullName: {
+    type: DataTypes.VIRTUAL,
+    get() {
+      return `${this.firstName} ${this.lastName}`;
+    }
   },
   email: {
     type: DataTypes.STRING,
     allowNull: false,
+    unique: true,
+    validate: {
+      isEmail: true,
+    }
   },
   passwrd: {
     type: DataTypes.TEXT,
     allowNull: false,
+    validate: {
+      len: {
+        args: [8],
+        msg: 'Password must be at least 8 characters'
+      }
+    }
   },
   inactiveDate: {
     type: DataTypes.DATE,
     allowNull: true,
+    validate: {
+      isDate: true
+    }
   },
   hasGoldSeal: {
     type: DataTypes.BOOLEAN,
-    default: false,
+    defaultValue: false,
     allowNull: false,
+  }
+});
+
+// Assign a default password before we validate to avoid not null errors
+User.beforeValidate((user) => {
+  // Trim strings before we start to validate
+  user.dataValues.forEach(key => {
+    if (typeof user.dataValues[key] === 'string') {
+      user.dataValues[key] = user.dataValues[key].trim();
+    }
+  });
+
+  if (!user.passwrd) {
+    user.passwrd = user.firstName + user.lastName;
+  }
+});
+
+// Default a password if needed
+User.beforeSave(async (user) => {
+  if (user.isNewRecord || user.changed('passwrd')) {
+    user.passwrd = await hashPassword(user.passwrd);
   }
 });
 

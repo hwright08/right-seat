@@ -33,7 +33,7 @@ router.get('/',
 
 // POST => /dashboard/:entityId/cfi
 // Create a new CFI
-router.post('/:entityId/cfi',
+router.post('/:entityId/user',
   [
     param('entityId').isInt().toInt(),
     body('firstName').trim().isLength({ min: 1 }).isString(),
@@ -41,6 +41,7 @@ router.post('/:entityId/cfi',
     body('hasGoldSeal').isBoolean().toBoolean(),
     body('email').trim().isEmail(),
     body('privilegeId').isInt().toInt(),
+    body('syllabusId').isInt().optional({ nullable: true }).toInt(),
   ],
   userController.createUser
 );

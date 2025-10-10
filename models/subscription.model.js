@@ -11,14 +11,23 @@ const Subscription = db.define('subscription', {
   key: {
     type: DataTypes.STRING,
     allowNull: false,
+    validate: {
+      len: [1],
+    }
   },
   label: {
     type: DataTypes.STRING,
     allowNull: false,
+    validate: {
+      len: [1],
+    }
   },
   summary: {
     type: DataTypes.STRING,
     allowNull: true,
+    validate: {
+      len: [1],
+    }
   },
   price: {
     type: DataTypes.DECIMAL,

@@ -114,45 +114,37 @@
                         <thead class="small text-secondary">
                             <tr>
                                 <th>Student</th>
-                                <th>Rating</th>
+                                <th>Syllabus</th>
                                 <th>CFI</th>
                                 <th>Progress</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Emily Davis</td>
-                                <td>Instrument</td>
-                                <td>H. Wright</td>
-                                <td style="width:180px">
-                                    <div class="progress small">
-                                        <div class="progress-bar bg-success" style="width:40%"></div>
+                            <% students.forEach(student => { %>
+                                <tr>
+                                    <td>
+                                        <%= student.fullName %>
+                                    </td>
+                                    <td>
+                                        <!-- Rating -->
+                                    </td>
+                                    <td>
+                                        <!-- CFI -->
+                                    </td>
+                                    <td style="width:180px">
+                                        <!-- Progress -->
+                                        <!-- <div class="progress small">
+                                            <div class="progress-bar bg-success" style="width:40%"></div>
+                                        </div> -->
+                                    </td>
+                                    <td class="text-end">
+                                        <div class="btn-group btn-group-sm">
+                                        <button class="btn btn-outline-secondary">Manage</button>
                                     </div>
-                                </td>
-                                <td class="text-end">
-                                    <div class="btn-group btn-group-sm">
-                                        <button class="btn btn-outline-secondary">View</button>
-                                        <button class="btn btn-outline-secondary">Edit</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>John Smith</td>
-                                <td>Private</td>
-                                <td>H. Wright</td>
-                                <td>
-                                    <div class="progress small">
-                                        <div class="progress-bar bg-success" style="width:80%"></div>
-                                    </div>
-                                </td>
-                                <td class="text-end">
-                                    <div class="btn-group btn-group-sm">
-                                        <button class="btn btn-outline-secondary">View</button>
-                                        <button class="btn btn-outline-secondary">Edit</button>
-                                    </div>
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
+                            <% }) %>
                         </tbody>
                     </table>
                 </div>
@@ -214,7 +206,7 @@
 <!-- Modals -->
 <div class="modal fade" id="addCFIModal" tabindex="-1">
     <div class="modal-dialog">
-        <form class="modal-content" method="POST" action="/dashboard/<%= entityId %>/cfi">
+        <form class="modal-content" method="POST" action="/dashboard/<%= entityId %>/user">
             <div class="modal-header">
                 <h5 class="modal-title">Add CFI</h5>
                 <button class="btn-close" data-bs-dismiss="modal"></button>
@@ -233,7 +225,7 @@
                     <input type="email" class="form-control" id="email" name="email">
                 </div>
                 <div class="form-check col-md-12 ms-2">
-                    <label class="form-check-label" for="hasGoldSeal">Gold Seal eligible</label>
+                    <label class="form-check-label" for="hasGoldSeal">Has Gold Seal</label>
                     <input class="form-check-input" id="hasGoldSeal" type="checkbox">
                 </div>
                 <input type="hidden" value="3" name="privilegeId" />
@@ -289,39 +281,38 @@
 
 <div class="modal fade" id="enrollModal" tabindex="-1">
     <div class="modal-dialog">
-        <form class="modal-content">
+        <form class="modal-content" method="POST" action="/dashboard/<%= entityId %>/user">
             <div class="modal-header">
                 <h5 class="modal-title">Enroll Student</h5>
                 <button class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body row g-3">
                 <div class="col-md-6">
-                    <label class="form-label">Name</label>
-                    <input class="form-control">
+                    <label class="form-label" for="firstName">First Name</label>
+                    <input class="form-control" id="firstName" name="firstName">
                 </div>
                 <div class="col-md-6">
-                    <label class="form-label">Email</label>
-                    <input type="email" class="form-control">
+                    <label class="form-label" for="lastName">Last Name</label>
+                    <input class="form-control" id="lastName" name="lastName">
                 </div>
-                <div class="col-md-6">
-                    <label class="form-label">Assign CFI</label>
-                    <select class="form-select">
-                        <option>Haley Wright</option>
-                    </select>
+                <div class="col-md-12">
+                    <label class="form-label" for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email">
                 </div>
-                <div class="col-md-6">
+                <!-- TODO <div class="col-md-12">
                     <label class="form-label">Syllabus</label>
                     <select class="form-select">
                         <option>Private Pilot (61)</option>
                         <option>Instrument</option>
                     </select>
-                </div>
+                </div> -->
+                <input type="hidden" value="4" name="privilegeId" />
             </div>
             <div class="modal-footer">
                 <button class="btn btn-outline-secondary" data-bs-dismiss="modal" type="button">
                     Cancel
                 </button>
-                <button class="btn btn-rs" type="button">Enroll</button>
+                <button class="btn btn-rs" type="submit">Enroll</button>
             </div>
         </form>
     </div>

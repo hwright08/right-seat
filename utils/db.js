@@ -13,4 +13,20 @@ const db = new Sequelize(
   }
 );
 
+// Global hook to trim all string and text fields
+db.addHook('beforeValidate', (instance) => {
+  if (!instance?.constructor?.rawAttributes) return;
+
+  const attributes = instance.constructor.rawAttributes;
+
+  for (const [fieldName, fieldDefinition] of Object.entries(attributes)) {
+  const value = instance.getDataValue(fieldName);
+    const type = fieldDefinition.type.key;
+
+    if (['STRING', 'TEXT'].includes(type) && typeof value === 'string') {
+      instance.setDataValue(fieldName, value.trim());
+    }
+  }
+});
+
 module.exports = db;

@@ -2,9 +2,9 @@
 
 const { validationResult } = require('express-validator');
 
-const tx = require('../utils/tx');
+const tx = require('../utils/dbUtils');
 const models = require('../models');
-const { hashPassword, verifyPassword, generateAccessJWT } = require('../utils/authUtil');
+const { verifyPassword, generateAccessJWT } = require('../utils/authUtil');
 const subscriptionController = require('./subscription');
 const entityController = require('./entity');
 const userController = require('./user');
@@ -92,7 +92,7 @@ exports.postSignUp = async (req, res) => {
 
   try {
     // Create the entity and associated user
-    await entityController.createNewEntity({ ...req.body, privilegeId });
+    await entityController.createNewEntity({ ...req.body, privilegeId: 2 }); // Will always be an admin through this route
 
   } catch (err) {
     console.error(err);
