@@ -12,7 +12,13 @@ const Entity = db.define('entity', {
     type: DataTypes.STRING,
     allowNull: false,
     validate: {
-      len: [1]
+      notNull: {
+        msg: 'Entity name cannot be empty'
+      },
+      len: {
+        args: [1],
+        msg: 'Entity name cannot be empty',
+      }
     }
   },
   phone: {
@@ -23,7 +29,10 @@ const Entity = db.define('entity', {
     type: DataTypes.DATE,
     allowNull: true,
     validate: {
-      isDate: true
+      isDate: {
+        args: true,
+        msg: 'Inactive date is invalid',
+      }
     }
   },
 });

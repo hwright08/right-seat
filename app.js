@@ -8,7 +8,6 @@ const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 
 const { auth } = require('./middleware/auth');
-const { validate } = require('./middleware/validate');
 
 const app = express();
 
@@ -27,7 +26,12 @@ app.use(expressLayouts);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan('dev'))
-app.use(validate);
+app.use((req, res, next) => {
+  res.locals.message = '';
+  res.locals.data = {};
+  res.locals.errors = [];
+  next();
+});
 
 // Setup sequelize associations
 associations();
@@ -37,6 +41,7 @@ const publicRoutes = require('./routes/public.route');
 const dashboardRoutes = require('./routes/dashboard.route');
 
 app.use('/', publicRoutes);
+
 app.use('/dashboard', auth, dashboardRoutes);
 
 app.listen(3000);

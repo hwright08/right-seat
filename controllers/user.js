@@ -23,13 +23,7 @@ exports.getUser = async (options = {}) => {
 
 /** Create a new user */
 exports.createUser = async (req, res) => {
-  // Handle validation errors
-  if (res.locals.errors.length) {
-    return await getDashboardPage(req, res);
-  }
-  console.log(req.body);
-
-  const data = {
+    const data = {
     ...req.body,
     ...req.params,
   };

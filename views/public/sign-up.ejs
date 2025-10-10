@@ -17,6 +17,8 @@
     </div>
 </header>
 
+<%- include('../_partials/errorAlert') %>
+
 <main class="container py-4">
     <div class="row g-4">
         <!-- Content: Wizard -->
@@ -25,6 +27,10 @@
                 <div class="card-body">
                     <!-- Step 1: Subscription -->
                     <div class="form-step active" data-step="1">
+                        <div class="small text-danger">
+                            <% fieldError = errors.find(err => err.path === 'subscriptionId') %>
+                            <%= fieldError?.message  %>
+                        </div>
                         <h2 class="h5 fw-bold mb-3">
                             Choose your subscription
                         </h2>
@@ -33,7 +39,7 @@
                                 <div class="col-md-12">
                                     <label class="form-check border rounded p-3 h-100">
                                         <input class="form-check-input me-2" type="radio" name="subscription"
-                                            value="<%= sub.id  %>" <% if (sub.key==='trial' )
+                                            value="<%= sub.id  %>" <% if (data.subscription ? sub.id == data.subscription : sub.key === 'trial' )
                                             { %> checked <% } %> />
                                             <span class="fw-semibold d-block">
                                                 <%= sub.label %> (<%= sub.price != '0' ? `$${sub.price}/month` : 'FREE' %>)
@@ -63,12 +69,20 @@
                                 <div class="col-md-6">
                                     <label class="form-label" for="orgName">Organization name</label>
                                     <input id="orgName" class="form-control" name="orgName"
-                                        placeholder="e.g., Skyline Flight Center" />
+                                        placeholder="e.g., Skyline Flight Center" value="<%= data.orgName %>" />
+                                    <div class="small text-danger">
+                                        <% fieldError=errors.find(err=> err.path === 'name') %>
+                                            <%= fieldError?.message %>
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label" for="orgPhone">School phone</label>
                                     <input id="orgPhone" class="form-control" name="orgPhone"
-                                        placeholder="(555) 123-4567" />
+                                        placeholder="(555) 123-4567" value="<%= data.orgPhone %>"/>
+                                    <div class="small text-danger">
+                                        <% fieldError=errors.find(err=> err.path === 'phone') %>
+                                            <%= fieldError?.message %>
+                                    </div>
                                 </div>
                             </div>
                             <hr />
@@ -78,20 +92,35 @@
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label">First name</label>
-                                <input class="form-control" name="firstName" required />
+                                <input class="form-control" name="firstName" required value="<%= data.firstName %>"/>
+                                <div class="small text-danger">
+                                    <% fieldError=errors.find(err=> err.path === 'firstName') %>
+                                        <%= fieldError?.message %>
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Last name</label>
-                                <input class="form-control" name="lastName" required />
+                                <input class="form-control" name="lastName" required value="<%= data.lastName %>"/>
+                                <div class="small text-danger">
+                                    <% fieldError=errors.find(err=> err.path === 'lastName') %>
+                                        <%= fieldError?.message %>
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Work email</label>
-                                <input type="email" class="form-control" name="email" required />
+                                <input type="email" class="form-control" name="email" required value="<%= data.email %>"/>
+                                <div class="small text-danger">
+                                    <% fieldError=errors.find(err=> err.path === 'email') %>
+                                        <%= fieldError?.message %>
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Password</label>
-                                <input type="password" class="form-control" name="password" minlength="8"
-                                    placeholder="At least 8 characters" required />
+                                <input type="password" class="form-control" name="password" minlength="8" placeholder="At least 8 characters" required />
+                                <div class="small text-danger">
+                                    <% fieldError=errors.find(err=> err.path === 'passwrd') %>
+                                        <%= fieldError?.message %>
+                                </div>
                             </div>
                         </div>
 

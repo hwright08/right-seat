@@ -21,10 +21,10 @@ db.addHook('beforeValidate', (instance) => {
 
   for (const [fieldName, fieldDefinition] of Object.entries(attributes)) {
     const value = instance.getDataValue(fieldName);
-    const type = fieldDefinition.type.key;
+    const type = fieldDefinition?.type?.key;
 
-    if (['STRING', 'TEXT'].includes(type) && typeof value === 'string') {
-      const trimmedVal = value?.trim();
+    if (typeof value === 'string' && ['STRING', 'TEXT'].includes(type)) {
+      let trimmedVal = value?.trim();
       if (trimmedVal === '') trimmedVal = null;
       instance.setDataValue(fieldName, trimmedVal);
     }

@@ -1,0 +1,20 @@
+
+<% // Set optional variables
+const message = locals.message || '';
+const errors = locals.errors || [];
+const data = locals.data || {};
+const fieldError = {};
+%>
+
+<% if (!!message) { %>
+  <div class="alert <%= errors?.length > 0 ? 'alert-danger' : 'alert-success' %> d-flex align-items-center gap-2 mt-3">
+    <%= message %>
+      <ul>
+        <% errors?.forEach(err=> { %>
+          <li>
+            <%= err.message %>
+          </li>
+          <% }) %>
+      </ul>
+  </div>
+  <% } %>

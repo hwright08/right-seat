@@ -13,14 +13,26 @@ const User = db.define('user', {
     type: DataTypes.STRING,
     allowNull: false,
     validate: {
-      len: [1],
+      notNull: {
+        msg: 'First Name cannot be empty'
+      },
+      len: {
+        args: [1],
+        msg: 'First Name cannot be empty',
+      }
     }
   },
   lastName: {
     type: DataTypes.STRING,
     allowNull: false,
     validate: {
-      len: [1],
+      notNull: {
+        msg: 'Last Name cannot be empty'
+      },
+      len: {
+        args: [1],
+        msg: 'Last Name cannot be empty',
+      }
     }
   },
   fullName: {
@@ -34,13 +46,21 @@ const User = db.define('user', {
     allowNull: false,
     unique: true,
     validate: {
-      isEmail: true,
+      notNull: {
+        msg: 'Email cannot be empty'
+      },
+      isEmail: {
+        msg: 'Invalid email',
+      }
     }
   },
   passwrd: {
     type: DataTypes.TEXT,
     allowNull: false,
     validate: {
+      notNull: {
+        msg: 'Password cannot be empty'
+      },
       len: {
         args: [8],
         msg: 'Password must be at least 8 characters'
@@ -51,7 +71,10 @@ const User = db.define('user', {
     type: DataTypes.DATE,
     allowNull: true,
     validate: {
-      isDate: true
+      isDate: {
+        args: true,
+        msg: 'Inactive date is invalid',
+      }
     }
   },
   hasGoldSeal: {
@@ -63,13 +86,6 @@ const User = db.define('user', {
 
 // Assign a default password before we validate to avoid not null errors
 User.beforeValidate((user) => {
-  // Trim strings before we start to validate
-  user.dataValues.forEach(key => {
-    if (typeof user.dataValues[key] === 'string') {
-      user.dataValues[key] = user.dataValues[key].trim();
-    }
-  });
-
   if (!user.passwrd) {
     user.passwrd = user.firstName + user.lastName;
   }

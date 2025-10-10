@@ -6,6 +6,8 @@
   </div>
 </header>
 
+<%- include('../_partials/errorAlert') %>
+
 <div class="row g-4">
   <!-- Sales Inquiry -->
   <div class="col-md-6">
@@ -19,19 +21,35 @@
           <input type="hidden" value="sales" name="type"/>
           <div class="mb-3">
             <label class="form-label" for="orgName">Organization</label>
-            <input id="orgName" class="form-control" placeholder="e.g., Skyline Flight Center" name="orgName">
+            <input id="orgName" class="form-control" placeholder="e.g., Skyline Flight Center" name="orgName" value="<%= data?.orgName %>">
+            <div class="small text-danger">
+              <% fieldError = errors.find(err => err.path === 'orgNameRequiredForSales') %>
+              <%= data?.type === 'sales' ? fieldError?.message : '' %>
+            </div>
           </div>
           <div class="mb-3">
             <label class="form-label" for="contactName">Name</label>
-            <input class="form-control" placeholder="Your name" id="contactName" name="contactName">
+            <input class="form-control" placeholder="Your name" id="contactName" name="contactName" value="<%= data?.contactName %>">
+            <div class="small text-danger">
+              <% fieldError=errors.find(err=> err.path === 'contactName') %>
+                <%= data?.type === 'sales' ? fieldError?.message : '' %>
+            </div>
           </div>
           <div class="mb-3">
             <label class="form-label" for="email">Email</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com">
+            <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" value="<%= data?.email %>">
+            <div class="small text-danger">
+              <% fieldError=errors.find(err=> err.path === 'email') %>
+                <%= data?.type === 'sales' ? fieldError?.message : '' %>
+            </div>
           </div>
           <div class="mb-3">
             <label class="form-label" for="message">Message</label>
-            <textarea class="form-control" rows="3" id="message" name="message" placeholder="Tell us about your organization..."></textarea>
+            <textarea class="form-control" rows="3" id="message" name="message" placeholder="Tell us about your organization..."><%= data?.message %></textarea>
+            <div class="small text-danger">
+              <% fieldError=errors.find(err=> err.path === 'message') %>
+                <%= data?.type === 'sales' ? fieldError?.message : '' %>
+            </div>
           </div>
           <button type="submit" class="btn btn-rs w-100">Contact Sales</button>
         </form>
@@ -48,15 +66,27 @@
           <input type="hidden" value="general" name="type" />
           <div class="mb-3">
             <label class="form-label" for="name">Name</label>
-            <input class="form-control" placeholder="Your name" id="name" name="contactName">
+            <input class="form-control" placeholder="Your name" id="name" name="contactName" value="<%= data?.contactName %>">
+            <div class="small text-danger">
+              <% fieldError=errors.find(err=> err.path === 'contactName') %>
+              <%= data?.type==='general' ? fieldError?.message : '' %>
+            </div>
           </div>
           <div class="mb-3">
             <label class="form-label" for="email">Email</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com">
+            <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" value="<%= data?.email %>">
+            <div class="small text-danger">
+              <% fieldError=errors.find(err=> err.path === 'email') %>
+              <%= data?.type==='general' ? fieldError?.message : '' %>
+            </div>
           </div>
           <div class="mb-3">
             <label class="form-label" for="message">How can we help?</label>
-            <textarea class="form-control" rows="3" id="message" name="message" placeholder="Describe your issue or question"></textarea>
+            <textarea class="form-control" rows="3" id="message" name="message" placeholder="Describe your issue or question"><%= data?.message %></textarea>
+            <div class="small text-danger">
+              <% fieldError=errors.find(err=> err.path === 'message') %>
+              <%= data?.type==='general' ? fieldError?.message : '' %>
+            </div>
           </div>
           <button type="submit" class="btn btn-outline-secondary w-100">Submit Request</button>
         </form>

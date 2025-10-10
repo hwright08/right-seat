@@ -1,8 +1,5 @@
 /** @module controllers/public */
 
-const { validationResult } = require('express-validator');
-
-const tx = require('../utils/dbUtils');
 const models = require('../models');
 const { verifyPassword, generateAccessJWT } = require('../utils/authUtil');
 const subscriptionController = require('./subscription');
@@ -17,45 +14,51 @@ const LAYOUT = '_layouts/public';
 
 /** Render the Index Page */
 exports.getIndexPage = async (req, res) => {
+  let subscriptions = [];
   try {
     // Get the available subscriptions
-    const subscriptions = await subscriptionController.getSubscriptions({
+    subscriptions = await subscriptionController.getSubscriptions({
       includeFeatures: true,
-    });
-
-    // Render the view
-    res.render('public/index', {
-      layout: LAYOUT,
-      pageTitle: 'Flight Training Management',
-      path: '/',
-      subscriptions,
-      errors: res.locals.errors ?? [],
     });
 
   } catch (err) {
     console.error(err);
-    res.status(500).send('Error loading subscriptions: ' + err);
+    res.locals.errors = err.errors;
+    res.locals.message = 'Failed to load subscriptions';
+    subscriptions = [];
   }
+
+  // Render the view
+  res.render('public/index', {
+    layout: LAYOUT,
+    pageTitle: 'Flight Training Management',
+    path: '/',
+    subscriptions,
+  });
 }
 
 /** Render the Sign up page */
 exports.getSignUpPage = async (req, res) => {
+  let subscriptions = [];
   try {
     // Get the available subscriptions
-    const subscriptions = await subscriptionController.getSubscriptions();
+    subscriptions = await subscriptionController.getSubscriptions();
 
-    // render the view
-    res.render('public/sign-up', {
-      layout: LAYOUT,
-      pageTitle: 'Sign Up',
-      path: '/sign-up',
-      subscriptions: subscriptions.filter(sub => sub.key != 'enterprise'),
-      errors: res.locals.errors,
-    });
   } catch (err) {
     console.error(err);
-    res.status(500).send('Error loading subscriptions: ' + err);
+    res.locals.errors = err.errors;
+    res.locals.message = 'Failed to load subscriptions';
+    subscriptions = [];
   }
+
+  // render the view
+  const subs = subscriptions.filter(sub => sub.key != 'enterprise');
+  res.render('public/sign-up', {
+    layout: LAYOUT,
+    pageTitle: 'Sign Up',
+    path: '/sign-up',
+    subscriptions: subs
+  });
 }
 
 /** Render the Login Page */
@@ -64,7 +67,6 @@ exports.getLoginPage = (req, res) => {
     layout: LAYOUT,
     pageTitle: 'Login',
     path: '/login',
-    errors: res.locals.errors ?? [],
   });
 }
 
@@ -74,7 +76,6 @@ exports.getContactPage = (req, res) => {
     layout: LAYOUT,
     pageTitle: 'Contact Us',
     path: '/contact',
-    errors: res.locals.errors ?? [],
   });
 }
 
@@ -85,48 +86,40 @@ exports.getContactPage = (req, res) => {
 
 /** Sign up a user */
 exports.postSignUp = async (req, res) => {
-  // Handle validation errors
-  if (res.locals.errors.length) {
-    return await this.getSignUpPage(req, res);
-  }
+  console.log(req.body);
 
   try {
     // Create the entity and associated user
-    await entityController.createNewEntity({ ...req.body, privilegeId: 2 }); // Will always be an admin through this route
+    // Will always be an admin through this path
+    await entityController.createNewEntity({ ...req.body, privilegeId: 2 });
 
+    // Sign the user in with the newly created account
+    return await this.postSignUp(req, res);
   } catch (err) {
     console.error(err);
-    return res.status(500).send('Error signing up: ' + err);
+    res.locals.message = `Invalid fields. Navigate through the form to see errors.`
+    res.locals.errors = err.errors;
+    res.locals.data = req.body;
+    return await this.getSignUpPage(req, res);
   }
-
-  // Redirect to the working application
-  res.redirect('/dashboard');
 }
 
 /** Login a user */
 exports.postLogin = async (req, res) => {
-  // Handle validation errors
-  if (res.locals.errors.length) {
-    return await this.getLoginPage(req, res);
-  }
-
   try {
     // Find a user with the provided email
     const user = await userController.getUser({ email: req.body.email });
 
     // If no user, send an error message back
     if (!user) {
-      res.locals.errors = [{ msg: 'Invalid email or password' }];
       return this.getLoginPage(req, res);
     }
 
     // Check that the password matches
     const passwordMatched = await verifyPassword(user.passwrd, req.body.password);
-    console.log(passwordMatched);
 
     // If password doesn't match, return an error
     if (!passwordMatched) {
-      res.locals.errors = [{ msg: 'Invalid email or password' }];
       return this.getLoginPage(req, res);
     }
 
@@ -145,6 +138,7 @@ exports.postLogin = async (req, res) => {
     return res.redirect('/dashboard');
 
   } catch (err) {
+    // TODO
     console.error(err);
     res.status(500).send('Error logging in: ' + err);
   }
@@ -152,18 +146,19 @@ exports.postLogin = async (req, res) => {
 
 /** Save a "Contact Us" message */
 exports.postContactMessage = async (req, res) => {
-  // Handle validation errors
-  if (res.locals.errors.length) {
-    return await this.getContactPage(req, res);
-  }
-
   // Create the message
+  let message = 'Message Sent!';
   try {
     await models.message.create(req.body);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Error sending message: ' + err);
+  } catch ({ errors }) {
+    console.error(errors);
+    res.locals.errors = errors;
+    res.locals.data = req.body;
+    message = 'Failed to send message.';
   }
 
-  res.redirect('/');
+  res.render('public/contact', {
+    layout: LAYOUT,
+    message
+  });
 }

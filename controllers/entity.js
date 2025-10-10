@@ -52,10 +52,6 @@ exports.createNewEntity = async (data) => {
 
 /** Determine which dashboard to render */
 exports.getDashboardPage = async (req, res) => {
-  // Handle validation errors
-  if (res.locals.errors.length) {
-    return res.status('403').send('Errors detected');
-  }
 
   const { privilegeId, entityId } = req.user;
 
@@ -138,7 +134,6 @@ exports.getGlobalAdminDashboard = async (req, res) => {
   // TODO: check which permission type to render the correct dashboard
   // Render the page
   res.render('global-admin', {
-    errors: [],
     entities,
     cfiCount: counts.cfiCount,
     studentCount: counts.studentCount,
