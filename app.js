@@ -1,3 +1,4 @@
+
 // Load environment variables
 require('dotenv').config({ quiet: true });
 
@@ -39,9 +40,13 @@ associations();
 // Register Routes
 const publicRoutes = require('./routes/public.route');
 const dashboardRoutes = require('./routes/dashboard.route');
+const syllabusRoutes = require('./routes/syllabus.route');
 
 app.use('/', publicRoutes);
 
-app.use('/dashboard', auth, dashboardRoutes);
+app.use(auth);
+
+app.use('/dashboard', dashboardRoutes);
+app.use('/entity/:entityId/syllabus', syllabusRoutes);
 
 app.listen(3000);

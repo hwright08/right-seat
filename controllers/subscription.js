@@ -1,5 +1,6 @@
 /** @module controllers/subscription */
 
+const { Op } = require("sequelize");
 const models = require("../models");
 
 /**
@@ -16,6 +17,12 @@ exports.getSubscriptions = async (query = { includeFeatures: false }) => {
       as: 'features',
       attributes: ['id', 'feature'],
     });
+  }
+
+  queryOptions.where = {
+    key: {
+      [Op.not]: 'enterprise',
+    }
   }
 
   return await models.subscription.findAll(queryOptions);

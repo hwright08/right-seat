@@ -1,0 +1,485 @@
+<!-- Stats -->
+
+<nav aria-label="breadcrumb">
+  <div class="d-flex justify-content-between align-items-start">
+    <ol class="breadcrumb">
+      <% if (userEntity.id !==currentEntity.id) { %>
+        <li class="breadcrumb-item"><a href="/dashboard">
+            <%= userEntity.name %>
+          </a></li>
+        <li class="breadcrumb-item active" aria-current="page">
+          <%= currentEntity.name %>
+        </li>
+        <% } else { %>
+          <li class="breadcrumb-item active" aria-current="page">
+            <%= userEntity.name %>
+          </li>
+          <% } %>
+    </ol>
+    <span
+      class="badge border <%= currentEntity.subscription.key == 'enterprise' ? 'bg-purple-200 text-purple-500' : currentEntity.subscription.key == 'school' ? 'bg-success-subtle text-success' : currentEntity.subscription.key == 'single' ? 'bg-blue-200 text-blue-900' : 'bg-warning-subtle text-orange-500' %>">
+      <%= currentEntity.subscription.label %>
+    </span>
+  </div>
+</nav>
+
+<div class="row g-3">
+  <% if (userEntity.id==currentEntity.id && priv==='global' ) { %>
+    <div class="col-6 col-xl">
+      <div class="card hero-shadow h-100">
+        <div class="card-body">
+          <div class="text-secondary small">Entities</div>
+          <div class="fs-2 fw-bold">
+            <%= entities.length %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% } %>
+      <div class="col-6 col-xl">
+        <div class="card hero-shadow h-100">
+          <div class="card-body">
+
+            <div class="text-secondary small">CFIs</div>
+            <div class="fs-2 fw-bold">
+              <%= cfiCount ?? 0 %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-xl">
+        <div class="card hero-shadow h-100">
+          <div class="card-body">
+            <div class="text-secondary small">Active Students</div>
+            <div class="fs-2 fw-bold">
+              <%= studentCount ?? 0 %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-xl">
+        <div class="card hero-shadow h-100">
+          <div class="card-body">
+            <div class="text-secondary small">Avg. Student Progress</div>
+            <div class="fs-2 fw-bold text-success">TODO: 61%</div>
+            <div class="progress small mt-2">
+              <div class="progress-bar bg-success" style="width:61%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-xl">
+        <div class="card hero-shadow h-100">
+          <div class="card-body">
+            <div class="text-secondary small">First-Time Pass</div>
+            <div class="fs-2 fw-bold">TODO: 79%</div>
+          </div>
+        </div>
+      </div>
+</div>
+
+<!-- Entities -->
+<% if (userEntity.id==currentEntity.id && priv==='global' ) { %>
+  <div class="card shadow-sm h-100 mt-4">
+    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+      <strong>Entities</strong>
+      <div class="d-flex gap-2">
+        <form class="input-group input-group-sm" style="max-width:300px" method="GET" action="/dashboard">
+          <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+          <input class="form-control" id="entity" name="entity" placeholder="Search orgs…">
+          <button class="btn btn-sm btn-outline-secondary text-nowrap" type="submit">
+            Search
+          </button>
+        </form>
+        <button class="btn btn-sm btn-outline-secondary text-nowrap" data-bs-toggle="modal"
+          data-bs-target="#newOrgModal">
+          <i class="bi bi-plus"></i>
+          New Entity
+        </button>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table align-middle">
+          <thead class="small text-secondary">
+            <tr>
+              <th>Name</th>
+              <th>CFIs</th>
+              <th>Students</th>
+              <th>Subscription</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% entities?.forEach(entity=> { %>
+              <tr>
+                <td>
+                  <%= entity.name %>
+                </td>
+                <td>
+                  <%= entity.cfiCount ?? 0 %>
+                </td>
+                <td>
+                  <%= entity.studentCount ?? 0 %>
+                </td>
+                <td>
+                  <span
+                    class="badge border <%= entity.subscription?.key == 'enterprise' ? 'bg-purple-200 text-purple-500' : entity.subscription?.key == 'school' ? 'bg-success-subtle text-success' : entity.subscription?.key == 'single' ? 'bg-blue-200 text-blue-900' : 'bg-warning-subtle text-orange-500' %>">
+                    <%= entity.subscription?.label %>
+                  </span>
+                </td>
+                <td class="text-end">
+                  <a class="btn btn-sm btn-outline-secondary" href="/dashboard/<%= entity.id %>">Manage</a>
+                </td>
+              </tr>
+              <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <% } %>
+
+    <div class="row g-4 mt-1">
+      <!-- Manage CFIs -->
+      <div class="col-xl-6">
+        <div class="card shadow-sm h-100">
+          <div class="card-header bg-white d-flex justify-content-between align-items-center">
+            <strong>CFIs</strong>
+            <div class="d-flex gap-2">
+              <form class="input-group input-group-sm" style="max-width:240px" method="GET"
+                action="/dashboard/<%= currentEntity.id %>">
+                <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                <input class="form-control" name="cfi" placeholder="Search CFIs…" id="cfiSearch">
+                <button class="btn btn-sm btn-outline-secondary text-nowrap" type="submit">
+                  Search
+                </button>
+              </form>
+              <button class="btn btn-sm btn-outline-secondary text-nowrap" data-bs-toggle="modal"
+                data-bs-target="#addCFIModal">
+                <i class="bi bi-person-plus me-2"></i>
+                Add CFI
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <table class="table align-middle">
+              <thead class="small text-secondary">
+                <tr>
+                  <th>Name</th>
+                  <th>Students</th>
+                  <th>Pass Rate</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% cfis.forEach(cfi=> { %>
+                  <tr>
+                    <td>
+                      <%= cfi.firstName %>
+                        <%= cfi.lastName %>
+                    </td>
+                    <td>
+                      <%= students.filter(s=> s.cfiId === cfi.id).length %>
+                    </td>
+                    <td>TODO</td>
+                    <td class="text-end">
+                      <div class="btn-group btn-group-sm">
+                        <a href="/dashboard/<%= currentEntity.id %>/cfi/<%= cfi.id %>"
+                          class="btn btn-outline-secondary">Manage</a>
+                      </div>
+                    </td>
+                  </tr>
+                  <% }) %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Students -->
+      <div class="col-xl-6">
+        <div class="card shadow-sm h-100">
+          <div class="card-header bg-white d-flex justify-content-between align-items-center">
+            <strong>Students</strong>
+            <div class="d-flex gap-2">
+              <form class="input-group input-group-sm" style="max-width:240px" method="GET"
+                action="/dashboard/<%= currentEntity.id %>">
+                <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                <input class="form-control" placeholder="Search students…" id="studentSearch" name="student">
+                <button class="btn btn-sm btn-outline-secondary text-nowrap" type="submit">
+                  Search
+                </button>
+              </form>
+              <button class="btn btn-sm btn-outline-secondary text-nowrap" data-bs-toggle="modal"
+                data-bs-target="#enrollModal">
+                <i class="bi bi-person-add me-2 "></i>
+                Enroll Student
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <table class="table align-middle">
+              <thead class="small text-secondary">
+                <tr>
+                  <th>Student</th>
+                  <th>Syllabus</th>
+                  <th>CFI</th>
+                  <th>Progress</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% students.forEach(student=> { %>
+                  <tr>
+                    <td>
+                      <%= student.fullName %>
+                    </td>
+                    <td>
+                      <!-- Rating -->
+                    </td>
+                    <td>
+                      <!-- CFI -->
+                    </td>
+                    <td style="width:180px">
+                      <!-- Progress -->
+                      <!-- <div class="progress small">
+                                            <div class="progress-bar bg-success" style="width:40%"></div>
+                                        </div> -->
+                    </td>
+                    <td class="text-end">
+                      <div class="btn-group btn-group-sm">
+                        <button class="btn btn-outline-secondary">Manage</button>
+                      </div>
+                    </td>
+                  </tr>
+                  <% }) %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Syllabus -->
+      <div class="card shadow-sm mt-4">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+          <strong>Syllabuses</strong>
+          <div class="d-flex gap-2">
+            <!-- <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#uploadModal">
+              <i class="bi bi-upload me-2"></i>
+              Upload
+            </button> -->
+            <a class="btn btn-sm btn-outline-secondary" href="/entity/<%= currentEntity.id %>/syllabus">
+              <i class="bi bi-file-earmark-text me-2"></i>
+              New Syllabus
+            </a>
+          </div>
+        </div>
+        <div class="card-body">
+          <table class="table align-middle">
+            <thead class="small text-secondary">
+              <tr>
+                <th>Rating</th>
+                <th>Title</th>
+                <th>Version</th>
+                <th>Lessons</th>
+                <th>Last Updated</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% syllabuses.forEach(syllabus => { %>
+                <td><%= syllabus.rating.label %></td>
+                <td><%= syllabus.title %></td>
+                <td><%= syllabus.version %></td>
+                <td><%= syllabus.lessonCount %></td>
+                <td><%= syllabus.updatedAt %></td>
+                <td class="text-end">
+                  <button class="btn btn-sm btn-outline-secondary">Manage</button>
+                </td>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: New Entity-->
+    <div class="modal fade" id="newOrgModal" tabindex="-1">
+      <div class="modal-dialog">
+        <form class="modal-content" method="POST" action="/sign-up">
+          <div class="modal-header">
+            <h5 class="modal-title">Create Entity</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label" for="subscription">Subscription</label>
+              <select class="form-select" id="subscription" name="subscription" required>
+                <% subscriptions?.forEach(sub=> { %>
+                  <option value="<%= sub.id %>">
+                    <%= sub.label %>
+                  </option>
+                  <% }) %>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="orgName">Entity Name</label>
+              <input class="form-control" placeholder="e.g., Valley Aero Training" id="orgName" name="orgName" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="orgPhone">Entity Phone Number</label>
+              <input class="form-control" placeholder="e.g., Valley Aero Training" id="orgPhone" name="orgPhone">
+            </div>
+            <hr />
+            <div class="mb-3">
+              <label class="form-label" for="firstName">Admin First Name</label>
+              <input class="form-control" placeholder="e.g., Valley Aero Training" id="firstName" name="firstName"
+                required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="lastName">Admin Last Name</label>
+              <input class="form-control" placeholder="e.g., Valley Aero Training" id="lastName" name="lastName"
+                required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="email">Admin Email</label>
+              <input class="form-control" placeholder="e.g., Valley Aero Training" id="email" name="email" required>
+            </div>
+            <input type="hidden" value="2" name="privilegeId" />
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-outline-secondary" data-bs-dismiss="modal" type="button">
+              Cancel
+            </button>
+            <button class="btn btn-rs" type="submit">
+              Create
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal: Add CFI -->
+    <div class="modal fade" id="addCFIModal" tabindex="-1">
+      <div class="modal-dialog">
+        <form class="modal-content" method="POST" action="/dashboard/<%= currentEntity.id %>/user">
+          <div class="modal-header">
+            <h5 class="modal-title">Add CFI</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body row g-3">
+            <div class="col-md-6">
+              <label class="form-label" for="firstName">First Name</label>
+              <input class="form-control" id="firstName" name="firstName">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="lastName">Last Name</label>
+              <input class="form-control" id="lastName" name="lastName">
+            </div>
+            <div class="col-md-12">
+              <label class="form-label" for="email">Email</label>
+              <input type="email" class="form-control" id="email" name="email">
+            </div>
+            <div class="form-check col-md-12 ms-2">
+              <label class="form-check-label" for="hasGoldSeal">Has Gold Seal</label>
+              <input class="form-check-input" id="hasGoldSeal" type="checkbox">
+            </div>
+            <input type="hidden" value="3" name="privilegeId" />
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-outline-secondary" data-bs-dismiss="modal" type="button">
+              Cancel
+            </button>
+            <button class="btn btn-rs" type="submit">Add</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal: Add Student -->
+    <div class="modal fade" id="enrollModal" tabindex="-1">
+      <div class="modal-dialog">
+        <form class="modal-content" method="POST" action="/dashboard/<%= currentEntity.id %>/user">
+          <div class="modal-header">
+            <h5 class="modal-title">Enroll Student</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body row g-3">
+            <div class="col-md-6">
+              <label class="form-label" for="firstName">First Name</label>
+              <input class="form-control" id="firstName" name="firstName">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="lastName">Last Name</label>
+              <input class="form-control" id="lastName" name="lastName">
+            </div>
+            <div class="col-md-12">
+              <label class="form-label" for="email">Email</label>
+              <input type="email" class="form-control" id="email" name="email">
+            </div>
+            <!-- TODO <div class="col-md-12">
+                    <label class="form-label">Syllabus</label>
+                    <select class="form-select">
+                        <option>Private Pilot (61)</option>
+                        <option>Instrument</option>
+                    </select>
+                </div> -->
+            <input type="hidden" value="4" name="privilegeId" />
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-outline-secondary" data-bs-dismiss="modal" type="button">
+              Cancel
+            </button>
+            <button class="btn btn-rs" type="submit">Enroll</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal: Upload Syllabus -->
+    <!-- <div class="modal fade" id="uploadModal" tabindex="-1">
+      <div class="modal-dialog">
+        <form class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Upload Syllabus (Excel)</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3"><input type="file" class="form-control"></div>
+            <div class="small text-secondary">Accepted: .xlsx. You’ll map columns on the next step.</div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-outline-secondary" data-bs-dismiss="modal" type="button">
+              Close
+            </button>
+            <button class="btn btn-rs" type="button">Upload</button>
+          </div>
+        </form>
+      </div>
+    </div> -->
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+
+        const entitySearch = urlParams.get('entity');
+        const cfiSearch = urlParams.get('cfi');
+        const studentSearch = urlParams.get('student');
+
+        if (entitySearch) {
+          const entityField = document.getElementById('entity');
+          entityField.value = entitySearch;
+        }
+
+        if (cfiSearch) {
+          const cfiInput = document.getElementById('cfiSearch');
+          cfiInput.value = cfiSearch;
+        }
+
+        if (studentSearch) {
+          const studentInput = document.getElementById('studentSearch');
+          studentInput.value = studentSearch;
+        }
+      });
+    </script>

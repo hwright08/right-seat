@@ -1,0 +1,129 @@
+<h1 class="h3 fw-bold mb-4 d-flex align-items-center gap-2">
+  <i class="bi bi-journal-text text-primary"></i> Create New Syllabus
+</h1>
+
+<%- include('./_partials/errorAlert') %>
+
+<form action="/entity/<%= entityId %>/syllabus" method="POST" id="syllabusForm">
+  <!-- Syllabus Details -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label fw-semibold" for="title">Syllabus Title</label>
+          <input type="text" name="title" class="form-control" placeholder="e.g., Private Pilot Part 61" required id="title">
+        </div>
+        <div class="col-md-3">
+          <label class="form-label fw-semibold" for="version">Version</label>
+          <input type="number" step="0.01" min="0.1" name="version" class="form-control" placeholder="e.g., 1.0" required id="version">
+        </div>
+        <div class="col-md-3">
+          <label class="form-label fw-semibold" for="ratingId">Rating</label>
+          <select name="ratingId" class="form-select" required id="ratingId">
+            <option value="">— Select —</option>
+            <% ratings.forEach(rating=> { %>
+              <option value="<%= rating.id %>">
+                <%= rating.label %>
+              </option>
+              <% }) %>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lessons -->
+  <div class="d-flex justify-content-between align-items-center mb-2">
+    <h2 class="h5 mb-0">Lessons</h2>
+    <button type="button" class="btn btn-sm btn-primary" id="addLessonBtn">
+      <i class="bi bi-plus-lg"></i> Add Lesson
+    </button>
+  </div>
+
+  <div id="lessonList" class="d-flex flex-column gap-3 mb-4">
+    <!-- Lesson items will be appended here -->
+  </div>
+
+  <div class="text-end">
+    <button type="submit" class="btn btn-success btn-lg">
+      <i class="bi bi-check-lg me-1"></i> Save Syllabus
+    </button>
+  </div>
+</form>
+</div>
+
+<template id="lessonTemplate">
+  <div class="card lesson-card shadow-sm">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="h6 mb-0 lesson-label">Lesson</h3>
+        <button type="button" class="btn btn-sm btn-outline-danger remove-lesson-btn">
+          <i class="bi bi-trash"></i>
+        </button>
+      </div>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label lesson-title-label">Lesson Title</label>
+          <input type="text" class="form-control lesson-title" placeholder="e.g., Preflight Inspection" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label lesson-summary-label">Lesson Summary</label>
+          <input type="text" class="form-control lesson-summary" placeholder="Short overview">
+        </div>
+        <div class="col-12">
+          <label class="form-label lesson-content-label">Lesson Content</label>
+          <textarea class="form-control lesson-content" rows="5" placeholder="Full lesson description"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+  const lessonList = document.getElementById('lessonList');
+  const lessonTemplate = document.getElementById('lessonTemplate');
+  const addLessonBtn = document.getElementById('addLessonBtn');
+
+  let lessonCount = 0;
+
+  function addLesson() {
+    const clone = lessonTemplate.content.cloneNode(true);
+    const card = clone.querySelector('.lesson-card');
+
+    // Update names for inputs
+    const lessonIdent = `lessons[${lessonCount}]`;
+    card.querySelector('.lesson-title').name = `${lessonIdent}[title]`;
+    card.querySelector('.lesson-summary').name = `${lessonIdent}[summary]`;
+    card.querySelector('.lesson-content').name = `${lessonIdent}[content]`;
+
+    // Update Ids for accessibility
+    card.querySelector('.lesson-title').id = `${lessonIdent}[title]`;
+    card.querySelector('.lesson-summary').id = `${lessonIdent}[summary]`;
+    card.querySelector('.lesson-content').id = `${lessonIdent}[content]`;
+
+    card.querySelector('.lesson-title-label').setAttribute('for', `${lessonIdent}[title]`);
+    card.querySelector('.lesson-summary-label').setAttribute('for', `${lessonIdent}[summary]`);
+    card.querySelector('.lesson-content-label').setAttribute('for', `${lessonIdent}[content]`);
+
+    card.querySelector('.lesson-label').textContent = `Lesson ${lessonCount + 1}`;
+
+    // Remove button
+    card.querySelector('.remove-lesson-btn').addEventListener('click', () => {
+      card.remove();
+      updateLessonLabels();
+    });
+
+    lessonList.appendChild(card);
+    lessonCount++;
+  }
+
+  function updateLessonLabels() {
+    [...lessonList.children].forEach((card, index) => {
+      card.querySelector('.lesson-label').textContent = `Lesson ${index + 1}`;
+    });
+  }
+
+  addLessonBtn.addEventListener('click', addLesson);
+
+  if (lessonCount == 0) addLesson();
+</script>

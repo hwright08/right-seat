@@ -26,6 +26,9 @@ exports.auth = async (req, res, next) => {
 
     // Assign the user to the request
     req.user = parsedUser;
+
+    // Always send the user in the response
+    res.locals.user = parsedUser;
     next();
 
   } catch (err) {

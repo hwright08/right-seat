@@ -27,5 +27,7 @@ router.post('/message', publicController.postContactMessage);
 // POST => /sign-up
 router.post('/sign-up', publicController.postSignUp);
 
+// POST => /logout
+router.post('/logout', publicController.logout);
 
 module.exports = router;

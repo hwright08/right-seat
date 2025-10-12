@@ -36,4 +36,23 @@ module.exports = () => {
   // User / Rating Relationship
   models.rating.belongsToMany(models.user, { through: 'UserRating' });
   models.user.belongsToMany(models.rating, { through: 'UserRating' });
+
+  // Syllabus / Rating Relationship
+  models.rating.hasMany(models.syllabus);
+  models.syllabus.belongsTo(models.rating);
+
+  // Syllabus / Entity Relationship
+  models.entity.hasMany(models.syllabus);
+  models.syllabus.belongsTo(models.entity);
+
+  // Syllabus / Lesson Relationship
+  models.syllabus.hasMany(models.lesson, {
+    as: 'lessons',
+    foreignKey: { name: 'syllabusId', allowNull: false },
+    onDelete: 'CASCADE'
+  });
+  models.lesson.belongsTo(models.syllabus, {
+    as: 'syllabus',
+    foreignKey: 'syllabusId',
+  });
 }

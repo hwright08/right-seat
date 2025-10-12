@@ -86,8 +86,6 @@ exports.getContactPage = (req, res) => {
 
 /** Sign up a user */
 exports.postSignUp = async (req, res) => {
-  console.log(req.body);
-
   try {
     // Create the entity and associated user
     // Will always be an admin through this path
@@ -112,7 +110,7 @@ exports.postLogin = async (req, res) => {
 
     // If no user, send an error message back
     if (!user) {
-      return this.getLoginPage(req, res);
+      throw new Error('User not found');
     }
 
     // Check that the password matches
@@ -120,7 +118,7 @@ exports.postLogin = async (req, res) => {
 
     // If password doesn't match, return an error
     if (!passwordMatched) {
-      return this.getLoginPage(req, res);
+      throw new Error('Incorrect Password');
     }
 
     // Create a cookie for the logged in session
@@ -138,10 +136,22 @@ exports.postLogin = async (req, res) => {
     return res.redirect('/dashboard');
 
   } catch (err) {
-    // TODO
-    console.error(err);
-    res.status(500).send('Error logging in: ' + err);
+    res.locals.message = 'Invalid Credentials';
+    res.locals.errors = [err.message];
+    console.err(err);
+    return this.getLoginPage(req, res);
   }
+}
+
+/** Logout */
+exports.logout = async (req, res) => {
+  res.clearCookie('SessionId', {
+    httpOnly: true,
+    secure: false,
+    sameSite: 'lax',
+    path: '/',
+  });
+  res.redirect('/login');
 }
 
 /** Save a "Contact Us" message */

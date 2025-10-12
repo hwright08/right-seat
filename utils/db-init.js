@@ -97,7 +97,7 @@ async function main() {
     console.log('Initialize Entities...');
     await models.entity.bulkCreate([
       {
-        name: 'Global Enterprise',
+        name: 'Global Entity',
         phone: null,
         subscriptionId: 4
       },

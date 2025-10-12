@@ -1,7 +1,6 @@
 /** @module controllers/user */
 
 const models = require('../models');
-const { getDashboardPage } = require('./entity');
 
 // ----------------------------------
 // LOGIC
@@ -16,8 +15,20 @@ const { getDashboardPage } = require('./entity');
  */
 exports.getUser = async (options = {}) => {
   return options.id
-    ? await models.user.findByPk(options.id)
-    : await models.user.findOne({ where: options })
+    ? await models.user.findByPk(options.id, {
+      include: [{
+        model: models.privilege,
+        attributes: ['name'],
+      }]
+    })
+    : await models.user.findOne({
+      where: options,
+      include: [{
+        model: models.privilege,
+        attributes: [['name', 'priv']],
+        separate: false,
+      }]
+    });
 }
 
 
@@ -29,5 +40,5 @@ exports.createUser = async (req, res) => {
   };
 
   const user = await models.user.create(data);
-  res.redirect(`/dashboard/${req.params.entityId}/cfi/${user.id}`);
+  res.redirect(`/dashboard/${req.params.entityId}/user/${user.id}`);
 }
