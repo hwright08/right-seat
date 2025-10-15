@@ -38,15 +38,16 @@ app.use((req, res, next) => {
 associations();
 
 // Register Routes
-const publicRoutes = require('./routes/public.route');
-const dashboardRoutes = require('./routes/dashboard.route');
-const syllabusRoutes = require('./routes/syllabus.route');
+const routes = require('./routes');
 
-app.use('/', publicRoutes);
+app.use('/', routes.public);
 
+// Require authorization for everything except public routes
 app.use(auth);
 
-app.use('/dashboard', dashboardRoutes);
-app.use('/entity/:entityId/syllabus', syllabusRoutes);
+app.use('/dashboard', routes.dashboard);
+app.use('/entity/:entityId/syllabus', routes.syllabus);
+app.use('/entity/:entityId/user', routes.user);
+app.use('/entity', routes.entity);
 
 app.listen(3000);

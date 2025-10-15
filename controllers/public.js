@@ -138,7 +138,7 @@ exports.postLogin = async (req, res) => {
   } catch (err) {
     res.locals.message = 'Invalid Credentials';
     res.locals.errors = [err.message];
-    console.err(err);
+    console.error(err);
     return this.getLoginPage(req, res);
   }
 }

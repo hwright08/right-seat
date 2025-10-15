@@ -17,9 +17,4 @@ router.get('/:entityId/user/:userId', (req, res) => {
   res.render('cfi/profile', {});
 });
 
-
-// POST => /dashboard/:entityId/cfi
-// Create a new CFI
-router.post('/:entityId/user', userController.createUser);
-
 module.exports = router;

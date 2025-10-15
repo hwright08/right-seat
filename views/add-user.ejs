@@ -1,0 +1,74 @@
+<!-- Hero -->
+<header class="hero py-3 bg-white border-bottom mb-3">
+  <div class="container text-center">
+    <h1 class="fw-bold">Add New <%= type %></h1>
+    <a href="/dashboard/<%= currentEntity.id %>" class="btn btn-outline-secondary">
+      <i class="bi bi-arrow-left"></i> Back to Dashboard
+    </a>
+  </div>
+</header>
+
+<%- include('./_partials/errorAlert') %>
+
+<!-- Form -->
+<form action="/entity/<%= currentEntity.id %>/user/create" method="POST" class="card shadow-sm p-4">
+  <div class="row g-3">
+    <div class="col-md-6">
+      <div class="mb-3">
+        <label class="form-label fw-semibold" for="firstName">First Name</label>
+        <input type="text" name="firstName" class="form-control" required id="firstName" value="<%= data.firstName %>">
+        <div class="small text-danger">
+          <%= errors.find(err=> err.path === 'firstName')?.message %>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label fw-semibold" for="lastName">Last Name</label>
+        <input type="text" name="lastName" class="form-control" required id="lastName" value="<%= data.lastName %>">
+        <div class="small text-danger">
+          <%= errors.find(err=> err.path === 'lastName')?.message %>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label fw-semibold" for="email">Email</label>
+        <input type="email" name="email" class="form-control" required id="email" value="<%= data.email %>">
+        <div class="small text-danger">
+          <%= errors.find(err=> err.path === 'email')?.message %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="mb-3">
+        <label class="form-label fw-semibold" for="ratings">Completed Ratings</label>
+        <select name="ratings[]" class="form-select" multiple id="ratings">
+          <% ratings.forEach(rating=> { %>
+            <option value="<%= rating.id %>" <%= data.ratings?.includes(rating.id.toString()) ? 'selected' : '' %>>
+              <%= rating.label %>
+            </option>
+            <% }) %>
+        </select>
+        <div class="form-text">Hold Ctrl/Cmd to select multiple ratings.</div>
+        <div class="small text-danger">
+          <%= errors.find(err=> err.path === 'ratings')?.message %>
+        </div>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="hasGoldSeal" name="hasGoldSeal" <%= data?.hasGoldSeal ? 'checked' : '' %>>
+        <label class="form-check-label" for="hasGoldSeal">Has Gold Seal</label>
+        <div class="small text-danger">
+          <%= errors.find(err=> err.path === 'firstName')?.hasGoldSeal %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <input type="hidden" name="type" value="<%= type %>">
+
+  <hr class="my-4">
+
+  <div class="text-end">
+    <button type="submit" class="btn btn-primary">
+      <i class="bi bi-check-lg me-1"></i> Add <%= type %>
+    </button>
+  </div>
+</form>
+</div>

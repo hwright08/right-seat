@@ -32,23 +32,29 @@ exports.createNewEntity = async (data) => {
   // Get the new admin data
   const { firstName, lastName, email, password } = data;
 
+  const entityObject = {
+    name: !!orgName ? orgName : `${firstName} ${lastName}`,
+    phone: orgPhone,
+    subscriptionId: subscription,
+  };
+
+  const entityOptions = {};
+
+  // Create the admin user if email is supplied
+  if (data.email) {
+    entityObject.users = [{
+      firstName,
+      lastName,
+      email,
+      privilegeId: 2,
+      passwrd: password,
+    }];
+
+    entityOptions.icnlude = [{ model: models.user }];
+  }
+
   // Create the entity
-  return await models.entity
-    .create({
-      name: !!orgName ? orgName : `${firstName} ${lastName}`,
-      phone: orgPhone,
-      subscriptionId: subscription,
-      // Create the admin user
-      users: [{
-        firstName,
-        lastName,
-        email,
-        privilegeId: 2,
-        passwrd: password,
-      }],
-    }, {
-      include: [{ model: models.user }],
-    });
+  return await models.entity.create(entityObject, entityOptions);
 }
 
 /**
@@ -84,6 +90,8 @@ exports.getAllEntities = async (searchCriteria) => {
             AND (u.inactiveDate IS NULL OR CURRENT_DATE <= u.inactiveDate)
         )`),
         'cfiCount',
+
+
       ],
       [
         literal(`(
@@ -168,6 +176,10 @@ exports.getAllStudents = async (entityId, {searchStr, cfiId}) => {
   return await models.user.findAll({ where: studentWhere });
 }
 
+exports.updateEntity = async (entityId, data) => {
+  await models.entity.update(data, { where: { id: entityId }});
+}
+
 
 // ----------------------------------
 // RENDER VIEWS
@@ -228,4 +240,39 @@ exports.getDashboardPage = async (req, res) => {
     priv,
     ...counts
   });
+}
+
+/** Get the Create Entity Page to render */
+exports.getCreateEntityPage = async (req, res) => {
+  const subscriptions = await getSubscriptions();
+  res.render('add-entity', {
+    subscriptions,
+  });
+}
+
+/** Handle the response from the form */
+exports.postCreateEntity = async (req, res) => {
+  try {
+    const entity = await this.createNewEntity(req.body);
+    res.redirect(`/entity/${entity.id}/user/create?type=admin`);
+  } catch (err) {
+    console.error(err);
+    res.locals.message = 'Could not create entity';
+    res.locals.errors = err.errors;
+    res.locals.data = req.body;
+    req.query = req.query;
+    return await this.getCreateEntityPage(req, res);
+  }
+}
+
+exports.postUpdateSubscription = async (req, res) => {
+  try {
+    await this.updateEntity(req.params.entityId, req.body);
+    return res.redirect(`/dashboard/${entityId}`);
+  } catch (err) {
+    res.locals.message = 'Could not create entity';
+    res.locals.errors = err.errors;
+    res.locals.data = req.body;
+    return await this.getDashboardPage(req, res);
+  }
 }

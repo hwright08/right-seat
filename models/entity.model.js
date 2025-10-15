@@ -24,6 +24,10 @@ const Entity = db.define('entity', {
   phone: {
     type: DataTypes.STRING,
     allowNull: true,
+    len: {
+      args: [10],
+      message: 'Phone number should be at least 10 characters',
+    }
   },
   inactiveDate: {
     type: DataTypes.DATE,
