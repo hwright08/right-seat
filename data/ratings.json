@@ -1,0 +1,8 @@
+[
+  { "label": "Private" },
+  { "label": "Commercial" },
+  { "label": "Instrument" },
+  { "label": "CFI" },
+  { "label": "CFII" },
+  { "label": "ATP" }
+]

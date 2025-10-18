@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "key": "trial",
+    "label": "Free Trial",
+    "summary": null,
+    "price": "0",
+    "requireSales": false
+  },
+  {
+    "id": 2,
+    "key": "single",
+    "label": "CFI",
+    "summary": null,
+    "price": "9",
+    "requireSales": false
+  },
+  {
+    "id": 3,
+    "key": "school",
+    "label": "Flight School",
+    "summary": null,
+    "price": "49",
+    "requireSales": false
+  },
+  {
+    "id": 4,
+    "key": "enterprise",
+    "label": "Enterprise",
+    "summary": null,
+    "price": null,
+    "requireSales": true
+  }
+]

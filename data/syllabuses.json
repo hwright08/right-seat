@@ -1,0 +1,142 @@
+[
+  {
+    "title": "PPL (Rotorcraft)",
+    "version": 1.0,
+    "ratingId": 1,
+    "lessons": [
+      {
+        "title": "Stage One - Lesson 1",
+        "objective": "During this lesson, the student will be instructed in the fundamentals of flight and basic aerodynamics.",
+        "content": "Rotor systems: Fully-articulated systems; Semi-Rigid Systems; Rigid Systems; Lead, lag, and flapping.\nFundamentals of the controls: Axis of rotation – longitudinal, lateral, and vertical; Primary controls – cyclic, collective, anti-torque pedals; Secondary controls – trim tabs.\nAirfoils: Angle of incidence; Angle of attack; Bernoulli’s principle.\nFactors affecting lift and drag: Airfoil area; Airfoil shape; Angle of attack; Airspeed; Air density.\nForces acting on a helicopter: Lift; Weight; Thrust; Drag.\nAerodynamics of flight: Torque and torque effect; Translating tendency; Effective translational lift; Transverse flow effect; Dynamic rollover; Dissymmetry of lift; Retreating blade stall; Settling with power; Autorotations.\nStability: Static stability; Dynamic stability.\nLoads and load factors: Effect of bank angle and loading; Effect of turbulence on load factor; Effect of speed on load factor.",
+        "completion": "By oral examination, student displays a basic understanding of fundamentals of flight and basic aerodynamics."
+      },
+      {
+        "title": "Stage One - Lesson 2",
+        "objective": "Review Lesson 1 and instruct the student in the basic maneuvers of flight.",
+        "content": "Straight and level flight: Pitch, bank, yaw; Trim; Integrated use of outside references and instruments.\nLevel turns: Forces in a turn; Slips and skids; Integrated references/instruments.\nClimbs and climbing turns: Gyroscopic action; Torque effect; Best-rate climb speed; Maximum-performance takeoff.\nDescents and descending turns.\nHovering and taxiing: Hovering; Hover taxi; Air taxi; Pedal turns.",
+        "completion": "Via practical test, student displays basic understanding of fundamentals presented in this and previous training."
+      },
+      {
+        "title": "Stage One - Lesson 3",
+        "objective": "Instruct use of pilot’s operating handbooks/flight manuals and weight & balance; introduce additional maneuvers.",
+        "content": "Use of data in POH/RFM: Takeoff and landing procedures; Fuel consumption and related charts; Max range/endurance power settings; Operating limitations; Rotor RPM.\nWeight and balance: Terms/definitions; Effects of abnormal balance; Finding loaded weight; CG calculations (including shifts/additions/removals); Equipment list; Lateral CG.\nDiscussion: Retreating blade stall; Settling with power.\nSteep turns.\nGround reference maneuvers: S-turns across a road; Rectangular course; Turns around a point; Hovering; Pedal turns.",
+        "completion": "Via practical test, student shows knowledge of POH/RFM, weight & balance, and basic maneuvers."
+      },
+      {
+        "title": "Stage One - Lesson 4",
+        "objective": "Instruct flight training maneuvers.",
+        "content": "Review Lesson 3; Airport patterns; Takeoffs/landings; Maximum performance takeoff; Confined area operations; Hovering; Directional control during hover taxi, takeoff, landing; Go-arounds; Autorotations to power recovery; Height-velocity diagram.",
+        "completion": "By oral exam and demonstration, student shows basic knowledge of flight training maneuvers."
+      },
+      {
+        "title": "Stage One - Lesson 5",
+        "objective": "Instruct helicopter systems and instruments.",
+        "content": "Helicopter structures: Construction features; Flight control systems; Rigging.\nRotor systems: Fully articulating; Semi-rigid; Rigid.\nReciprocating engines: Construction; Four-stroke cycle; Fuel system (carburetors/fuel injection); Lubrication; Ignition; Engine instruments; Operating limits; Anti-ice/de-ice; Malfunctions/remedial actions.\nHydraulic systems: Principles; Helicopter applications; Construction features; Malfunctions/remedial actions.\nElectrical systems: Fundamentals; Power system units; Electrically operated instruments; Fuses/circuit breakers; Malfunctions/remedial actions.\nPitot-static system and instruments: ASI (markings); Altimeter/encoder; VSI; Blockages.\nAttitude systems/instruments: Attitude indicator; Heading indicator; Turn and slip/skid indicator.\nMagnetic compass: Errors; Use.\nTachometer and rotor RPM.\nMaintenance requirements and records.",
+        "completion": "By oral examination, student displays a basic understanding of helicopter systems and instruments."
+      },
+      {
+        "title": "Stage Two - Lesson 1",
+        "objective": "Instruct fundamentals of weather associated with aircraft operations.",
+        "content": "Aviation weather basics: Atmospheric layers (inversions); Pressure; Circulation; Temperature and moisture; Stability and lapse rates; Turbulence; Clouds.\nAir masses; Fronts; Aircraft icing; Thunderstorms.",
+        "completion": "By oral examination, student demonstrates fundamental knowledge of aviation weather theory."
+      },
+      {
+        "title": "Stage Two - Lesson 2",
+        "objective": "Review Lesson 1; introduce interpretation and use of weather reports/forecasts and obtaining weather briefings.",
+        "content": "Aviation weather reports (procurement/use): Hourly sequence reports; Specials; Pilot reports; Radar reports.\nAviation weather broadcasts: Transcribed weather; In-flight advisories.\nWeather briefings; VFR regulatory requirements review.\nForecasts: Area forecasts; TAFs; Winds aloft/windshear; Weather charts; PIREPs; SIGMETs/AIRMETs.\nUse of DUATS: Location identifiers; Filing flight plans; NOTAMs.",
+        "completion": "By oral exam and demonstration, student can interpret/use aviation weather reports/forecasts and obtain a briefing."
+      },
+      {
+        "title": "Stage Two - Lesson 3",
+        "objective": "Review Lessons 1–2; instruct UTC, in-flight advisories, and weather recognition.",
+        "content": "UTC; In-flight weather advisories (Flight Watch, TWEB, HIWAS); Weather recognition from ground and in-flight.",
+        "completion": "By oral examination, student displays working knowledge of UTC and in-flight advisories."
+      },
+      {
+        "title": "Stage Three - Lesson 1",
+        "objective": "Instruct national airspace system, radio operation/phraseology with ATC, flight computer basics, and chart use.",
+        "content": "National Airspace System: Classes; Operating rules; Pilot certification reqs; Aircraft equipment reqs; Special use airspace.\nRadio communications: Radio operation; Ground control; Tower; ATIS; FSS; UNICOM/CTAF; ATC light signals.\nFlight computer/calculator: Time; Speed; Distance; Fuel consumption.\nVFR Navigation: Aeronautical charts; Measurement of courses.",
+        "completion": "By oral exam/demonstration, student displays basic knowledge of radio/ATC/charts and can solve elementary E6B problems."
+      },
+      {
+        "title": "Stage Three - Lesson 2",
+        "objective": "Instruct fundamentals of navigation, operation of nav radios, and advanced flight-computer problems.",
+        "content": "VFR Navigation: Pilotage; Dead reckoning.\nNav radios: VOR; ADF; GPS; DME; Use of radio aids.\nFlight computer: Wind correction angle/true heading; Groundspeed; Review time/speed/distance/fuel problems.",
+        "completion": "By oral exam/demonstration, student shows basic knowledge of navigation/radio aids and can solve advanced E6B problems."
+      },
+      {
+        "title": "Stage Three - Lesson 3",
+        "objective": "Review Lesson 2; introduce advanced radio-nav problems, XC emergency procedures, and flight planning.",
+        "content": "Use of GPS; Radar; Use of VOR.\nEmergency procedures: Diversion; Lost procedures (including radar assistance); In-flight emergencies (forced landings).\nTransponder and Mode C; DME (if applicable); Review flight planning.",
+        "completion": "By oral exam/demonstration, student shows working knowledge of radio navigation, emergency procedures, and E6B problem solving."
+      },
+      {
+        "title": "Stage Three - Lesson 4",
+        "objective": "Instruct advanced flight planning, review E6B problems, introduce aeromedical factors and general safety; review school XC procedures.",
+        "content": "Flight planning; Review E6B.\nAeromedical factors: Fatigue; Hypoxia; Hyperventilation; Alcohol; Drugs; Vertigo/spatial disorientation/motion sickness; CO poisoning; Ear/sinus issues.\nGeneral safety: Collision avoidance; Wake turbulence avoidance; Fire (air/ground) and extinguishers; Ground handling.\nSchool cross-country procedures; Obtaining maintenance/fuel away from home base.",
+        "completion": "By oral exam/demonstration, student displays knowledge of aeromedical factors, safety procedures, and school XC policies."
+      },
+      {
+        "title": "Stage Four - Lesson 1",
+        "objective": "Introduce regulatory requirements of CFR Parts 61 and 91 appropriate to private pilot operations.",
+        "content": "Registration and airworthiness certificates.\nCFR Part 1 (definitions/abbreviations) for private pilot.\nCFR Part 61: Certificates/ratings; Privileges/limitations; Duration of certificates; Medical classes/duration; Written/practical tests; Logbooks/recordkeeping; Recency (incl. flight review); Private pilot privileges/limitations.",
+        "completion": "By oral examination, student displays working knowledge of Parts 61 and 91 and how to locate/use rule information."
+      },
+      {
+        "title": "Stage Four - Lesson 2",
+        "objective": "Review Lesson 1; introduce pertinent CFR Part 91 rules and NTSB Part 830 accident reporting.",
+        "content": "CFR Part 91: General operating/flight rules; VFR requirements; IFR familiarization; Maintenance/preventive maintenance/alterations; Certificates.\nFamiliarization with Subpart D.\nNTSB Part 830 accident/incident reporting.",
+        "completion": "By oral examination, student demonstrates how to locate/use Part 91/NTSB 830 information for private pilot operations."
+      },
+      {
+        "title": "Stage Four - Lesson 3",
+        "objective": "Instruct basic content of AIM for VFR ops, the ATC system, and the Airport/Facility Directory.",
+        "content": "AIM: Nav radio aids; Airport nav/lighting/markings; Airspace (including radar service areas, terminal charts, restricted/prohibited/warning/MOAs); ATC; Pilot services; Airport operations (incl. high-density ops); Emergency procedures; Good practices (incl. collision avoidance).\nAirport/Facility Directory; FAA AC series (familiarization): 00, 20, 60, 70, 90, 150, 170.",
+        "completion": "By oral exam/demonstration, student displays basic knowledge of AIM (VFR), A/FD, and AC system."
+      }
+    ]
+  },
+  {
+    "title": "CPL (Rotorcraft)",
+    "version": 1.0,
+    "ratingId": 2,
+    "lessons": [
+      {
+        "title": "Stage One - Lesson 1",
+        "objective": "Introduce commercial flight training requirements and procedures.",
+        "content": "Flight training overview:\n- 115 hours total flight time required.\n- 30 hours dual instruction including instrument training, day and night cross-country, and test preparation.\n- 10 hours solo/PIC training, including day and night cross-country and night VFR operations.\nAreas of operation:\n1. Preflight preparation\n2. Preflight procedures\n3. Airport and heliport operations\n4. Hovering maneuvers\n5. Takeoffs, landings and go-arounds\n6. Performance maneuvers\n7. Navigation\n8. Emergency operations\n9. Special operations\n10. Post flight procedures",
+        "completion": "Student demonstrates understanding of commercial pilot training structure, flight time requirements, and FAA areas of operation."
+      },
+      {
+        "title": "Stage One - Lesson 2",
+        "objective": "Instruct the student in solo flight training requirements and procedures.",
+        "content": "Solo flight requirements:\n- 10 hours solo flight or PIC time in a helicopter with an instructor on board.\n- One cross-country flight with landings at 3 points and a minimum of 50 nm on one segment.\n- 5 hours night VFR with 10 full-stop landings at an airport with an operating control tower.",
+        "completion": "Student understands solo flight training requirements and associated FAA standards for commercial pilot certification."
+      },
+      {
+        "title": "Stage Two - Lesson 1",
+        "objective": "Prepare student for stage checks and end-of-course testing requirements.",
+        "content": "Stage Check and End-of-Course Tests:\n- Each student must satisfactorily accomplish required stage checks.\n- Demonstration of proficiency in all FAA-required areas of operation.\n- End-of-course test standards aligned with FAA Commercial PTS.",
+        "completion": "Student displays knowledge of stage check procedures and end-of-course evaluation standards."
+      },
+      {
+        "title": "Stage Three - Lesson 1",
+        "objective": "Review and demonstrate all FAA Commercial Pilot PTS maneuvers to commercial standards.",
+        "content": "Maneuver Review / Solo Flight:\n- 31 total hours (6 dual / 10 solo split between day and night / 15 additional dual or solo PTS maneuver review).\n- Emphasis on commercial pilot standards for all PTS maneuvers.\n- Solo flights conducted under both day and night conditions.\n- Solo defined as sole occupant of the aircraft or acting as PIC with instructor on board.",
+        "completion": "Student demonstrates ability to perform all PTS maneuvers to commercial pilot standards during solo and dual flight."
+      },
+      {
+        "title": "Stage Three - Lesson 2",
+        "objective": "Complete solo cross-country flight operations and night operations.",
+        "content": "Cross-country and night operations:\n- Execute cross-country flight in day and night conditions.\n- Maintain commercial-level proficiency in navigation and flight planning.\n- Demonstrate safe, independent decision making during solo operations.",
+        "completion": "Student demonstrates independent commercial pilot proficiency during solo cross-country and night flight operations."
+      },
+      {
+        "title": "Stage Three - Lesson 3",
+        "objective": "Meet commercial pilot practical test standards.",
+        "content": "PTS Maneuver Proficiency:\n- Demonstrate commercial-level proficiency in all areas of operation, including performance maneuvers, emergency procedures, and navigation.\n- Complete stage check evaluations in preparation for the FAA practical test.",
+        "completion": "Student successfully demonstrates all required commercial pilot maneuvers to FAA practical test standards."
+      }
+    ]
+  }
+]

@@ -20,13 +20,13 @@ const Lesson = db.define('lesson', {
       }
     }
   },
-  summary: {
-    type: DataTypes.STRING,
-    allowNull: true,
+  objective: {
+    type: DataTypes.TEXT,
+    allowNull: false,
     validate: {
       len: {
         args: [1],
-        msg: 'Lesson Summary cannot be empty',
+        msg: 'Objective cannot be empty',
       }
     }
   },
@@ -36,8 +36,19 @@ const Lesson = db.define('lesson', {
     validate: {
       notNull: { msg: 'Lesson must have content' },
       len: {
-        args: [5],
+        args: [1],
         msg: 'Lesson must have content',
+      }
+    }
+  },
+  completion: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+    validate: {
+      notNull: { msg: 'Completion Criteria must have a value' },
+      len: {
+        args: [1],
+        msg: 'Completion Criteria must have a value',
       }
     }
   }

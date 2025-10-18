@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "Global Entity",
+    "phone": null,
+    "subscriptionId": 4
+  },
+  {
+    "id": 2,
+    "name": "Flight School",
+    "phone": "(800) 359-2697",
+    "subscriptionId": 3
+  },
+  {
+    "id": 3,
+    "name": "Oliver Wright",
+    "phone": null,
+    "subscriptionId": 2
+  },
+  {
+    "id": 4,
+    "name": "Freebee McGee",
+    "phone": null,
+    "subscriptionId": 1
+  }
+]

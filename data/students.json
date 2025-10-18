@@ -1,0 +1,36 @@
+[
+  {
+    "firstName": "Bruce",
+    "lastName": " Lee",
+    "email": "student1@example.com",
+    "privilegeId": 4,
+    "entityId": 2,
+    "cfiId": 3
+  },
+
+  {
+    "firstName": "Blake",
+    "lastName": " Hardin",
+    "email": "student2@example.com",
+    "privilegeId": 4,
+    "entityId": 2,
+    "cfiId": 4
+  },
+
+  {
+    "firstName": "Jack",
+    "lastName": " Wade",
+    "email": "student3@example.com",
+    "privilegeId": 4,
+    "entityId": 3,
+    "cfiId": 5
+  },
+  {
+    "firstName": "Mary",
+    "lastName": " Stephens",
+    "email": "student4@example.com",
+    "privilegeId": 4,
+    "entityId": 3,
+    "cfiId": 5
+  }
+]

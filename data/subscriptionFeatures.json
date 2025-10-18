@@ -1,0 +1,58 @@
+[
+  {
+    "feature": "14 day free trial",
+    "subscriptionId": "1"
+  },
+  {
+    "feature": "No credit card required",
+    "subscriptionId": "1"
+  },
+  {
+    "feature": "Solo CFI plan",
+    "subscriptionId": "1"
+  },
+  {
+    "feature": "1 instructor",
+    "subscriptionId": "2"
+  },
+  {
+    "feature": "Up to 10 students",
+    "subscriptionId": "2"
+  },
+  {
+    "feature": "Lesson Logging",
+    "subscriptionId": "2"
+  },
+  {
+    "feature": "Printable progress",
+    "subscriptionId": "2"
+  },
+  {
+    "feature": "Up to 10 CFI's",
+    "subscriptionId": "3"
+  },
+  {
+    "feature": "Unlimited students",
+    "subscriptionId": "3"
+  },
+  {
+    "feature": "Syllabus versioning",
+    "subscriptionId": "3"
+  },
+  {
+    "feature": "Pass\/Fail analytics",
+    "subscriptionId": "3"
+  },
+  {
+    "feature": "Audit exports",
+    "subscriptionId": "4"
+  },
+  {
+    "feature": "Priority Support",
+    "subscriptionId": "4"
+  },
+  {
+    "feature": "Onboarding help",
+    "subscriptionId": "4"
+  }
+]

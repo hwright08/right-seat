@@ -84,17 +84,21 @@
         </button>
       </div>
       <div class="row g-3">
-        <div class="col-md-6">
+        <div class="col-12">
           <label class="form-label lesson-title-label">Lesson Title</label>
           <input type="text" class="form-control lesson-title" placeholder="e.g., Preflight Inspection" required>
         </div>
-        <div class="col-md-6">
-          <label class="form-label lesson-summary-label">Lesson Summary</label>
-          <input type="text" class="form-control lesson-summary" placeholder="Short overview">
+        <div class="col-12">
+          <label class="form-label lesson-objective-label">Objectives</label>
+          <textarea type="text" class="form-control lesson-objective" placeholder="Short overview"></textarea>
         </div>
         <div class="col-12">
           <label class="form-label lesson-content-label">Lesson Content</label>
           <textarea class="form-control lesson-content" rows="5" placeholder="Full lesson description"></textarea>
+        </div>
+        <div class="col-12">
+          <label class="form-label lesson-completion-label">Completion Criteria</label>
+          <textarea class="form-control lesson-completion" rows="3" placeholder="The student completes this lesson when..."></textarea>
         </div>
       </div>
     </div>
@@ -115,17 +119,20 @@
     // Update names for inputs
     const lessonIdent = `lessons[${lessonCount}]`;
     card.querySelector('.lesson-title').name = `${lessonIdent}[title]`;
-    card.querySelector('.lesson-summary').name = `${lessonIdent}[summary]`;
+    card.querySelector('.lesson-objective').name = `${lessonIdent}[objective]`;
     card.querySelector('.lesson-content').name = `${lessonIdent}[content]`;
+    card.querySelector('.lesson-completion').name = `${lessonIdent}[completion]`;
 
     // Update Ids for accessibility
     card.querySelector('.lesson-title').id = `${lessonIdent}[title]`;
-    card.querySelector('.lesson-summary').id = `${lessonIdent}[summary]`;
+    card.querySelector('.lesson-objective').id = `${lessonIdent}[objective]`;
     card.querySelector('.lesson-content').id = `${lessonIdent}[content]`;
+    card.querySelector('.lesson-completion').id = `${lessonIdent}[completion]`;
 
     card.querySelector('.lesson-title-label').setAttribute('for', `${lessonIdent}[title]`);
-    card.querySelector('.lesson-summary-label').setAttribute('for', `${lessonIdent}[summary]`);
+    card.querySelector('.lesson-objective-label').setAttribute('for', `${lessonIdent}[objective]`);
     card.querySelector('.lesson-content-label').setAttribute('for', `${lessonIdent}[content]`);
+    card.querySelector('.lesson-completion-label').setAttribute('for', `${lessonIdent}[completion]`);
 
     card.querySelector('.lesson-label').textContent = `Lesson ${lessonCount + 1}`;
 
