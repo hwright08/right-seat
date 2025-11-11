@@ -90,8 +90,6 @@ exports.createSyllabus = async (req, res) => {
     completion: l.completion,
   }));
 
-  console.log({ title, version, ratingId, entityId, lessons: newLessons });
-
   try {
     await models.syllabus.create(
       { title, version, ratingId, entityId, lessons: newLessons },
