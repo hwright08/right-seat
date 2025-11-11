@@ -1,0 +1,18 @@
+[
+  {
+    "id": "1",
+    "type": "sales",
+    "orgName": "Some Org",
+    "contactName": "Test Person",
+    "email": "test@example.com",
+    "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris pharetra tempus volutpat. Vivamus ut turpis sem. Nam interdum commodo neque commodo ultrices. Ut ultrices orci tellus, in porta nibh condimentum feugiat. Duis tristique diam id ante porttitor consectetur. Nunc aliquam nunc in ipsum dictum, non dignissim ligula sodales. Quisque dictum mauris eu venenatis sodales. Praesent nunc orci, accumsan vel lacus quis, pellentesque varius ante.\n\nEtiam scelerisque lobortis iaculis. Curabitur mi lorem, ultricies nec arcu vel, tincidunt mollis lorem. Cras vestibulum suscipit fringilla. Duis at sapien id leo tempus rhoncus. Sed ornare malesuada diam nec sollicitudin. Donec quis dui enim. Phasellus sagittis, magna maximus placerat lacinia, purus mi vulputate odio, et accumsan ex dolor quis augue. Cras faucibus dictum tellus et lacinia. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam feugiat metus eget tempor tempus. Curabitur sagittis laoreet sapien, sit amet maximus urna sagittis at. Proin euismod placerat sem, a sagittis neque. Integer at vestibulum velit. Pellentesque dictum leo id egestas pretium. Nam efficitur cursus massa."
+  },
+  {
+    "id": "2",
+    "type": "general",
+    "orgName": null,
+    "contactName": "General Support",
+    "email": "general@test.com",
+    "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum molestie."
+  }
+]

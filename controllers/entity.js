@@ -1,12 +1,12 @@
 /** @module controllers/entity */
 
 const { literal, Op } = require('sequelize');
-const dayjs = require('dayjs');
 
 const models = require('../models');
 
 const { getSubscriptions } = require('../controllers/subscription');
 const { getAllSyllabuses } = require('../controllers/syllabus');
+const { getAllMessages } = require('../controllers/message');
 
 
 // ----------------------------------
@@ -196,6 +196,7 @@ exports.getDashboardPage = async (req, res) => {
   let students = [];
   let syllabuses = [];
   let subscriptions = [];
+  let messages = [];
 
   // Get Global Privilege specific info
   if (['global'].includes(priv)) {
@@ -203,6 +204,7 @@ exports.getDashboardPage = async (req, res) => {
     entities = await this.getAllEntities({
       searchStr: req.query.entity
     });
+    messages = await getAllMessages();
   }
 
   // Get CFIs
@@ -232,12 +234,13 @@ exports.getDashboardPage = async (req, res) => {
   res.render('dashboard', {
     userEntity,
     currentEntity,
-    entities,
+    entities: entities.filter(e => e.subscription.key != 'enterprise'),
     cfis,
     students,
     syllabuses,
     subscriptions,
     priv,
+    messages,
     ...counts
   });
 }

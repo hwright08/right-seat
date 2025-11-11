@@ -51,6 +51,10 @@ async function main() {
       await models.syllabus.bulkCreate(syllabusData.map(sy => ({ ...sy, entityId: entity.id })), { include: [{ model: models.lesson, as: 'lessons' }]});
     }
 
+    // Create some messages
+    console.log('Initialize messages...');
+    await models.message.bulkCreate(require('../data/messages.json'));
+
     console.log('DB Initialized!!!');
   } catch (err) {
     console.error(err);

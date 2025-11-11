@@ -19,3 +19,41 @@ const models = require('../models');
 exports.createMessage = async (data) => {
   return await models.message.create(data);
 }
+
+exports.getAllMessages = async () => {
+  return await models.message.findAll({
+    where: {
+      resolved: false,
+    }
+  });
+}
+
+exports.getMessagePage = async (req, res) => {
+  const message = await models.message.findOne({
+    where: {
+      id: req.params.messageId
+    }
+  });
+  res.render('message', { message });
+}
+
+exports.deleteMessage = async (req, res) => {
+  await models.message.destroy({
+    where: {
+      id: req.params.messageId
+    }
+  });
+
+  res.redirect('/dashboard');
+}
+
+exports.resolveMessage = async (req, res) => {
+  await models.message.update(
+    { resolved: true },
+    {
+      where: {
+      id: req.params.messageId
+    }
+  });
+  res.redirect('/dashboard');
+}

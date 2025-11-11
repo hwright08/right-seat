@@ -49,5 +49,6 @@ app.use('/dashboard', routes.dashboard);
 app.use('/entity/:entityId/syllabus', routes.syllabus);
 app.use('/entity/:entityId/user', routes.user);
 app.use('/entity', routes.entity);
+app.use('/message', routes.message); // excludes initial post due to lack of privileges needed to POST
 
 app.listen(3000);

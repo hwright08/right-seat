@@ -27,9 +27,6 @@ router.get('/terms', publicController.getTermsPage);
 // POST => /login
 router.post('/login', publicController.postLogin);
 
-// POST => /message
-router.post('/message', publicController.postContactMessage);
-
 // POST => /sign-up
 router.post('/sign-up', publicController.postSignUp);
 

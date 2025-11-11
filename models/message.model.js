@@ -69,6 +69,11 @@ const Message = db.define('message', {
       }
     }
   },
+  resolved: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+    allowNull: false,
+  }
 }, {
   validate: {
     orgNameRequiredForSales() {
