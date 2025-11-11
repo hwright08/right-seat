@@ -172,3 +172,17 @@ exports.postContactMessage = async (req, res) => {
     message
   });
 }
+
+/** Render the Privacy Page */
+exports.getPrivacyPage = async (req, res) => {
+  res.render('public/privacy', {
+    layout: LAYOUT
+  });
+}
+
+/** Render the Terms Page */
+exports.getTermsPage = async (req, res) => {
+  res.render('public/terms', {
+    layout: LAYOUT
+  });
+}

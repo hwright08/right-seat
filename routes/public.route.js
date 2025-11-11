@@ -18,6 +18,12 @@ router.get('/login', publicController.getLoginPage);
 // GET => /sign-up
 router.get('/sign-up', publicController.getSignUpPage);
 
+// GET => /privacy
+router.get('/privacy', publicController.getPrivacyPage);
+
+// GET => /terms
+router.get('/terms', publicController.getTermsPage);
+
 // POST => /login
 router.post('/login', publicController.postLogin);
 

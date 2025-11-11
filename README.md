@@ -16,3 +16,9 @@
 The auto-generated passwords are the user's first name and last name, no spaces.
 
 For example, if the user's name is John Doe, their password would be JohnDoe. Please reference the `data/users.json` or `data/students.json` file for pre-populated users.
+
+---
+
+# TODO
+
+- [ ] Messages

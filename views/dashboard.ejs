@@ -78,7 +78,7 @@
       <div class="d-flex gap-2">
         <form class="input-group input-group-sm" style="max-width:300px" method="GET" action="/dashboard">
           <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
-          <input class="form-control" id="entity" name="entity" placeholder="Search orgs…">
+          <input class="form-control" id="entity" name="entity" placeholder="Search...">
           <button class="btn btn-sm btn-outline-secondary text-nowrap" type="submit">
             Search
           </button>
@@ -141,7 +141,7 @@
               <form class="input-group input-group-sm" style="max-width:240px" method="GET"
                 action="/dashboard/<%= currentEntity.id %>">
                 <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
-                <input class="form-control" name="cfi" placeholder="Search CFIs…" id="cfiSearch">
+                <input class="form-control" name="cfi" placeholder="Search…" id="cfiSearch">
                 <button class="btn btn-sm btn-outline-secondary text-nowrap" type="submit">
                   Search
                 </button>
@@ -196,7 +196,7 @@
             <div class="d-flex gap-2">
               <form class="input-group input-group-sm" style="max-width:240px" method="GET" action="/dashboard/<%= currentEntity.id %>">
                 <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
-                <input class="form-control" placeholder="Search students…" id="studentSearch" name="student">
+                <input class="form-control" placeholder="Search…" id="studentSearch" name="student">
                 <button class="btn btn-sm btn-outline-secondary text-nowrap" type="submit">
                   Search
                 </button>
@@ -313,6 +313,7 @@
       </div>
 
       <!-- Edit subscription -->
+      <% if (currentEntity.subscription.key != 'enterprise') {%>
       <div class="col-xl-6">
         <% if (['global', 'admin' ].includes(priv)) { %>
           <div class="card hero-shadow h-100 shadow-sm">
@@ -337,6 +338,7 @@
           </div>
           <% } %>
       </div>
+      <% } %>
     </div>
 
     <script>

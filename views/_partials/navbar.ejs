@@ -9,14 +9,14 @@
     <ul class="navbar-nav ms-auto me-2 align-items-center gap-3">
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle fw-semibold" href="#" role="button" data-bs-toggle="dropdown">
-          Haley Wright (CFI)
+          <%= user.fullName %>
         </a>
         <ul class="dropdown-menu dropdown-menu-end">
-          <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Settings</a></li>
+          <!-- <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Settings</a></li>
           <li><a class="dropdown-item" href="#"><i class="bi bi-person-badge me-2"></i>Profile</a></li>
           <li>
             <hr class="dropdown-divider">
-          </li>
+          </li> -->
           <li>
             <form method="POST" action="/logout">
               <button type="submit" class="dropdown-item">
