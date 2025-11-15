@@ -13,8 +13,6 @@ router.get(['/', '/:entityId'], entityController.getDashboardPage);
 
 // GET => /dashboard/:entityId/user/:userId
 // Get a CFI Dashboard
-router.get('/:entityId/user/:userId', (req, res) => {
-  res.render('profile', {});
-});
+router.get('/:entityId/user/:userId', userController.getUserProfile);
 
 module.exports = router;

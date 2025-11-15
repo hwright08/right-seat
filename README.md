@@ -22,7 +22,6 @@ For example, if the user's name is John Doe, their password would be JohnDoe. Pl
 # TODO
 
 ## Users
-- Edit a user's info
 - Deactivate user
 
 ### CFI

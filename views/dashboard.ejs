@@ -32,7 +32,7 @@
         <div class="card hero-shadow h-100">
           <div class="card-body">
 
-            <div class="text-secondary small">CFIs</div>
+            <div class="text-secondary small">Active CFIs</div>
             <div class="fs-2 fw-bold">
               <%= cfiCount ?? 0 %>
             </div>
@@ -170,6 +170,9 @@
                       <td>
                         <%= cfi.firstName %>
                           <%= cfi.lastName %>
+                          <% if (cfi.inactiveDate) { %>
+                            (inactive)
+                          <% } %>
                       </td>
                       <td>
                         <%= students.filter(s=> s.cfiId === cfi.id).length %>

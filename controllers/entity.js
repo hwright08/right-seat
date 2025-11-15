@@ -87,7 +87,7 @@ exports.getAllEntities = async (searchCriteria) => {
           FROM users u
           WHERE u.entityId = entity.id
             AND u.privilegeId IN (2,3)
-            AND (u.inactiveDate IS NULL OR CURRENT_DATE <= u.inactiveDate)
+            AND (u.inactiveDate IS NULL)
         )`),
         'cfiCount',
 
@@ -99,7 +99,7 @@ exports.getAllEntities = async (searchCriteria) => {
           FROM users u
           WHERE u.entityId = entity.id
             AND u.privilegeId IN (4)
-            AND (u.inactiveDate IS NULL OR CURRENT_DATE <= u.inactiveDate)
+            AND (u.inactiveDate IS NULL)
         )`),
         'studentCount',
       ]
@@ -143,7 +143,7 @@ exports.getAllCFIs = async (entityId, { searchStr }) => {
     ];
   }
 
-  return await models.user.findAll({ where: cfiWhere })
+  return await models.user.findAll({ where: cfiWhere, order: ['inactiveDate', 'firstName', 'lastName'] })
 }
 
 /**

@@ -3,6 +3,7 @@
 const models = require('../models');
 const entityController = require('../controllers/entity');
 const ratingController = require('../controllers/rating');
+const dayjs = require('dayjs');
 
 // ----------------------------------
 // LOGIC
@@ -16,21 +17,29 @@ const ratingController = require('../controllers/rating');
  * @returns {Promise<object>}
  */
 exports.getUser = async (options = {}) => {
+  const incl = [];
+
+  incl.push(
+    options.id
+    ? {
+      model: models.privilege,
+      attributes: ['name'],
+    }
+    : {
+      model: models.privilege,
+      attributes: [['name', 'priv']],
+      separate: false,
+    }
+  );
+
+  if (options.includeRatings) {
+    delete options.includeRatings;
+    incl.push({ model: models.rating, attributes: ['id', 'label'] })
+  }
+
   return options.id
-    ? await models.user.findByPk(options.id, {
-      include: [{
-        model: models.privilege,
-        attributes: ['name'],
-      }]
-    })
-    : await models.user.findOne({
-      where: options,
-      include: [{
-        model: models.privilege,
-        attributes: [['name', 'priv']],
-        separate: false,
-      }]
-    });
+    ? await models.user.findByPk(options.id, { include: incl })
+    : await models.user.findOne({ where: options, include: incl });
 }
 
 
@@ -60,6 +69,73 @@ exports.createUser = async (req, res) => {
   return user;
 }
 
+exports.updateUser = async (req, res) => {
+  const { userId, entityId } = req.params;
+  const { firstName, lastName, email, hasGoldSeal, ratings } = req.body;
+  const data = {
+    firstName,
+    lastName,
+    email,
+    hasGoldSeal: hasGoldSeal === 'true',
+  }
+
+  try {
+    const user = await models.user.findByPk(userId);
+    await user.update(
+      data,
+      { where: { id: userId }}
+    );
+
+    if (Array.isArray(ratings)) {
+      await user.setRatings(ratings);
+    } else {
+      await user.setRatings([]);
+    }
+
+    return res.redirect(`/dashboard/${entityId}/user/${userId}`);
+  } catch (err) {
+    console.error(err);
+    res.locals.errors = err.errors;
+    res.locals.message = 'Could not update user';
+    res.locals.data = req.body;
+    return await this.getUserUpdatePage(req, res);
+  }
+}
+
+exports.deactivateUser = async (req, res) => {
+  const { userId, entityId } = req.params;
+  try {
+    const user = await models.user.findByPk(userId);
+    user.update({
+      inactiveDate: dayjs().format('YYYY-MM-DD'),
+    });
+    res.redirect(`/dashboard/${entityId}`);
+  } catch (err) {
+    console.error(err);
+    res.locals.errors = err.errors;
+    res.locals.message = 'Could not deactivate user';
+    res.locals.data = req.body;
+    return await this.getUserProfile(req, res);
+  }
+}
+
+exports.reactivateUser = async (req, res) => {
+  const { userId, entityId } = req.params;
+  try {
+    const user = await models.user.findByPk(userId);
+    user.update({
+      inactiveDate: null,
+    });
+    res.redirect(`/dashboard/${entityId}/user/${userId}`);
+  } catch (err) {
+    console.error(err);
+    res.locals.errors = err.errors;
+    res.locals.message = 'Could not deactivate user';
+    res.locals.data = req.body;
+    return await this.getUserProfile(req, res);
+  }
+}
+
 
 // ----------------------------------
 // VIEWS
@@ -77,7 +153,7 @@ exports.getCreateUserPage = async (req, res) => {
 
 exports.postCreateUser = async (req, res) => {
   try {
-    const user = await this.createUser(req, res);
+    await this.createUser(req, res);
     return res.redirect(`/dashboard/${req.params.entityId}`)
   } catch (err) {
     console.error(err);
@@ -86,4 +162,28 @@ exports.postCreateUser = async (req, res) => {
     res.locals.data = req.body;
     return await this.getCreateUserPage(req, res);
   }
+}
+
+exports.getUserProfile = async (req, res) => {
+  const currentEntity = (await entityController.getAllEntities({ entityId: req.params.entityId }))[0];
+  const profile = await this.getUser({ id: req.params.userId });
+  res.render('profile', {
+    currentEntity,
+    profile
+  });
+}
+
+exports.getUserUpdatePage = async (req, res) => {
+  const currentEntity = (await entityController.getAllEntities({ entityId: req.params.entityId }))[0];
+  const ratings = await ratingController.getRatings();
+  const user = await this.getUser({ id: req.params.userId, includeRatings: true });
+  user.ratings = user.ratings.map(r => `${r.id}`);
+  console.log(user.ratings);
+  res.render('add-user', {
+    currentEntity,
+    ratings,
+    type: req.query.type?.toUpperCase(),
+    data: user,
+    errors: []
+  });
 }
