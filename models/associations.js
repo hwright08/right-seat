@@ -34,8 +34,8 @@ module.exports = () => {
   });
 
   // User / Rating Relationship
-  models.rating.belongsToMany(models.user, { through: 'UserRating' });
-  models.user.belongsToMany(models.rating, { through: 'UserRating' });
+  models.rating.belongsToMany(models.user, { through: 'userRating' });
+  models.user.belongsToMany(models.rating, { through: 'userRating' });
 
   // Syllabus / Rating Relationship
   models.rating.hasMany(models.syllabus);
@@ -55,4 +55,27 @@ module.exports = () => {
     as: 'syllabus',
     foreignKey: 'syllabusId',
   });
+
+  // Syllabus / Student Relationship
+  models.syllabus.hasMany(models.user);
+  models.user.belongsTo(models.syllabus);
+
+  // Lesson / Student Relationship
+  models.user.belongsToMany(models.lesson, {
+    through: models.userLesson,
+    foreignKey: 'userId',
+    otherKey: 'lessonId',
+    as: 'lessons',
+  });
+  models.lesson.belongsToMany(models.user, {
+    through: models.userLesson,
+    foreignKey: 'lessonId',
+    otherKey: 'userId',
+    as: 'students',
+  });
+
+  models.userLesson.belongsTo(models.user, { foreignKey: 'userId' });
+  models.userLesson.belongsTo(models.lesson, { foreignKey: 'lessonId' });
+  models.user.hasMany(models.userLesson, { as: 'userLessons', foreignKey: 'userId' });
+  models.lesson.hasMany(models.userLesson, { as: 'userLessons', foreignKey: 'lessonId' });
 }

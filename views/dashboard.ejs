@@ -16,59 +16,49 @@
 
 <!-- Stats -->
 <div class="row g-3">
-  <% if (userEntity.id==currentEntity.id && priv==='global' ) { %>
+  <% if (currentEntity.subscription?.key != 'enterprise') { %>
     <div class="col-6 col-xl">
       <div class="card hero-shadow h-100">
         <div class="card-body">
-          <div class="text-secondary small">Entities</div>
+
+          <div class="text-secondary small">Active CFIs</div>
           <div class="fs-2 fw-bold">
-            <%= entities.length %>
+            <%= cfis.length ?? 0 %>
           </div>
         </div>
       </div>
     </div>
-    <% } %>
-      <div class="col-6 col-xl">
-        <div class="card hero-shadow h-100">
-          <div class="card-body">
-
-            <div class="text-secondary small">Active CFIs</div>
-            <div class="fs-2 fw-bold">
-              <%= cfiCount ?? 0 %>
-            </div>
+    <div class="col-6 col-xl">
+      <div class="card hero-shadow h-100">
+        <div class="card-body">
+          <div class="text-secondary small">Active Students</div>
+          <div class="fs-2 fw-bold">
+            <%= students.length ?? 0 %>
           </div>
         </div>
       </div>
-      <div class="col-6 col-xl">
-        <div class="card hero-shadow h-100">
-          <div class="card-body">
-            <div class="text-secondary small">Active Students</div>
-            <div class="fs-2 fw-bold">
-              <%= studentCount ?? 0 %>
-            </div>
+    </div>
+    <div class="col-6 col-xl">
+      <div class="card hero-shadow h-100">
+        <div class="card-body">
+          <div class="text-secondary small">Avg. Student Progress</div>
+          <div class="fs-2 fw-bold text-success">TODO: 61%</div>
+          <div class="progress small mt-2">
+            <div class="progress-bar bg-success" style="width:61%"></div>
           </div>
         </div>
       </div>
-      <div class="col-6 col-xl">
-        <div class="card hero-shadow h-100">
-          <div class="card-body">
-            <div class="text-secondary small">Avg. Student Progress</div>
-            <div class="fs-2 fw-bold text-success">TODO: 61%</div>
-            <div class="progress small mt-2">
-              <div class="progress-bar bg-success" style="width:61%"></div>
-            </div>
-          </div>
+    </div>
+    <div class="col-6 col-xl">
+      <div class="card hero-shadow h-100">
+        <div class="card-body">
+          <div class="text-secondary small">First-Time Pass</div>
+          <div class="fs-2 fw-bold">TODO: 79%</div>
         </div>
       </div>
-      <div class="col-6 col-xl">
-        <div class="card hero-shadow h-100">
-          <div class="card-body">
-            <div class="text-secondary small">First-Time Pass</div>
-            <div class="fs-2 fw-bold">TODO: 79%</div>
-          </div>
-        </div>
-      </div>
-</div>
+    </div>
+  </div>
+  <% } %>
 
 <!-- Entities -->
 <% if (userEntity.id==currentEntity.id && priv==='global' ) { %>
@@ -170,9 +160,9 @@
                       <td>
                         <%= cfi.firstName %>
                           <%= cfi.lastName %>
-                          <% if (cfi.inactiveDate) { %>
-                            (inactive)
-                          <% } %>
+                            <% if (cfi.inactiveDate) { %>
+                              (inactive)
+                              <% } %>
                       </td>
                       <td>
                         <%= students.filter(s=> s.cfiId === cfi.id).length %>
@@ -385,7 +375,7 @@
 
               <% if (!messages.length) { %>
                 <p class="text-secondary small mt-3">No messages found.</p>
-              <% } %>
+                <% } %>
             </div>
           </div>
         </div>

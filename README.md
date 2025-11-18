@@ -21,9 +21,6 @@ For example, if the user's name is John Doe, their password would be JohnDoe. Pl
 
 # TODO
 
-## Users
-- Deactivate user
-
 ### CFI
 
 - Calc assigned students

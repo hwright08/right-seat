@@ -166,11 +166,23 @@ exports.postCreateUser = async (req, res) => {
 
 exports.getUserProfile = async (req, res) => {
   const currentEntity = (await entityController.getAllEntities({ entityId: req.params.entityId }))[0];
-  const profile = await this.getUser({ id: req.params.userId });
-  res.render('profile', {
-    currentEntity,
-    profile
-  });
+  const profile = await this.getUser({ id: req.params.userId, includeRatings: true });
+
+  let students;
+  if (profile.privilege.name == 'student') {
+    students = await entityController.getAllStudents(currentEntity, {});
+    const me = students.find(st => st.id == profile.id);
+    profile.syllabus = me.syllabus;
+  } else {
+    students = await entityController.getAllStudents(currentEntity.id, { cfiId: req.params.userId });
+  }
+
+  res.render('student-dashboard', {});
+  // res.render('profile', {
+  //   currentEntity,
+  //   profile,
+  //   students
+  // });
 }
 
 exports.getUserUpdatePage = async (req, res) => {
@@ -178,7 +190,6 @@ exports.getUserUpdatePage = async (req, res) => {
   const ratings = await ratingController.getRatings();
   const user = await this.getUser({ id: req.params.userId, includeRatings: true });
   user.ratings = user.ratings.map(r => `${r.id}`);
-  console.log(user.ratings);
   res.render('add-user', {
     currentEntity,
     ratings,

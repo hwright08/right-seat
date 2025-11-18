@@ -173,7 +173,22 @@ exports.getAllStudents = async (entityId, {searchStr, cfiId}) => {
     studentWhere['cfiId'] = cfiId;
   }
 
-  return await models.user.findAll({ where: studentWhere });
+  return await models.user.findAll({
+    where: studentWhere,
+    include: [{
+      model: models.syllabus,
+      required: false,
+      include: [{
+        model: models.lesson,
+        as: 'lessons',
+        include: [{
+          model: models.userLesson,
+          as: 'userLessons',
+          required: false,
+        }],
+      }],
+    }],
+  });
 }
 
 exports.updateEntity = async (entityId, data) => {
@@ -201,9 +216,7 @@ exports.getDashboardPage = async (req, res) => {
   // Get Global Privilege specific info
   if (['global'].includes(priv)) {
     subscriptions = await getSubscriptions();
-    entities = await this.getAllEntities({
-      searchStr: req.query.entity
-    });
+    entities = await this.getAllEntities({ searchStr: req.query.entity });
     messages = await getAllMessages();
   }
 
@@ -224,13 +237,6 @@ exports.getDashboardPage = async (req, res) => {
   const currentEntity = (await this.getAllEntities({ entityId }))[0];
   const userEntity = (await this.getAllEntities({ entityId: req.user.entityId }))[0];
 
-  // Get the total counts for all entities
-  const counts = entities.reduce((sums, val) => {
-    sums.studentCount += val.studentCount;
-    sums.cfiCount += val.cfiCount;
-    return sums;
-  }, { studentCount: 0, cfiCount: 0 });
-
   res.render('dashboard', {
     userEntity,
     currentEntity,
@@ -241,7 +247,6 @@ exports.getDashboardPage = async (req, res) => {
     subscriptions,
     priv,
     messages,
-    ...counts
   });
 }
 
