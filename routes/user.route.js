@@ -1,13 +1,13 @@
 const express = require('express');
 const userController = require('../controllers/user.controller');
 const syllabusController = require('../controllers/syllabus.controller');
-const { isAuth, isStudent, isAdmin, isCfi } = require('../middleware/auth');
+const { auth, isStudent, isAdmin, isCfi } = require('../middleware/auth');
 const { query, body, param } = require('express-validator');
 
 const router = express.Router();
 
 // Must be logged in
-router.use(isAuth);
+router.use(auth);
 
 // GET => /dashboard
 router.get('/dashboard', isStudent, userController.getDashboard);

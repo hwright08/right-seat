@@ -36,7 +36,12 @@ exports.postSignUp = async (req, res, next) => {
 
     // add user to session and route to admin dashboard
     user = await userController.findUser({ email: req.body.email });
-    req.session.user = user;
+    req.session.user = {
+      fullName: user.fullName,
+      id: user.id,
+      privilege: user.privilege.name,
+      entityId: user.entityId
+    };
     req.session.save(err => {
       if (err) console.error('Error saving session:', err);
       req.flash('success', 'Account created!');
@@ -91,7 +96,7 @@ exports.postLogin = async (req, res, next) => {
     }
 
     req.session.user = {
-      fullName:user.fullName,
+      fullName: user.fullName,
       id: user.id,
       privilege: user.privilege.name,
       entityId: user.entityId

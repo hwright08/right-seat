@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const syllabusController = require('../controllers/syllabus.controller');
 const { body } = require('express-validator');
-const { isAuth, isAdmin } = require('../middleware/auth');
+const { auth, isAdmin } = require('../middleware/auth');
 
 // Must be authenticated and an admin to access syllabi
-router.use(isAuth);
+router.use(auth);
 router.use(isAdmin);
 
 // GET => /syllabus/create
