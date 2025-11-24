@@ -41,7 +41,7 @@ app.use(
   session({
     secret: process.env.SECRET_ACCESS_TOKEN || 'secret', // The longer the better!
     resave: false, // Don't resave session data if nothing has changed
-    saveUninitialized: false, // Don't automatically create a session object if not initalized by app code
+    saveUninitialized: false, // Don't automatically create a session object if not initialized by app code
     store: new SequelizeStore({ db }),
     cookie: {
       maxAge : 1000 * 60 * 60, // cookie lasts for one hour (in milliseconds)

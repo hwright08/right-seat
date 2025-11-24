@@ -23,6 +23,7 @@ db.addHook('beforeValidate', (instance) => {
     const value = instance.getDataValue(fieldName);
     const type = fieldDefinition?.type?.key;
 
+    // Trim all strings before going into the database
     if (typeof value === 'string' && ['STRING', 'TEXT'].includes(type)) {
       let trimmedVal = value?.trim();
       if (trimmedVal === '') trimmedVal = null;

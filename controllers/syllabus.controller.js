@@ -3,6 +3,11 @@ const ratingController = require('./rating.controller');
 const errorController = require('./error.controller');
 const dayjs = require('dayjs');
 
+/**
+ * Get syllabi based on specified criteria, including rating and lesson details
+ * @param {object} where - An object describing which entity to get
+ * @returns All applicable syllabi
+ */
 exports.getSyllabi = async (where) => {
   try {
     const options = {
@@ -30,6 +35,7 @@ exports.getSyllabi = async (where) => {
   }}
 }
 
+/** Render the create syllabus page */
 exports.getSyllabusCreatePage = async (req, res, next) => {
   try {
     if (!req.query.entityId) {
@@ -46,6 +52,7 @@ exports.getSyllabusCreatePage = async (req, res, next) => {
   }
 }
 
+/** Create the syllabus */
 exports.createSyllabus = async (req, res, next) => {
   try {
     errorController.validationHandler(req, res);
@@ -73,7 +80,7 @@ exports.createSyllabus = async (req, res, next) => {
   }
 }
 
-
+/** Render the update syllabus page */
 exports.getUpdateSyllabusPage = async (req, res, next) => {
   try {
     const syllabi = await this.getSyllabi({ id: req.params.syllabusId });
@@ -91,6 +98,7 @@ exports.getUpdateSyllabusPage = async (req, res, next) => {
   }
 }
 
+/** Update a syllabus */
 exports.updateSyllabus = async (req, res, next) => {
   try {
     errorController.validationHandler(req, res);
@@ -147,8 +155,15 @@ exports.updateSyllabus = async (req, res, next) => {
   }
 }
 
+/**
+ * Get a specific lesson and all of the user lesson data tied to it
+ * @param {number} userId - The user tied to the lesson
+ * @param {number} lessonId - The specific lesson to fetch
+ * @returns The specified lesson and all user lesson info
+ */
 exports.getLessonInfo = async (userId, lessonId) => {
   try {
+    // Get the lesson
     const lesson = await models.lesson.findByPk(lessonId, {
       include: [{
         model: models.userLesson,
@@ -157,6 +172,8 @@ exports.getLessonInfo = async (userId, lessonId) => {
         required: false,
       }],
     });
+
+    // Pull out user lesson info into it's own object
     const plain = lesson.get({ plain: true });
     plain.userLesson = plain.userLessons[0] || {};
     return plain;
@@ -165,24 +182,29 @@ exports.getLessonInfo = async (userId, lessonId) => {
   }
 }
 
+/** Save user lesson data tied to a lesson */
 exports.saveLessonInfo = async (req, res, next) => {
   try {
     errorController.validationHandler(req, res);
 
+    // Grab the data
     const { userId, lessonId } = req.params;
     const { status, notes }= req.body;
 
+    // Check to see if the user lesson record already exists
     const userLesson = await models.userLesson.findOne({ where: {
       userId,
       lessonId
     }});
 
+    // If it does, just update
     if (userLesson) {
       await userLesson.update({
         status,
         notes
       });
     } else {
+      // else, create a new user lesson record
       await models.userLesson.create({ userId, lessonId, status, notes });
     }
 

@@ -3,9 +3,13 @@ const router = express.Router();
 const syllabusController = require('../controllers/syllabus.controller');
 const { body } = require('express-validator');
 
+// GET => /syllabus/create
 router.get('/create', syllabusController.getSyllabusCreatePage);
+
+// GET => /syllabus/:syllabusId
 router.get('/:syllabusId', syllabusController.getUpdateSyllabusPage);
 
+// POST => /syllabus/create
 router.post(
   '/create',
   [
@@ -22,6 +26,7 @@ router.post(
   syllabusController.createSyllabus
 )
 
+// POST => /syllabus/update
 router.post(
   '/update',
   [

@@ -4,18 +4,18 @@ const entityController = require('./entity.controller');
 const userController = require('./user.controller');
 const { verifyPassword } = require('../utils/authUtil');
 
+/** Get's the sign up page for a user / school */
 exports.getSignUpPage = async (req, res, next) => {
   try {
     const subscriptions = await subscriptionController.getSubscriptions();
-    res.render('auth/sign-up', {
-      subscriptions,
-    });
+    res.render('auth/sign-up', { subscriptions });
   } catch (err) {
     if (!err.statusCode) err.statusCode = 500;
     next(err);
   }
 }
 
+/** Save the user's info from the sign up page */
 exports.postSignUp = async (req, res, next) => {
   try {
     validationHandler(req, res);
@@ -52,6 +52,7 @@ exports.postSignUp = async (req, res, next) => {
   }
 }
 
+/** Sign out the user */
 exports.logout = (req, res, next) => {
   req.session.destroy(err => {
     if (err) console.error('Error destroying session:', err);
@@ -59,12 +60,12 @@ exports.logout = (req, res, next) => {
   });
 }
 
-exports.getLoginPage = (req, res, next) => {
-  res.render('auth/login', {})
-}
 
+/** Render the login page */
+exports.getLoginPage = (req, res, next) => res.render('auth/login', {});
+
+/** Sign in a user */
 exports.postLogin = async (req, res, next) => {
-
   try {
     validationHandler(req, res);
     const { email, password } = req.body;

@@ -5,6 +5,7 @@ const { query, param, body } = require('express-validator');
 
 const router = express.Router();
 
+// GET => /entity/:entityId
 router.get(
   '/:entityId',
   [
@@ -14,6 +15,7 @@ router.get(
   entityController.getEntityDashboard
 );
 
+// POST => /entity/:entityId
 router.post(
   '/:entityId/subscription',
   [

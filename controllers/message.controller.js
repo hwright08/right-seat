@@ -25,43 +25,67 @@ exports.createMessage = async (req, res, next) => {
   }
 }
 
+/**
+ * Get all unresolved messages
+ * @returns All un-resolved messages
+ */
 exports.getAllMessages = async () => {
-  return await models.message.findAll({
-    where: {
-      resolved: false,
-    }
-  });
-}
-
-exports.getMessagePage = async (req, res) => {
-  validationHandler(req, res);
-  const message = await models.message.findOne({
-    where: {
-      id: req.params.messageId
-    }
-  });
-  res.render('message', { message });
-}
-
-exports.deleteMessage = async (req, res) => {
-  validationHandler(req, res);
-  await models.message.destroy({
-    where: {
-      id: req.params.messageId
-    }
-  });
-
-  res.redirect('/dashboard');
-}
-
-exports.resolveMessage = async (req, res) => {
-  validationHandler(req, res);
-  await models.message.update(
-    { resolved: true },
-    {
+  try {
+    return await models.message.findAll({
       where: {
-      id: req.params.messageId
-    }
-  });
-  res.redirect('/dashboard');
+        resolved: false,
+      }
+    });
+  } catch (err) {
+    const error = new Error('Could not fetch messages: ' + err);
+    throw(error);
+  }
+}
+
+/** Render a single message's page */
+exports.getMessagePage = async (req, res, next) => {
+  try {
+    validationHandler(req, res);
+    const message = await models.message.findOne({
+      where: {
+        id: req.params.messageId
+      }
+    });
+    res.render('message', { message });
+  } catch (err) {
+    next(err);
+  }
+}
+
+/** Delete a message */
+exports.deleteMessage = async (req, res, next) => {
+  try {
+    validationHandler(req, res);
+    await models.message.destroy({
+      where: {
+        id: req.params.messageId
+      }
+    });
+
+    res.redirect('/dashboard');
+  } catch (err) {
+    next(err);
+  }
+}
+
+/** Resolve a message */
+exports.resolveMessage = async (req, res, next) => {
+  try {
+    validationHandler(req, res);
+    await models.message.update(
+      { resolved: true },
+      {
+        where: {
+        id: req.params.messageId
+      }
+    });
+    res.redirect('/dashboard');
+  } catch (err) {
+    next(err);
+  }
 }

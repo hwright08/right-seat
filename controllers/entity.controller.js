@@ -8,6 +8,14 @@ const { literal, Op } = require('sequelize');
 /**
  * Create a new entity.
  * An entity is the umbrella "org" over all users of the account
+ * @param {object} data - The data used to save a new entity
+ * @param {string} [data.orgName] - The flight school's name. If a CFI is signing up, the umbrella account will default to the CFI's name.
+ * @param {string} [data.orgPhone] - The phone number of the organization
+ * @param {number} data.subscription - The subscription the entity will be signing up for
+ * @param {string} data.firstName - The admin's first name
+ * @param {string} data.lastName - The admin's last name
+ * @param {string} data.email - The admin's contact email
+ * @param {string} data.password - The admin's password
  */
 exports.createNewEntity = async (data) => {
   try {
@@ -45,6 +53,11 @@ exports.createNewEntity = async (data) => {
   }
 }
 
+/**
+ * Get an entity by ID
+ * @param {number} entityId - The ID of the entity we want to get
+ * @returns {object} - Entity information, including the subscription details
+ */
 exports.getEntity = async (entityId) => {
   const entity = await models.entity.findOne({
     where: { id: entityId },
@@ -66,7 +79,7 @@ exports.getEntity = async (entityId) => {
 
 
 /**
- * Get all entities. Will also search entity names
+ * Get all entities. Will also search entity names. Includes the CFI and Student counts and subscription information.
  * @param {object} [searchCriteria] - An object containing any search criteria
  * @param {string} [searchCriteria.name] - An optionals string to search the entity name
  * @param {number} [searchCriteria.entityId] - The specific entity ID
@@ -74,12 +87,15 @@ exports.getEntity = async (entityId) => {
  */
 exports.getAllEntities = async (searchCriteria = {}) => {
   let whereClause = {};
+
+  // search an entity by name
   if (searchCriteria.name) {
     whereClause['name'] = {
       [Op.like]: `%${searchCriteria.name}%`
     }
   }
 
+  // Get a specific entity by ID
   if (searchCriteria.entityId) {
     whereClause['id'] = searchCriteria.entityId;
   }
@@ -124,8 +140,11 @@ exports.getAllEntities = async (searchCriteria = {}) => {
   });
 };
 
+
+/** Render the entity / org's dashboard */
 exports.getEntityDashboard = async (req, res, next) => {
   try {
+    // Get all of the data needed to render the dashboard
     const [
       currentEntity,
       subscriptions,
@@ -140,16 +159,16 @@ exports.getEntityDashboard = async (req, res, next) => {
       syllabusController.getSyllabi({ entityId: req.params.entityId }),
     ]);
 
+    // Get the student's average progress
     let overallProgress = 0;
     for (const student of students) {
       const studentProgress = await userController.getAvgStudentProgress(student.id);
       student.progress = studentProgress;
-
       overallProgress += studentProgress;
     }
-
     overallProgress /= students.length;
 
+    // Render the view
     res.render('dashboard/admin', {
       currentEntity,
       subscriptions,
@@ -166,6 +185,7 @@ exports.getEntityDashboard = async (req, res, next) => {
   }
 }
 
+/** Update the entity's subscription */
 exports.updateSubscription = async (req, res, next) => {
   try {
     validationHandler(req, res);

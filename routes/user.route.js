@@ -6,8 +6,10 @@ const { query, body, param } = require('express-validator');
 
 const router = express.Router();
 
+// GET => /dashboard
 router.get('/dashboard', isStudent, userController.getDashboard);
 
+// GET => /user/create
 router.get(
   '/user/create',
   [
@@ -17,18 +19,38 @@ router.get(
   userController.getCreateUserPage
 );
 
-router.get('/cfi/:userId', [param('userId').isInt().toInt()], userController.getCfiDashboard);
+// GET /cfi/:userId
+router.get(
+  '/cfi/:userId',
+  [param('userId').isInt().toInt()],
+  userController.getCfiDashboard
+);
 
-router.get('/student/:userId', [param('userId').isInt().toInt()], userController.getStudentDashboard);
+// GET => /student/:userId
+router.get(
+  '/student/:userId',
+  [param('userId').isInt().toInt()],
+  userController.getStudentDashboard
+);
 
-router.get('/user/:userId', [param('userId').isInt().toInt()], userController.getEditUserPage);
+// GET => /user/:userId
+router.get(
+  '/user/:userId',
+  [param('userId').isInt().toInt()],
+  userController.getEditUserPage
+);
 
+// GET => /student/:userId/lesson/:lessonId
 router.get(
   '/student/:userId/lesson/:lessonId',
-  [param('userId').isInt().toInt(), param('lessonId').isInt().toInt()],
+  [
+    param('userId').isInt().toInt(),
+    param('lessonId').isInt().toInt()
+  ],
   userController.getLessonPage
 );
 
+// POST => /student/:userId/lesson/:lessonId
 router.post(
   '/student/:userId/lesson/:lessonId',
   [
@@ -40,6 +62,7 @@ router.post(
   syllabusController.saveLessonInfo
 );
 
+// POST => /user/create
 router.post(
   '/user/create',
   [
@@ -55,6 +78,7 @@ router.post(
   userController.createUser
 );
 
+// POST => /user/:userId/update
 router.post(
   '/user/:userId/update',
   [
@@ -70,7 +94,10 @@ router.post(
   userController.updateUser
 );
 
+// POST => /user/:userId/deactivate
 router.post('/user/:userId/deactivate', userController.deactivateUser);
+
+// POST => /user/:userId/reactivate
 router.post('/user/:userId/reactivate', userController.reactivateUser);
 
 module.exports = router;

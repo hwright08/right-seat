@@ -2,6 +2,7 @@ const userController = require('./user.controller');
 const path = require('path');
 const dayjs = require('dayjs');
 
+// Set up PdfMake
 const pdfPrinter = require('pdfmake');
 const pdfStyles = {
   h1: {
@@ -42,6 +43,7 @@ const fonts = {
   }
 }
 
+/** Print a Student's Syllabus details */
 exports.printLessons = async (req, res, next) => {
   try {
     const { userId } = req.params;
@@ -52,6 +54,7 @@ exports.printLessons = async (req, res, next) => {
     const lessonContent = lessons.map(lesson => {
       const vals = [];
       let status;
+      // Set the lesson status label
       switch (lesson.userLesson?.status) {
         case 'completed':
           status = 'Complete';
@@ -63,7 +66,8 @@ exports.printLessons = async (req, res, next) => {
           status = 'Incomplete';
           break;
       }
-      if (lesson.userLesson?.status === 'completed')
+
+      // Put together the individual lessons for the PDF
       vals.push({ text: lesson.title, style: 'h2' });
       vals.push({ text: `Status: ${status}`});
       vals.push({ text: 'Objective', style: 'h3' });
@@ -77,6 +81,8 @@ exports.printLessons = async (req, res, next) => {
 
       return vals;
     });
+
+    // Assign the PDF content
     const content = [
       {
         text: `${profile.syllabus.title} - Version ${profile.syllabus.version }`,
@@ -87,12 +93,14 @@ exports.printLessons = async (req, res, next) => {
       ...lessonContent.flat()
     ];
 
+    // Create the PDF
     const printer = new pdfPrinter(fonts);
     const pdfDoc = printer.createPdfKitDocument({
       content,
       styles: pdfStyles,
     });
 
+    // Send the file back to the user
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader('Content-Disposition', `attachment; filename="${profile.fullName.split(' ').join('-')}-${profile.syllabus.title}-progress-report.pdf"`);
     pdfDoc.pipe(res);

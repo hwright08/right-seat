@@ -9,6 +9,11 @@ const quoteController = require('./quote.controller');
 const { Op } = require('sequelize');
 const dayjs = require('dayjs');
 
+/**
+ * Find a user by specifying the where clause. Will also include privilege, rating, and syllabus details.
+ * @param {object} query - The where clause on the user model
+ * @returns A user with the specified criteria
+ */
 exports.findUser = async (query) => {
   return await models.user.findOne({
     where: query,
@@ -25,6 +30,7 @@ exports.findUser = async (query) => {
   });
 }
 
+/** Routes a user to the appropriate dashboard */
 exports.getDashboard = async (req, res, next) => {
   try {
     // Render the correct dashboard
@@ -33,6 +39,7 @@ exports.getDashboard = async (req, res, next) => {
     // Get the entity information
     res.locals.currentEntity = await entityController.getEntity(entityId);
 
+    // Determine which dashboard should be rendered.
     switch (privilege) {
       case 'global':
         const [
@@ -65,6 +72,7 @@ exports.getDashboard = async (req, res, next) => {
   }
 }
 
+/** Render the CFI Dashboard */
 exports.getCfiDashboard = async (req, res, next) => {
   try {
     if (!req.params.userId) {
@@ -73,9 +81,10 @@ exports.getCfiDashboard = async (req, res, next) => {
       throw error;
     }
 
+    // Get the user's data
     const user = await this.findUser({ id: req.params.userId });
-    const cfis = [];
 
+    // Get any associated data the user would see on their dash
     const [
       currentEntity,
       students,
@@ -84,20 +93,20 @@ exports.getCfiDashboard = async (req, res, next) => {
       this.getUsers({ privilege: 'student', searchStr: req.query.student, includeCfi: true, includeSyllabus: true, cfiId: req.params.userId }),
     ]);
 
+    // Calculate student progress averages
     let overallProgress = 0;
     for (const student of students) {
       const studentProgress = await this.getAvgStudentProgress(student.id);
       student.progress = studentProgress;
-
       overallProgress += studentProgress;
     }
-
     overallProgress /= students.length;
 
+    // Render the dashboard
     res.render('dashboard/cfi', {
       currentEntity,
       students,
-      cfis,
+      cfis: [],
       profile: user,
       overallProgress,
       path: req.originalUrl,
@@ -110,13 +119,14 @@ exports.getCfiDashboard = async (req, res, next) => {
   }
 }
 
+/** Render the student dashboard */
 exports.getStudentDashboard = async (req, res, next) => {
   try {
     const profile = await this.findUser({ id: req.params.userId });
     const lessons = await this.getStudentLessons(req.params.userId);
     const progress = await  this.getAvgStudentProgress(req.params.userId);
     const quote = await quoteController.getRandomQuote();
-    console.log(quote);
+
     res.render('dashboard/student', {
       profile,
       lessons,
@@ -129,15 +139,27 @@ exports.getStudentDashboard = async (req, res, next) => {
   }
 }
 
+/**
+ * Get users specified by where clause - will add additional information based on query
+ * @param {object} where - The where clause for the users model
+ * @param {string} [where.privilege] - The user's privilege key - will translate to an ID
+ * @param {boolean} [where.includeCfi] - Determines if the user's CFI data should be included
+ * @param {boolean} [where.includeSyllabus] - Determines if the user's syllabus data should be included
+ * @param {string} [where.searchStr] - Used to search for a user by name
+ * @param {*} [where.*] - Any other search field tied to the users model
+ * @returns Users specified by the where clause
+ */
 exports.getUsers = async (where) => {
   try {
     const options = { include: [] };
 
+    // If privilege is provided, find users with said privilege
     if (where.privilege) {
       const { id: privilegeId } = await models.privilege.findOne({ where: { name: where.privilege }});
       where.privilegeId = privilegeId;
       delete where.privilege;
     }
+    // If includeCfi, get the CFI's information
     if (where.includeCfi) {
       options.include.push({
         model: models.user,
@@ -146,6 +168,7 @@ exports.getUsers = async (where) => {
       });
       delete where.includeCfi;
     }
+    // If includeSyllabus, get the syllabus information
     if (where.includeSyllabus) {
       options.include.push({
         model: models.syllabus,
@@ -153,6 +176,7 @@ exports.getUsers = async (where) => {
       });
       delete where.includeSyllabus;
     }
+    // Search for a user by name
     if (where.searchStr) {
       where[Op.or] = [
         { firstName: { [Op.like]: `%${where.searchStr.toLowerCase()}%` } },
@@ -167,6 +191,7 @@ exports.getUsers = async (where) => {
   }
 }
 
+/** Render the create user page */
 exports.getCreateUserPage = async (req, res, next) => {
   try {
     const { entityId, type } = req.query;
@@ -188,6 +213,7 @@ exports.getCreateUserPage = async (req, res, next) => {
       ratingController.getRatings(),
     ]);
 
+    // We only care about CFI's and Syllabi's if the user is a student
     let cfis = [], syllabi = [];
     if (type === 'student') {
       cfis = await this.getUsers({ entityId, privilege: 'cfi', inactiveDate: null }),
@@ -207,16 +233,20 @@ exports.getCreateUserPage = async (req, res, next) => {
   }
 }
 
+/** Create a new user */
 exports.createUser = async (req, res, next) => {
   try {
     validationHandler(req, res);
 
+    // pull out the data
     const { type, firstName, lastName, email, hasGoldSeal, ratings, entityId, cfiId, syllabusId } = req.body;
 
+    // Assign the correct privilege ID
     let privilegeId = 4; // student
     if (type.toLowerCase() === 'admin') privilegeId = 2;
     if (type.toLowerCase() === 'cfi') privilegeId = 3;
 
+    // Make sure the user data is formatted correctly
     const data = {
       firstName,
       lastName,
@@ -228,10 +258,12 @@ exports.createUser = async (req, res, next) => {
       syllabusId
     };
 
+    // Create the user and assign the ratings.
     const user = await models.user.create(data);
     if (ratings && ratings.length) await user.setRatings(ratings);
 
-    res.redirect(`/${type}/${user.id}`);
+    // Redirect to that user's profile page
+    res.redirect(`/${type.toLowerCase()}/${user.id}`);
 
   } catch (err) {
     console.error(err);
@@ -248,9 +280,17 @@ exports.createUser = async (req, res, next) => {
   }
 }
 
+/**
+ * Get all lessons and associated data for a user and their assigned syllabus
+ * @param {number} userId - The user ID we want the lessons for
+ * @returns All lessons for a user
+ */
 exports.getStudentLessons = async (userId) => {
   try {
+    // Get the user for the syllabus ID
     const user = await this.findUser({ id: userId });
+
+    // Get the lessons tied to the syllabusID and "left join" all of the userLessons tied to it
     const lessons = await models.lesson.findAll({
       where: { syllabusId: user.syllabusId },
       include: [{
@@ -262,6 +302,7 @@ exports.getStudentLessons = async (userId) => {
       order: [['id', 'asc']]
     });
 
+    // Make sure the userLesson is it's own object and not an array for easier access
     return lessons.map(lesson => {
       const plain = lesson.get({ plain: true });
       const userLesson = plain.userLessons[0] || {};
@@ -275,6 +316,11 @@ exports.getStudentLessons = async (userId) => {
 }
 
 
+/**
+ * Get the percent of lessons complete for a student
+ * @param {number} userId - The user ID
+ * @returns The average % complete for the student
+ */
 exports.getAvgStudentProgress = async (userId) => {
   try {
     const lessons = await this.getStudentLessons(userId);
@@ -291,6 +337,7 @@ exports.getAvgStudentProgress = async (userId) => {
   }
 }
 
+/** Deactivate a user */
 exports.deactivateUser = async (req, res, next) => {
   try {
     const { userId } = req.params;
@@ -304,6 +351,7 @@ exports.deactivateUser = async (req, res, next) => {
   }
 }
 
+/** Reactivate a user */
 exports.reactivateUser = async (req, res, next) => {
   const { userId } = req.params;
   try {
@@ -315,14 +363,16 @@ exports.reactivateUser = async (req, res, next) => {
   }
 }
 
-
+/** Render the edit user page */
 exports.getEditUserPage = async (req, res, next) => {
   try {
+    // Get the user data and drop down items
     const user = await this.findUser({ id: req.params.userId });
     const ratings = await ratingController.getRatings();
     const currentEntity = await entityController.getEntity(user.entityId);
     user.ratings = user.ratings.map(r => `${r.id}`);
 
+    // We only care about cfi and syllabi info for students
     let cfis = [], syllabi = [];
     if (user.privilege.name === 'student') {
       cfis = await this.getUsers({ entityId: user.entityId, privilege: 'cfi', inactiveDate: null })
@@ -340,7 +390,7 @@ exports.getEditUserPage = async (req, res, next) => {
   }
 }
 
-
+/** Update a user's data */
 exports.updateUser = async (req, res, next) => {
   try {
     const { userId } = req.params;
@@ -354,9 +404,11 @@ exports.updateUser = async (req, res, next) => {
       syllabusId,
     }
 
+    // Save the base user data
     const user = await this.findUser({ id: userId });
     await user.update(data, { where: { id: userId }});
 
+    // Save the user's ratings
     if (Array.isArray(ratings)) {
       await user.setRatings([]);
       await user.setRatings(ratings);
@@ -379,6 +431,7 @@ exports.updateUser = async (req, res, next) => {
   }
 }
 
+/** Get an individual lesson's page */
 exports.getLessonPage = async (req, res, next) => {
   try {
     const { userId, lessonId } = req.params;
