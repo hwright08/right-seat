@@ -1,0 +1,36 @@
+<!-- Stats -->
+<div class="row g-3">
+  <% if (cfis.length) { %>
+    <div class="col-6 col-md">
+      <div class="card hero-shadow h-100">
+        <div class="card-body">
+          <div class="text-secondary small">Active CFIs</div>
+          <div class="fs-2 fw-bold">
+            <%= cfis.length ?? 0 %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% } %>
+    <div class="col-6 col-md">
+      <div class="card hero-shadow h-100">
+        <div class="card-body">
+          <div class="text-secondary small">Active Students</div>
+          <div class="fs-2 fw-bold">
+            <%= students.length ?? 0 %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md">
+      <div class="card hero-shadow h-100">
+        <div class="card-body">
+          <div class="text-secondary small">Avg. Student Progress</div>
+          <div class="fs-2 fw-bold text-secondary"><%= (overallProgress).toFixed(2) %>%</div>
+          <div class="progress small mt-2">
+            <div class="progress-bar" style="width:<%= overallProgress %>%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

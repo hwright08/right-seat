@@ -20,10 +20,10 @@
         <div class="d-flex gap-2">
           <a class="btn btn-outline-secondary btn-sm" href="mailto:<%= message.email %>"><i
               class="bi bi-envelope me-1"></i>Email</a>
-          <form action="/message/<%= message.id %>/resolve" method="post">
+          <form action="/global/message/<%= message.id %>/resolve" method="post">
             <button class="btn btn-success btn-sm" type="submit">Mark Resolved</button>
           </form>
-          <form action="/message/<%= message.id %>/delete" method="post">
+          <form action="/global/message/<%= message.id %>/delete" method="post">
             <button class="btn btn-outline-danger btn-sm" type="submit">Delete</button>
           </form>
         </div>

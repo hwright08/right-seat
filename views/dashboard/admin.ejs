@@ -1,0 +1,31 @@
+<!-- Hero -->
+<header class="hero py-3 bg-white border-bottom mb-3">
+  <div class="container text-center">
+    <h1 class="fw-bold">
+      <%= currentEntity.name %>
+    </h1>
+    <div>
+      <span
+        class="badge border <%= currentEntity.subscription.key == 'global' ? 'bg-purple-200 text-purple-500' : currentEntity.subscription.key == 'school' ? 'bg-success-subtle text-success' : currentEntity.subscription.key == 'single' ? 'bg-blue-200 text-blue-900' : 'bg-warning-subtle text-orange-500' %>">
+        <%= currentEntity.subscription.label %>
+      </span>
+    </div>
+  </div>
+</header>
+
+
+<%- include('../_partials/dashboard/stats') %>
+<p></p>
+<div class="row">
+  <div class="col-12 col-xl-6">
+    <%- include('../_partials/dashboard/cfiList') %>
+  </div>
+  <div class="col-12 col-xl-6">
+    <%- include('../_partials/dashboard/studentList') %>
+  </div>
+</div>
+
+<p></p>
+<%- include('../_partials/dashboard/syllabusList') %>
+<p></p>
+<%- include('../_partials/dashboard/editSubscription') %>

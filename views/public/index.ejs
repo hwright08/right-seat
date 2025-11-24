@@ -14,11 +14,11 @@
                     Upload or build syllabuses, log lessons, and track student progress with clean, checkride-ready reports—without spreadsheets.
                 </p>
                 <div class="d-flex flex-wrap gap-2 mt-4">
-                    <a href="/sign-up" class="btn btn-rs btn-lg">
+                    <a href="/auth/sign-up" class="btn btn-rs btn-lg">
                         <i class="bi bi-building-add me-2"></i>
                         Sign up your Flight School
                     </a>
-                    <a href="/sign-up" class="btn btn-outline-secondary btn-lg">
+                    <a href="/auth/sign-up" class="btn btn-outline-secondary btn-lg">
                         <i class="bi bi-person-workspace me-2"></i>
                         Sign up as Independent CFI
                     </a>
@@ -203,7 +203,7 @@
                                 <% }) %>
                             </ul>
                             <% if (!sub.requireSales) { %>
-                                <a href="/sign-up" class="btn btn-rs mt-auto w-100">Sign Up</a>
+                                <a href="/auth/sign-up" class="btn btn-rs mt-auto w-100">Sign Up</a>
                             <% } else { %>
                                 <a href="/contact" class="btn btn-outline-secondary mt-auto w-100">Contact Sales</a>
                             <% } %>

@@ -9,7 +9,7 @@
       <% } %>
       <%= type %>
     </h1>
-    <a href="/dashboard/<%= currentEntity.id %>" class="btn btn-outline-secondary">
+    <a href="/entity/<%= currentEntity.id %>" class="btn btn-outline-secondary">
       <i class="bi bi-arrow-left"></i> Back to Dashboard
     </a>
   </div>
@@ -18,7 +18,7 @@
 <%- include('./_partials/errorAlert') %>
 
 <!-- Form -->
-<form action="/entity/<%= currentEntity.id %>/user/<%= data.id ? `${data.id}/update` : 'create' %>" method="POST" class="card shadow-sm p-4">
+<form action="/user/<%= data.id ? `${data.id}/update` : 'create' %>" method="POST" class="card shadow-sm p-4">
   <div class="row g-3">
     <div class="col-md-6">
       <div class="mb-3">
@@ -45,6 +45,22 @@
     </div>
     <div class="col-md-6">
       <div class="mb-3">
+        <% if (type == 'STUDENT') { %>
+          <label for="cfiId" class="form-label fw-semibold">CFI</label>
+          <select name="cfiId" class="form-select" required id="cfiId">
+            <option value="">— Select —</option>
+            <% cfis.forEach(cfi => { %>
+              <option value="<%= cfi.id %>" <%= data.cfiId == cfi.id ? 'selected' : '' %>><%= cfi.fullName %></option>
+              <% }) %>
+          </select>
+          <label for="syllabusId" class="form-label fw-semibold">Enrolled Syllabus</label>
+          <select name="syllabusId" class="form-select" required id="syllabusId">
+            <option value="">— Select —</option>
+            <% syllabi.forEach(syllabus => { %>
+              <option value="<%= syllabus.id %>" <%= data.syllabusId == syllabus.id ? 'selected' : '' %>><%= syllabus.title %> - Version <%= syllabus.version %></option>
+              <% }) %>
+          </select>
+          <% } %>
         <label class="form-label fw-semibold" for="ratings">Completed Ratings</label>
         <select name="ratings[]" class="form-select" multiple id="ratings">
           <% ratings.forEach(rating=> { %>
@@ -69,7 +85,7 @@
   </div>
 
   <input type="hidden" name="type" value="<%= type %>">
-
+  <input type="hidden" name="entityId" value="<%= currentEntity.id %>">
   <hr class="my-4">
 
   <div class="text-end">

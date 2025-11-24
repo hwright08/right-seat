@@ -23,13 +23,13 @@
     <div class="row g-4">
         <!-- Content: Wizard -->
         <section class="col-lg-6 mx-auto">
-            <form id="signupForm" class="card shadow-sm" action="/sign-up" method="POST">
+            <form id="signupForm" class="card shadow-sm" action="/auth/sign-up" method="POST">
                 <div class="card-body">
                     <!-- Step 1: Subscription -->
                     <div class="form-step active" data-step="1">
                         <div class="small text-danger">
                             <% fieldError = errors.find(err => err.path === 'subscriptionId') %>
-                            <%= fieldError?.message  %>
+                            <%= fieldError?.msg  %>
                         </div>
                         <h2 class="h5 fw-bold mb-3">
                             Choose your subscription
@@ -72,7 +72,7 @@
                                         placeholder="e.g., Skyline Flight Center" value="<%= data.orgName %>" />
                                     <div class="small text-danger">
                                         <% fieldError=errors.find(err=> err.path === 'name') %>
-                                            <%= fieldError?.message %>
+                                            <%= fieldError?.msg %>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -81,7 +81,7 @@
                                         placeholder="(555) 123-4567" value="<%= data.orgPhone %>"/>
                                     <div class="small text-danger">
                                         <% fieldError=errors.find(err=> err.path === 'phone') %>
-                                            <%= fieldError?.message %>
+                                            <%= fieldError?.msg %>
                                     </div>
                                 </div>
                             </div>
@@ -95,7 +95,7 @@
                                 <input class="form-control" name="firstName" required value="<%= data.firstName %>"/>
                                 <div class="small text-danger">
                                     <% fieldError=errors.find(err=> err.path === 'firstName') %>
-                                        <%= fieldError?.message %>
+                                        <%= fieldError?.msg %>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -103,7 +103,7 @@
                                 <input class="form-control" name="lastName" required value="<%= data.lastName %>"/>
                                 <div class="small text-danger">
                                     <% fieldError=errors.find(err=> err.path === 'lastName') %>
-                                        <%= fieldError?.message %>
+                                        <%= fieldError?.msg %>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -111,15 +111,15 @@
                                 <input type="email" class="form-control" name="email" required value="<%= data.email %>"/>
                                 <div class="small text-danger">
                                     <% fieldError=errors.find(err=> err.path === 'email') %>
-                                        <%= fieldError?.message %>
+                                        <%= fieldError?.msg %>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Password</label>
-                                <input type="password" class="form-control" name="password" minlength="8" placeholder="At least 8 characters" required />
+                                <input type="password" class="form-control" name="password" placeholder="At least 8 characters" required />
                                 <div class="small text-danger">
                                     <% fieldError=errors.find(err=> err.path === 'passwrd') %>
-                                        <%= fieldError?.message %>
+                                        <%= fieldError?.msg %>
                                 </div>
                             </div>
                         </div>

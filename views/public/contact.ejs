@@ -24,7 +24,7 @@
             <input id="orgName" class="form-control" placeholder="e.g., Skyline Flight Center" name="orgName" value="<%= data?.orgName %>">
             <div class="small text-danger">
               <% fieldError = errors.find(err => err.path === 'orgNameRequiredForSales') %>
-              <%= data?.type === 'sales' ? fieldError?.message : '' %>
+              <%= data?.type === 'sales' ? fieldError?.msg : '' %>
             </div>
           </div>
           <div class="mb-3">
@@ -32,7 +32,7 @@
             <input class="form-control" placeholder="Your name" id="contactName" name="contactName" value="<%= data?.contactName %>">
             <div class="small text-danger">
               <% fieldError=errors.find(err=> err.path === 'contactName') %>
-                <%= data?.type === 'sales' ? fieldError?.message : '' %>
+                <%= data?.type === 'sales' ? fieldError?.msg : '' %>
             </div>
           </div>
           <div class="mb-3">
@@ -40,7 +40,7 @@
             <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" value="<%= data?.email %>">
             <div class="small text-danger">
               <% fieldError=errors.find(err=> err.path === 'email') %>
-                <%= data?.type === 'sales' ? fieldError?.message : '' %>
+                <%= data?.type === 'sales' ? fieldError?.msg : '' %>
             </div>
           </div>
           <div class="mb-3">
@@ -48,7 +48,7 @@
             <textarea class="form-control" rows="3" id="message" name="message" placeholder="Tell us about your organization..."><%= data?.message %></textarea>
             <div class="small text-danger">
               <% fieldError=errors.find(err=> err.path === 'message') %>
-                <%= data?.type === 'sales' ? fieldError?.message : '' %>
+                <%= data?.type === 'sales' ? fieldError?.msg : '' %>
             </div>
           </div>
           <button type="submit" class="btn btn-rs w-100">Contact Sales</button>
@@ -69,7 +69,7 @@
             <input class="form-control" placeholder="Your name" id="name" name="contactName" value="<%= data?.contactName %>">
             <div class="small text-danger">
               <% fieldError=errors.find(err=> err.path === 'contactName') %>
-              <%= data?.type==='general' ? fieldError?.message : '' %>
+              <%= data?.type==='general' ? fieldError?.msg : '' %>
             </div>
           </div>
           <div class="mb-3">
@@ -77,7 +77,7 @@
             <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" value="<%= data?.email %>">
             <div class="small text-danger">
               <% fieldError=errors.find(err=> err.path === 'email') %>
-              <%= data?.type==='general' ? fieldError?.message : '' %>
+              <%= data?.type==='general' ? fieldError?.msg : '' %>
             </div>
           </div>
           <div class="mb-3">
@@ -85,7 +85,7 @@
             <textarea class="form-control" rows="3" id="message" name="message" placeholder="Describe your issue or question"><%= data?.message %></textarea>
             <div class="small text-danger">
               <% fieldError=errors.find(err=> err.path === 'message') %>
-              <%= data?.type==='general' ? fieldError?.message : '' %>
+              <%= data?.type==='general' ? fieldError?.msg : '' %>
             </div>
           </div>
           <button type="submit" class="btn btn-outline-secondary w-100">Submit Request</button>

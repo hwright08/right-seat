@@ -1,11 +1,15 @@
+<a href="/dashboard" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Back to Dashboard</a>
+<p></p>
 <h1 class="h3 fw-bold mb-4 d-flex align-items-center gap-2">
   <i class="bi bi-journal-text text-primary"></i> Edit Syllabus
 </h1>
 
 <%- include('./_partials/errorAlert') %>
 
-  <form action="/entity/<%= entityId %>/syllabus/<%= syllabus.id %>" method="POST" id="syllabusForm">
+  <form action="/syllabus/update" method="POST" id="syllabusForm">
     <!-- Syllabus Details -->
+      <input type="hidden" id="entityId" name="entityId" value="<%= syllabus.entityId %>"/>
+      <input type="hidden" id="syllabusId" name="syllabusId" value="<%= syllabus.id %>"/>
     <div class="card shadow-sm mb-4">
       <div class="card-body">
         <div class="row g-3">
@@ -145,7 +149,7 @@
     const lessonTemplate = document.getElementById('lessonTemplate');
     const addLessonBtn = document.getElementById('addLessonBtn');
 
-    let lessonCount = <%= syllabus.lessonCount %>;
+    let lessonCount = <%= syllabus.lessons.length %>;
 
     function addDeleteListener(lessonCard) {
       lessonCard.querySelector('.remove-lesson-btn').addEventListener('click', () => {

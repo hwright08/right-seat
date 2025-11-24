@@ -1,0 +1,17 @@
+<%- include('../_partials/dashboard/profileHeader') %>
+
+<% if (['global', 'admin'].includes(user.privilege)) {%>
+<a href="/dashboard" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Back to Dashboard</a>
+<% } %>
+<p></p>
+<%- include('../_partials/dashboard/stats') %>
+<p></p>
+<div>
+  <%- include('../_partials/dashboard/studentList') %>
+</div>
+<p></p>
+<% if (profile.ratings.length) { %>
+<div>
+  <%- include('../_partials/dashboard/ratingsList') %>
+</div>
+<% } %>

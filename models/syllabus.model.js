@@ -30,6 +30,12 @@ const Syllabus = db.define('syllabus', {
         msg: 'Version must be greater than zero',
       }
     }
+  },
+  displayName: {
+    type: DataTypes.VIRTUAL,
+    get() {
+      return `${this.title} - Version ${this.version}`
+    }
   }
 });
 

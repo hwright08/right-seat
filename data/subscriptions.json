@@ -25,8 +25,8 @@
   },
   {
     "id": 4,
-    "key": "enterprise",
-    "label": "Enterprise",
+    "key": "global",
+    "label": "Global",
     "summary": null,
     "price": null,
     "requireSales": true

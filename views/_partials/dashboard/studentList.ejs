@@ -1,0 +1,74 @@
+<div class="card shadow-sm h-100">
+  <div class="card-header bg-white d-flex justify-content-between align-items-center">
+    <strong>Students</strong>
+    <div class="d-flex gap-2">
+      <form class="input-group input-group-sm" style="max-width:240px" method="GET" action="<%= path %>">
+        <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+        <input class="form-control" placeholder="Search…" id="studentSearch" name="student">
+        <button class="btn btn-sm btn-outline-secondary text-nowrap" type="submit">
+          Search
+        </button>
+      </form>
+      <% if (canEnrollStudent) { %>
+      <a class="btn btn-sm btn-outline-secondary text-nowrap"
+        href="/user/create?type=student&entityId=<%= currentEntity.id %>">
+        <i class="bi bi-person-add me-2 "></i>
+        Enroll Student
+      </a>
+      <% } %>
+    </div>
+  </div>
+  <div class="card-body">
+    <table class="table align-middle">
+      <thead class="small text-secondary">
+        <tr>
+          <th>Student</th>
+          <th>Syllabus</th>
+          <th>CFI</th>
+          <th>Progress</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% students.forEach(student=> { %>
+          <tr>
+            <td>
+              <%= student.fullName %>
+            </td>
+            <td>
+              <!-- Current Syllabus -->
+              <%= student.syllabus ? student.syllabus.title : 'None' %>
+            </td>
+            <td>
+              <!-- CFI -->
+              <%= student?.cfi?.fullName || 'Not Assigned' %>
+            </td>
+            <td style="width:100px">
+              <!-- Progress -->
+              <div class="progress small">
+                        <div class="progress-bar bg-success" style="width:<%= student?.progress %>%"></div>
+                    </div>
+            </td>
+            <td class="text-end">
+              <div class="btn-group btn-group-sm">
+                <a href="/student/<%= student.id %>"
+                  class="btn btn-outline-secondary">Manage</a>
+              </div>
+            </td>
+          </tr>
+          <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const studentSearch = urlParams.get('student');
+    if (studentSearch) {
+      const studentInput = document.getElementById('studentSearch');
+      studentInput.value = studentSearch;
+    }
+  });
+</script>

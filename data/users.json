@@ -19,7 +19,7 @@
   {
     "id": 3,
     "firstName": "Lynette",
-    "lastName": " Dow",
+    "lastName": "Dow",
     "email": "cfi1@example.com",
     "privilegeId": 3,
     "entityId": 2
@@ -27,7 +27,7 @@
   {
     "id": 4,
     "firstName": "Adrian",
-    "lastName": " Holland",
+    "lastName": "Holland",
     "email": "cfi2@example.com",
     "privilegeId": 3,
     "entityId": 2

@@ -1,9 +1,9 @@
 {
   "name": "right-seat",
   "version": "1.0.0",
-  "description": "An application for flight schools and CFI's can manage syllabuses and track student progress.",
+  "description": "",
   "license": "ISC",
-  "author": "Haley Wright",
+  "author": "Haley Wright (A01972557)",
   "type": "commonjs",
   "main": "app.js",
   "scripts": {
@@ -15,21 +15,23 @@
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
-    "cookie-parser": "^1.4.7",
-    "dayjs": "^1.11.18",
-    "dotenv": "^17.2.2",
+    "connect-flash": "^0.1.1",
+    "connect-session-sequelize": "^8.0.2",
+    "csrf-sync": "^4.2.1",
+    "dayjs": "^1.11.19",
+    "dotenv": "^17.2.3",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "express-ejs-layouts": "^2.5.1",
+    "express-session": "^1.18.2",
+    "express-validator": "^7.3.1",
     "jsonwebtoken": "^9.0.2",
-    "mysql2": "^3.15.0",
+    "morgan": "^1.10.1",
+    "mysql2": "^3.15.3",
+    "pdfmake": "^0.2.20",
     "sequelize": "^6.37.7"
   },
   "devDependencies": {
-    "docdash": "^2.0.2",
-    "jsdoc": "^4.0.4",
-    "morgan": "^1.10.1",
-    "nodemon": "^3.1.10",
-    "sass": "^1.92.1"
+    "nodemon": "^3.1.11"
   }
 }

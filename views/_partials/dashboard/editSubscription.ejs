@@ -1,0 +1,20 @@
+<div class="card hero-shadow h-100 shadow-sm">
+              <form method="POST" action="/entity/<%= currentEntity.id %>/subscription">
+                <div class="card-body">
+                  <label class="form-label fw-semibold" for="subscriptionId">Update Subscription</label>
+                  <select name="subscriptionId" class="form-select" required id="subscriptionId">
+                    <% subscriptions.forEach(sub=> { %>
+                      <option value="<%= sub.id %>" <%=currentEntity.subscription.id==sub.id ? 'selected' : '' %>>
+                        <%= sub.label %>
+                      </option>
+                      <% }) %>
+                  </select>
+                </div>
+                <hr />
+                <div class="text-end pe-2 pb-2">
+                  <button type="submit" class="btn btn-outline-primary">
+                    <i class="bi bi-currency-dollar me-1"></i> Update Subscription
+                  </button>
+                </div>
+              </form>
+            </div>

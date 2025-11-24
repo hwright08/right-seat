@@ -1,10 +1,13 @@
+<a href="/dashboard" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Back to Dashboard</a>
+<p></p>
 <h1 class="h3 fw-bold mb-4 d-flex align-items-center gap-2">
   <i class="bi bi-journal-text text-primary"></i> Create New Syllabus
 </h1>
 
 <%- include('./_partials/errorAlert') %>
 
-<form action="/entity/<%= entityId %>/syllabus" method="POST" id="syllabusForm">
+<form action="/syllabus/create" method="POST" id="syllabusForm">
+  <input type="hidden" id="entityId" name="entityId" value="<%= entityId %>"/>
   <!-- Syllabus Details -->
   <div class="card shadow-sm mb-4">
     <div class="card-body">

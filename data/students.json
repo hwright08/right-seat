@@ -1,36 +1,40 @@
 [
   {
     "firstName": "Bruce",
-    "lastName": " Lee",
+    "lastName": "Lee",
     "email": "student1@example.com",
     "privilegeId": 4,
     "entityId": 2,
-    "cfiId": 3
+    "cfiId": 3,
+    "syllabusId": 3
   },
 
   {
     "firstName": "Blake",
-    "lastName": " Hardin",
+    "lastName": "Hardin",
     "email": "student2@example.com",
     "privilegeId": 4,
     "entityId": 2,
-    "cfiId": 4
+    "cfiId": 4,
+    "syllabusId": 4
   },
 
   {
     "firstName": "Jack",
-    "lastName": " Wade",
+    "lastName": "Wade",
     "email": "student3@example.com",
     "privilegeId": 4,
     "entityId": 3,
-    "cfiId": 5
+    "cfiId": 5,
+    "syllabusId": 5
   },
   {
     "firstName": "Mary",
-    "lastName": " Stephens",
+    "lastName": "Stephens",
     "email": "student4@example.com",
     "privilegeId": 4,
     "entityId": 3,
-    "cfiId": 5
+    "cfiId": 5,
+    "syllabusId": 6
   }
 ]

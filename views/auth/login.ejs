@@ -12,7 +12,7 @@
 
       <%- include('../_partials/errorAlert') %>
 
-      <form method="POST" action="/login">
+      <form method="POST" action="/auth/login">
         <div class="mb-3">
           <label for="email" class="form-label">Email address</label>
           <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" required>
@@ -30,7 +30,7 @@
 
         <div class="text-center mt-3">
           <span class="text-secondary small">Don’t have an account?</span>
-          <a href="/sign-up" class="small link-primary ms-1">Sign up</a>
+          <a href="/auth/sign-up" class="small link-primary ms-1">Sign up</a>
         </div>
       </form>
     </div>

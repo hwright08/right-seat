@@ -1,5 +1,7 @@
 // Load environment variables
 require('dotenv').config({ quiet: true });
+const session = require('express-session');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 const db = require('./db');
 const models = require('../models');
@@ -9,11 +11,16 @@ const syllabusData = require('../data/syllabuses.json');
 const entityData = require('../data/entities.json');
 
 async function main() {
+
   console.log('Establishing associations...');
   // Establish the model relationships/associations
   associations();
 
   try {
+    console.log('Set up session store');
+    const store = new SequelizeStore({ db });
+    store.sync({ force: true });
+
     console.log('Force sync the database...');
     await db.sync({ force: true });
 
@@ -37,6 +44,13 @@ async function main() {
     console.log('Initialize Entities...');
     await models.entity.bulkCreate(entityData);
 
+    // Create initial syllabus
+    console.log('Initialize Syllabuses');
+    const entities = await models.entity.findAll();
+    for (const entity of entities) {
+      await models.syllabus.bulkCreate(syllabusData.map(sy => ({ ...sy, entityId: entity.id })), { include: [{ model: models.lesson, as: 'lessons' }]});
+    }
+
     // Create test users and the global admin account
     console.log('Initialize Users...');
     await models.user.bulkCreate(require('../data/users.json'), { individualHooks: true, validate: true });
@@ -44,12 +58,6 @@ async function main() {
     // Initialize students
     await models.user.bulkCreate(require('../data/students.json'), { individualHooks: true, validate: true });
 
-    // Create initial syllabus
-    console.log('Initialize Syllabuses');
-    const entities = await models.entity.findAll();
-    for (const entity of entities) {
-      await models.syllabus.bulkCreate(syllabusData.map(sy => ({ ...sy, entityId: entity.id })), { include: [{ model: models.lesson, as: 'lessons' }]});
-    }
 
     // Create some messages
     console.log('Initialize messages...');

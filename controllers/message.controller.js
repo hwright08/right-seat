@@ -1,23 +1,28 @@
-/** @module controllers/message */
-
+const { validationHandler } = require('../controllers/error.controller');
 const models = require('../models');
 
-// ----------------------------------
-// LOGIC
-// ----------------------------------
+/** Render the Contact Us page */
+exports.getContactPage = (req, res) => {
+  res.render('public/contact', {
+    layout: '_layouts/public',
+  });
+}
 
-/**
- * Create a new message
- * @param {object} data - The data to create the message
- * @param {string} data.type - The type of message to create. Should be 'general' or 'sales'
- * @param {string} [data.orgName] - The name of the organization, if applicable
- * @param {string} data.contactName - The name of the contact
- * @param {string} data.email - The email to respond to
- * @param {string} data.message - The message from the contact
- * @returns {Promise<object>}
- */
-exports.createMessage = async (data) => {
-  return await models.message.create(data);
+/** Create message */
+exports.createMessage = async (req, res, next) => {
+  try {
+    validationHandler(req, res);
+    await models.message.create(req.body);
+    req.flash('success', 'Message sent');
+    res.redirect('/contact');
+  } catch (err) {
+    console.error(err);
+    if (err.statusCode == 422) {
+      this.getContactPage(req, res);
+    } else {
+      next(err);
+    }
+  }
 }
 
 exports.getAllMessages = async () => {
@@ -29,6 +34,7 @@ exports.getAllMessages = async () => {
 }
 
 exports.getMessagePage = async (req, res) => {
+  validationHandler(req, res);
   const message = await models.message.findOne({
     where: {
       id: req.params.messageId
@@ -38,6 +44,7 @@ exports.getMessagePage = async (req, res) => {
 }
 
 exports.deleteMessage = async (req, res) => {
+  validationHandler(req, res);
   await models.message.destroy({
     where: {
       id: req.params.messageId
@@ -48,6 +55,7 @@ exports.deleteMessage = async (req, res) => {
 }
 
 exports.resolveMessage = async (req, res) => {
+  validationHandler(req, res);
   await models.message.update(
     { resolved: true },
     {
