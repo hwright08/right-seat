@@ -4,6 +4,8 @@ const { validationHandler } = require('./error.controller');
 const messageController = require('./message.controller');
 const ratingController = require('./rating.controller');
 const syllabusController = require('./syllabus.controller');
+const quoteController = require('./quote.controller');
+
 const { Op } = require('sequelize');
 const dayjs = require('dayjs');
 
@@ -113,10 +115,13 @@ exports.getStudentDashboard = async (req, res, next) => {
     const profile = await this.findUser({ id: req.params.userId });
     const lessons = await this.getStudentLessons(req.params.userId);
     const progress = await  this.getAvgStudentProgress(req.params.userId);
+    const quote = await quoteController.getRandomQuote();
+    console.log(quote);
     res.render('dashboard/student', {
       profile,
       lessons,
       progress,
+      quote,
       canEditUser: ['global', 'admin'].includes(req.session.user.privilege),
     });
   } catch (err) {

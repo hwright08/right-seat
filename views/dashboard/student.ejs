@@ -3,6 +3,13 @@
 <p></p>
 <% } %>
 <%- include('../_partials/dashboard/profileHeader') %>
+<p>
+  <div class="card shadow-sm h-100">
+    <div class="card-body">
+      <blockquote>&ldquo; <%= quote.q %> &rdquo;</blockquote>&mdash; <%= quote.a %>
+    </div>
+  </div>
+</p>
   <% if (profile.syllabus) { %>
     <div class="card shadow-sm h-100">
       <div class="card-header bg-white d-flex align-items-center justify-content-between">
