@@ -315,7 +315,6 @@ exports.getStudentLessons = async (userId) => {
   }
 }
 
-
 /**
  * Get the percent of lessons complete for a student
  * @param {number} userId - The user ID

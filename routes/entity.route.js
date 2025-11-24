@@ -2,8 +2,13 @@
 const express = require('express');
 const entityController = require('../controllers/entity.controller');
 const { query, param, body } = require('express-validator');
+const { isAuth, isAdmin } = require('../middleware/auth');
 
 const router = express.Router();
+
+// Only logged in admins can access these routes
+router.use(isAuth);
+router.use(isAdmin);
 
 // GET => /entity/:entityId
 router.get(

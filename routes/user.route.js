@@ -1,10 +1,13 @@
 const express = require('express');
 const userController = require('../controllers/user.controller');
 const syllabusController = require('../controllers/syllabus.controller');
-const { isStudent } = require('../middleware/auth');
+const { isAuth, isStudent, isAdmin, isCfi } = require('../middleware/auth');
 const { query, body, param } = require('express-validator');
 
 const router = express.Router();
+
+// Must be logged in
+router.use(isAuth);
 
 // GET => /dashboard
 router.get('/dashboard', isStudent, userController.getDashboard);
@@ -12,6 +15,7 @@ router.get('/dashboard', isStudent, userController.getDashboard);
 // GET => /user/create
 router.get(
   '/user/create',
+  isAdmin,
   [
     query('entityId').isInt().toInt().withMessage('Entity ID is required'),
     query('type').trim().isLength({ min: 3 }).withMessage('User type is required'),
@@ -22,6 +26,7 @@ router.get(
 // GET /cfi/:userId
 router.get(
   '/cfi/:userId',
+  isCfi,
   [param('userId').isInt().toInt()],
   userController.getCfiDashboard
 );
@@ -29,6 +34,7 @@ router.get(
 // GET => /student/:userId
 router.get(
   '/student/:userId',
+  isStudent,
   [param('userId').isInt().toInt()],
   userController.getStudentDashboard
 );
@@ -36,6 +42,7 @@ router.get(
 // GET => /user/:userId
 router.get(
   '/user/:userId',
+  isAdmin,
   [param('userId').isInt().toInt()],
   userController.getEditUserPage
 );
@@ -43,6 +50,7 @@ router.get(
 // GET => /student/:userId/lesson/:lessonId
 router.get(
   '/student/:userId/lesson/:lessonId',
+  isStudent,
   [
     param('userId').isInt().toInt(),
     param('lessonId').isInt().toInt()
@@ -53,6 +61,7 @@ router.get(
 // POST => /student/:userId/lesson/:lessonId
 router.post(
   '/student/:userId/lesson/:lessonId',
+  isCfi,
   [
     param('userId').isInt().toInt(),
     param('lessonId').isInt().toInt(),
@@ -65,6 +74,7 @@ router.post(
 // POST => /user/create
 router.post(
   '/user/create',
+  isAdmin,
   [
     body('type').trim().isLength({ min: 3 }).withMessage('User type is required'),
     body('firstName').trim().isLength({ min: 3 }).withMessage('First name is required'),
@@ -81,6 +91,7 @@ router.post(
 // POST => /user/:userId/update
 router.post(
   '/user/:userId/update',
+  isAdmin,
   [
     body('type').trim().isLength({ min: 3 }).withMessage('User type is required'),
     body('firstName').trim().isLength({ min: 3 }).withMessage('First name is required'),
@@ -95,9 +106,9 @@ router.post(
 );
 
 // POST => /user/:userId/deactivate
-router.post('/user/:userId/deactivate', userController.deactivateUser);
+router.post('/user/:userId/deactivate', isAdmin, userController.deactivateUser);
 
 // POST => /user/:userId/reactivate
-router.post('/user/:userId/reactivate', userController.reactivateUser);
+router.post('/user/:userId/reactivate', isAdmin, userController.reactivateUser);
 
 module.exports = router;
