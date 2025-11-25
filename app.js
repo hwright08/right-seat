@@ -7,6 +7,10 @@ const expressLayouts = require('express-ejs-layouts');
 const session = require('express-session');
 const flash = require('connect-flash');
 const morgan = require('morgan');
+const fs = require('fs');
+const helmet = require('helmet');
+const compression = require('compression');
+const dayjs = require('dayjs');
 
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const db = require('./utils/db');
@@ -30,11 +34,15 @@ app.set('layout extractScripts', true);
 // --------------------
 // Set up middleware
 // --------------------
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'logs', `${dayjs().format('YYYY-MM-DD')}-access.log`), { flags: 'a' });
+
+app.use(helmet());
+app.use(compression());
+app.use(morgan('combined', { stream: accessLogStream }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(expressLayouts);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(morgan('dev'));
 
 // Register session middleware
 app.use(

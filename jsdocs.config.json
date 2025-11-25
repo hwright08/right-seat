@@ -10,7 +10,7 @@
   "opts": {
     "recurse": true,
     "encoding": "utf8",
-    "destination": "./out",
+    "destination": "./jsdocs",
     "template": "node_modules/docdash"
   }
 }

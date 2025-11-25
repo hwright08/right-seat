@@ -16,6 +16,7 @@
   "dependencies": {
     "axios": "^1.13.2",
     "bcrypt": "^6.0.0",
+    "compression": "^1.8.1",
     "connect-flash": "^0.1.1",
     "connect-session-sequelize": "^8.0.2",
     "csrf-sync": "^4.2.1",
@@ -27,6 +28,7 @@
     "express-ejs-layouts": "^2.5.1",
     "express-session": "^1.18.2",
     "express-validator": "^7.3.1",
+    "helmet": "^8.1.0",
     "jsdoc": "^4.0.5",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.1",
