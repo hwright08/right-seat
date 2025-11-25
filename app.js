@@ -99,9 +99,8 @@ app.use('/report', reportRoutes);
 // Handle errors
 // --------------------
 const errorController = require('./controllers/error.controller');
-const { Sequelize } = require('sequelize');
 app.use(errorController.get404);
 app.use(errorController.get500);
 
 // Listen on port
-app.listen(3000);
+app.listen(process.env.PORT || 3000);

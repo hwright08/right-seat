@@ -11,10 +11,16 @@ router.use((req, res, next) => {
   next();
 });
 
+// POST => /api/auth
 router.post('/auth', apiController.postToken);
 
+// use token authentication for all of the next routes
 router.use(verifyToken);
+
+// GET => /api/me
 router.get('/me', apiController.getMyUser);
+
+// GET => /api/my-lessons
 router.get('/my-lessons', apiController.getMyLessons);
 
 
