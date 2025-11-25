@@ -1,3 +1,5 @@
+/** @module controllers/error */
+
 const { validationResult } = require('express-validator');
 
 /** Render the 404 page */

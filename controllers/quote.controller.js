@@ -1,3 +1,5 @@
+/** @module controllers/quote */
+
 const axios = require('axios');
 
 /** Get a random quote from ZenQuotes */

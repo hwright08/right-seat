@@ -21,16 +21,6 @@ For example, if the user's name is John Doe, their password would be JohnDoe. Pl
 
 # TODO
 
-### CFI
-
-- Calc assigned students
-- Calc student pass rate
-- Calc Avg Progress
-- Search students
-- List certs
-- Manage student syllabus
-
-### Student
-
-- View syllabus
-- Print syllabus
+- api
+- ms word doc
+- deploy

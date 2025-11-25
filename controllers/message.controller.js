@@ -1,3 +1,5 @@
+/** @module controllers/message */
+
 const { validationHandler } = require('../controllers/error.controller');
 const models = require('../models');
 

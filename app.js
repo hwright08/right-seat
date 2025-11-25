@@ -35,8 +35,8 @@ app.use(expressLayouts);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan('dev'));
-// Register session middleware (should come before routes)
 
+// Register session middleware
 app.use(
   session({
     secret: process.env.SECRET_ACCESS_TOKEN || 'secret', // The longer the better!
@@ -49,8 +49,10 @@ app.use(
     }
   })
 );
+
 app.use(flash());
 
+// Assign local variables passed to each route
 app.use((req, res, next) => {
   res.locals.user = req.session.user || {};
   res.locals.data = {};
@@ -70,6 +72,9 @@ const globalRoutes = require('./routes/global.route');
 const entityRoutes = require('./routes/entity.route');
 const syllabusRoutes = require('./routes/syllabus.route');
 const reportRoutes = require('./routes/report.route');
+const apiRoutes = require('./routes/api.route');
+
+app.use('/api', apiRoutes);
 
 app.use('/auth', authRoutes);
 app.use(publicRoutes);

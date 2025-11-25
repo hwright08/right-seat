@@ -1,3 +1,5 @@
+/** @module controllers/user */
+
 const models = require('../models');
 const entityController = require('./entity.controller');
 const { validationHandler } = require('./error.controller');

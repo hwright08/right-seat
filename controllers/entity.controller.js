@@ -1,3 +1,5 @@
+/** @module controllers/entity */
+
 const models = require('../models');
 const subscriptionController = require('./subscription.controller');
 const userController = require('./user.controller');

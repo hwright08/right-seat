@@ -1,3 +1,5 @@
+/** @module controllers/report */
+
 const userController = require('./user.controller');
 const path = require('path');
 const dayjs = require('dayjs');

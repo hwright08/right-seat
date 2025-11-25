@@ -1,3 +1,6 @@
+/** @module controllers/syllabus */
+
+
 const models = require('../models');
 const ratingController = require('./rating.controller');
 const errorController = require('./error.controller');

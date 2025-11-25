@@ -1,3 +1,5 @@
+/** @module controllers/auth */
+
 const { validationHandler } = require('./error.controller');
 const subscriptionController = require('./subscription.controller');
 const entityController = require('./entity.controller');
