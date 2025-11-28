@@ -10,7 +10,6 @@ const morgan = require('morgan');
 const fs = require('fs');
 const helmet = require('helmet');
 const compression = require('compression');
-const dayjs = require('dayjs');
 
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const db = require('./utils/db');
@@ -34,7 +33,7 @@ app.set('layout extractScripts', true);
 // --------------------
 // Set up middleware
 // --------------------
-const accessLogStream = fs.createWriteStream(path.join(__dirname, 'logs', `${dayjs().format('YYYY-MM-DD')}-access.log`), { flags: 'a' });
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'logs', `access.log`), { flags: 'a' });
 
 app.use(helmet());
 app.use(compression());
