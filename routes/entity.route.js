@@ -20,7 +20,7 @@ router.get(
   entityController.getEntityDashboard
 );
 
-// POST => /entity/:entityId
+// POST => /entity/:entityId/subscription
 router.post(
   '/:entityId/subscription',
   [
